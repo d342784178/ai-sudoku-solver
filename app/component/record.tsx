@@ -16,14 +16,12 @@ export function Record({records, onMouseEnterRecord, onMouseLeaveRecord}: {
                     <div key={index} className="flex mb-2 p-2 bg-base-300 rounded"
                          onMouseEnter={() => onMouseEnterRecord && onMouseEnterRecord(record, index)}
                          onMouseLeave={() => onMouseLeaveRecord && onMouseLeaveRecord(record, index)}>
-                        <div className="flex-1 cursor-pointer">
-                            <div className="flex justify-between">
-                                <div className="font-semibold">操作{index + 1}:</div>
-                                <div>坐标: [{record.row}, {record.col}]</div>
-                                <div>值: {record.value ? record.value : "无"}</div>
-                                <div>结果: {record.gameResult ? "通过" : "不通过"}</div>
-                                <div>时间: {new Date(record.timestamp).toLocaleTimeString()}</div>
-                            </div>
+                        <div className="flex-1 cursor-pointer" style={{ display: 'flex', justifyContent: 'space-around' }}>
+                            <div className="font-semibold">操作 {index + 1}:</div>
+                            <div>坐标: [ {record.row}, {record.col} ]</div>
+                            <div>值: {record.value ? record.value : "无"}</div>
+                            <div>结果: {record.gameResult ? "通过" : "不通过"}</div>
+                            <div>时间: {new Date(record.timestamp).toLocaleTimeString()}</div>
                         </div>
                     </div>
                 ))}
