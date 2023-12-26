@@ -9,7 +9,7 @@ export function Record({records, onMouseEnterRecord, onMouseLeaveRecord}: {
     onMouseLeaveRecord?: (record: History, index: number) => void,
 }) {
     return (
-        <div className="flex flex-col items-center bg-primary p-5 rounded-xl shadow-lg">
+        <div className="flex flex-col items-center  p-5 rounded-xl ">
             <h1 className="text-lg font-semibold mb-4">操作记录</h1>
             <div className="overflow-auto h-64">
                 {records.map((record, index) => (

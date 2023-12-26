@@ -1,5 +1,5 @@
 'use client';
-import {ChangeEvent, useState} from 'react';
+import {ChangeEvent, useEffect, useState} from 'react';
 import {History, useSudoku} from "@/app/hook/useSudoku";
 import {Cell} from "@/app/component/cell";
 import {Record} from "@/app/component/record";
@@ -13,6 +13,11 @@ export default function Board() {
         moveHistory,
     } = useSudoku();
     const [historyHover, setHistoryHover] = useState<History | null>(null)
+
+
+    useEffect(() => {
+        newGame()
+    }, []);
 
     // 当用户输入数据时更新棋盘
     const handleInput = (event: ChangeEvent<HTMLInputElement>, row: any, col: any) => {
@@ -36,10 +41,10 @@ export default function Board() {
 
     return (
         <main>
-            <div>
+            <div className="flex flex-col items-center  p-5 rounded-xl shadow-lg">
                 <button className="btn" onClick={newGame}>创建新游戏</button>
-                <button className="btn" onClick={checkGame}>检查结果</button>
-                <div>
+                {/*<button className="btn" onClick={checkGame}>检查结果</button>*/}
+                <div className={"shadow-xl rounded-xl"}>
                     {renderBoard}
                 </div>
                 <div>

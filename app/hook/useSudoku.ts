@@ -114,7 +114,7 @@ function generateSudokuGame(): (number | null)[][] {
     // 随机移除一部分数字
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
-            if (Math.random() > 0.995) {
+            if (Math.random() > 0.97) {
                 baseGrid[i][j] = null;
             }
         }
