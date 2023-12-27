@@ -5,40 +5,40 @@ import _ from "lodash";
 
 export function useSudoku() {
     //游戏数据
-    const [gameData, setGameData] =
+    const [game, setGame] =
         useCallbackState<Game | null>(null);
 
     //用户操作记录
-    const [historys, setHistorys] = useCallbackState<History[]>([])
+    const [historys, setHistorys] = useCallbackState<UserStep[]>([])
     const [gameState, setGameState] =
         useCallbackState<boolean>(false);
 
     const newGame = useCallback(() => {
         innerNewGame().then((newGame) => {
-            setGameData(newGame);
+            setGame(newGame);
             setHistorys([]); //重置操作历史
             setGameState(false)
         });
-    }, [setGameData]);
+    }, [setGame]);
 
     const makeMove = useCallback((row: number, col: number, value: number) => {
-        gameData?.addHistory({row, col, value, createTime: new Date()} as History).then((newHistorys) => {
+        game?.addHistory({row, col, value, create_time: new Date()} as UserStep).then((newHistorys) => {
             setHistorys(newHistorys, (newMoveHistory) => {
-                setGameState(gameData?gameData.checkSolution():false)
+                setGameState(game ? game.checkSolution() : false)
             });
         });
-    }, [gameData]);
+    }, [game]);
 
     const checkGame = useCallback(() => {
-        return gameData?gameData.checkSolution():false;
-    }, [gameData, historys]);
+        return game ? game.checkSolution() : false;
+    }, [game, historys]);
 
     const userSolution = useCallback(() => {
-        return gameData?gameData.userSolution():Array.from({length: 9}, () => new Array(9).fill(null));
-    }, [gameData, historys]);
+        return game ? game.userSolution() : Array.from({length: 9}, () => new Array(9).fill(-1));
+    }, [game, historys]);
 
     return {
-        // gameData,//游戏数据
+        // game,//游戏数据
         newGame,//创建新游戏
         makeMove,//用户操作
         checkGame,//检查游戏结果
@@ -49,11 +49,9 @@ export function useSudoku() {
 }
 
 
-
-
 async function innerNewGame(): Promise<Game> {
     // 一开始我们将全部填满1-9
-    const puzzle: (number | null)[][] = [
+    const puzzle: (number)[][] = [
         [1, 2, 3, 4, 5, 6, 7, 8, 9],
         [4, 5, 6, 7, 8, 9, 1, 2, 3],
         [7, 8, 9, 1, 2, 3, 4, 5, 6],
@@ -70,12 +68,12 @@ async function innerNewGame(): Promise<Game> {
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
             if (Math.random() > 0.99) {
-                puzzle[i][j] = null;
+                puzzle[i][j] = -1;
             }
         }
     }
 
-    let game = new Game(puzzle, '1', solution,new Date());
+    let game = new Game(puzzle, '1', solution, new Date());
     const resp = await fetch("/api/puzzle", {
         method: "PUT",
         body: JSON.stringify(game),
@@ -86,25 +84,27 @@ async function innerNewGame(): Promise<Game> {
             game.id = res.data.id;
         }
     }
+    console.log(game)
     return game;
 }
 
 export class Game {
     public id?: number;
-    public puzzle: (number | null)[][];
+    public puzzle: string;
     public difficulty: string | null
-    public solution: (number | null)[][];
-    public createTime: Date;
-    public historys: History[] = [];
+    public solution: string;
+    public create_time: Date;
+    public historys: UserStep[] = [];
 
-    constructor(puzzle: (number | null)[][], difficulty: string | null, solution: (number | null)[][],createTime:Date) {
-        this.puzzle = puzzle;
+    constructor(puzzle: number[][] | string, difficulty: string | null, solution: number[][] | string, create_time: Date) {
+        this.puzzle = typeof puzzle === 'string' ? puzzle : _.flatten(puzzle).join(",");
         this.difficulty = difficulty;
-        this.solution = solution;
-        this.createTime = createTime;
+        this.solution = typeof solution === 'string' ? solution : _.flatten(solution).join(",");
+        this.create_time = create_time;
     }
 
-    public async addHistory(history: History) {
+    public async addHistory(history: UserStep) {
+        history.puzzle_id = this.id;
         const resp = await fetch("/api/puzzle/history", {
             method: "PUT",
             body: JSON.stringify(history),
@@ -115,21 +115,20 @@ export class Game {
                 history.id = res.data.id;
             }
         }
-
-        history.puzzleId = this.id;
         this.historys = [
             ...this.historys,
             history
         ]
         return this.historys
     }
+
     //根据plzzle和history生成solution
     public userSolution() {
-        let solution = _.cloneDeep(this.puzzle);
+        const puzzleData = _.chunk(this.puzzle.split(",").map(numStr => Number(numStr)), 9)
         this.historys.map(history => {
-            solution[history.row][history.col] = history.value;
+            puzzleData[history.row][history.col] = history.value;
         })
-        return solution;
+        return puzzleData;
     }
 
 
@@ -139,14 +138,14 @@ export class Game {
             const numbers = section.filter(num => num !== null);
             const set = new Set(numbers);
             return set.size === 9;
-        };
-        const solution=this.userSolution();
+        }
+        const solution = this.userSolution();
         //检查solution是否正确
         //1. 检查所有行
         for (let i = 0; i < 9; i++) {
             if (!isValidSection(solution[i])) {
-                console.log('行')
-                console.log(solution[i])
+                // console.log('行')
+                // console.log(solution[i])
                 return false;
             }
         }
@@ -155,8 +154,8 @@ export class Game {
         for (let i = 0; i < 9; i++) {
             const column = solution.map(row => row[i]);
             if (!isValidSection(column)) {
-                console.log("列")
-                console.log(column)
+                // console.log("列")
+                // console.log(column)
                 return false;
             }
         }
@@ -171,29 +170,28 @@ export class Game {
                     }
                 }
                 if (!isValidSection(block)) {
-                    console.log("block")
-                    console.log(block)
+                    // console.log("block")
+                    // console.log(block)
                     return false;
                 }
             }
         }
-        console.log('true')
         return true;
     }
 }
 
-export class History {
+export class UserStep {
     public id?: number;
-    public puzzleId?: number;
+    public puzzle_id?: number;
     public row: number;
     public col: number;
-    public value: number | null
-    public createTime: Date
+    public value: number
+    public create_time: Date
 
-    constructor(row: number, col: number, value: number | null, createTime: Date) {
+    constructor(row: number, col: number, value: number, create_time: Date) {
         this.row = row;
         this.col = col;
         this.value = value;
-        this.createTime = createTime;
+        this.create_time = create_time;
     }
 }

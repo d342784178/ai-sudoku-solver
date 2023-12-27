@@ -3,8 +3,8 @@ import {createSudokuPuzzle, getSudokuPuzzleById, listSudokuPuzzleById} from "@/a
 
 
 export async function PUT(req: Request) {
-    const {puzzle, difficulty, solution, createTime} = await req.json();
-    return respData(await createSudokuPuzzle(puzzle, difficulty, solution, createTime));
+    const {puzzle, difficulty, solution, create_time} = await req.json();
+    return respData(await createSudokuPuzzle(puzzle, difficulty, solution, create_time));
 }
 
 export async function GET(req: Request) {

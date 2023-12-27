@@ -1,4 +1,5 @@
 import Board from "@/app/ui/board";
+import {HistoryBoard} from "@/app/ui/historyBoard";
 
 export default function Home() {
 

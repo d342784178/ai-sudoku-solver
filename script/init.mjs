@@ -5,22 +5,22 @@ dotenv.config({path: '../.env'}).parsed;
 
 async function initDB() {
     let client = await db.connect();
-    // await sql`DROP TABLE SudokuPuzzles;`
-    // await sql`DROP TABLE UserSteps;`
+    await sql`DROP TABLE sudoku_puzzle;`
+    await sql`DROP TABLE user_step;`
 
-    await sql`CREATE TABLE SudokuPuzzles (
+    await sql`CREATE TABLE sudoku_puzzle (
             id SERIAL PRIMARY KEY,
-            puzzle VARCHAR(81) NOT NULL,
+            puzzle VARCHAR(200) NOT NULL,
             difficulty VARCHAR(20) NOT NULL,
-            solution VARCHAR(81) NOT NULL,
-            createTime TIMESTAMP
+            solution VARCHAR(200) NOT NULL,
+            create_time TIMESTAMP
         );`
-    await sql`CREATE TABLE UserSteps (
+    await sql`CREATE TABLE user_step (
                 id SERIAL PRIMARY KEY,
-                puzzleId INTEGER,
+                puzzle_id INTEGER,
                 cell INTEGER CHECK (cell >= 0 AND cell <= 80),
                 value INTEGER CHECK (value >= 1 AND value <= 9),
-                createTime TIMESTAMP
+                create_time TIMESTAMP
             );`
     console.log("创建库表成功")
     client.release();

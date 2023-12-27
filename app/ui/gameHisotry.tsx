@@ -1,7 +1,7 @@
 'use client';
 import React, {MouseEvent, MouseEventHandler} from 'react';
 import {useState} from "react";
-import {Game, History} from "@/app/ui/hook/useSudoku";
+import {Game, UserStep} from "@/app/ui/hook/useSudoku";
 import Link from "next/link";
 
 export function GameHistory({}: {}) {
@@ -27,7 +27,7 @@ export function GameHistory({}: {}) {
                     <div key={index} className="flex mb-2 p-2 bg-base-300 rounded">
                         <div className="flex-1 cursor-pointer"
                              style={{display: 'flex', justifyContent: 'space-around'}}>
-                            <div>时间: {game.createTime.toLocaleTimeString()}</div>
+                            <div>时间: {game.create_time.toLocaleTimeString()}</div>
                             <div>难度: {game.difficulty}</div>
                             <div><Link href={`/game/${game.id}`}>点击查看w</Link></div>
                         </div>

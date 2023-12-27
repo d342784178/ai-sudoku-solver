@@ -1,12 +1,12 @@
 'use client';
 import React from 'react';
 import {useState} from "react";
-import {History} from "@/app/ui/hook/useSudoku";
+import {UserStep} from "@/app/ui/hook/useSudoku";
 
 export function Record({records, onMouseEnterRecord, onMouseLeaveRecord}: {
-    records: History[],
-    onMouseEnterRecord?: (record: History, index: number) => void,
-    onMouseLeaveRecord?: (record: History, index: number) => void,
+    records: UserStep[],
+    onMouseEnterRecord?: (record: UserStep, index: number) => void,
+    onMouseLeaveRecord?: (record: UserStep, index: number) => void,
 }) {
     return (
         <div className="flex flex-col items-center  p-5 rounded-xl ">
@@ -20,7 +20,7 @@ export function Record({records, onMouseEnterRecord, onMouseLeaveRecord}: {
                             <div className="font-semibold">操作 {index + 1}:</div>
                             <div>坐标: [ {record.row}, {record.col} ]</div>
                             <div>值: {record.value ? record.value : "无"}</div>
-                            <div>时间: {new Date(record.createTime).toLocaleTimeString()}</div>
+                            <div>时间: {record.create_time.toLocaleTimeString()}</div>
                         </div>
                     </div>
                 ))}

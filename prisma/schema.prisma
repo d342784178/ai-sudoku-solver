@@ -8,18 +8,18 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model SudokuPuzzles {
+model sudoku_puzzle {
   id          Int      @id @default(autoincrement())
-  puzzle      String   @db.VarChar(81)
+  puzzle      String   @db.VarChar(200)
   difficulty  String   @db.VarChar(20)
-  solution    String   @db.VarChar(81)
-  createTime  DateTime
+  solution    String   @db.VarChar(200)
+  create_time  DateTime
 }
 
-model UserSteps {
+model user_step {
   id          Int      @id @default(autoincrement())
-  puzzleId    Int
+  puzzle_id    Int
   cell        Int
   value       Int
-  createTime  DateTime
+  create_time  DateTime
 }
