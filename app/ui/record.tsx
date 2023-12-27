@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import {useState} from "react";
-import {History} from "@/app/hook/useSudoku";
+import {History} from "@/app/ui/hook/useSudoku";
 
 export function Record({records, onMouseEnterRecord, onMouseLeaveRecord}: {
     records: History[],

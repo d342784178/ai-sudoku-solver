@@ -1,6 +1,6 @@
 'use client';
 import {useState, useCallback} from 'react';
-import {useCallbackState} from "@/app/hook/useCallbackState";
+import {useCallbackState} from "@/app/ui/hook/useCallbackState";
 
 export function useSudoku() {
     //游戏数据

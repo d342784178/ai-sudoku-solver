@@ -1,8 +1,8 @@
 'use client';
 import {ChangeEvent, useEffect, useState} from 'react';
-import {History, useSudoku} from "@/app/hook/useSudoku";
-import {Cell} from "@/app/component/cell";
-import {Record} from "@/app/component/record";
+import {History, useSudoku} from "@/app/ui/hook/useSudoku";
+import {Cell} from "@/app/ui/cell";
+import {Record} from "@/app/ui/record";
 
 export default function Board() {
     const {

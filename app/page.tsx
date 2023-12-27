@@ -1,4 +1,4 @@
-import Board from "@/app/component/board";
+import Board from "@/app/ui/board";
 
 export default function Home() {
 
