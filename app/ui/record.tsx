@@ -20,8 +20,7 @@ export function Record({records, onMouseEnterRecord, onMouseLeaveRecord}: {
                             <div className="font-semibold">操作 {index + 1}:</div>
                             <div>坐标: [ {record.row}, {record.col} ]</div>
                             <div>值: {record.value ? record.value : "无"}</div>
-                            <div>结果: {record.gameResult ? "通过" : "不通过"}</div>
-                            <div>时间: {new Date(record.timestamp).toLocaleTimeString()}</div>
+                            <div>时间: {new Date(record.createTime).toLocaleTimeString()}</div>
                         </div>
                     </div>
                 ))}

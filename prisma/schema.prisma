@@ -13,14 +13,13 @@ model SudokuPuzzles {
   puzzle      String   @db.VarChar(81)
   difficulty  String   @db.VarChar(20)
   solution    String   @db.VarChar(81)
-  UserSteps   UserSteps[]
+  createTime  DateTime
 }
 
 model UserSteps {
-  id          Int         @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   puzzleId    Int
-  stepNumber  Int
-  cell        Int         @db.Integer @default(0)
-  value       Int         @db.Integer @default(1)
-  SudokuPuzzles SudokuPuzzles @relation(fields: [puzzleId], references: [id])
+  cell        Int
+  value       Int
+  createTime  DateTime
 }

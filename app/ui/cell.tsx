@@ -5,7 +5,7 @@ export function Cell({colIndex, rowIndex, value, handleInput, highLight}: {
     colIndex: number,
     rowIndex: number,
     value: number | null,
-    handleInput: Function,
+    handleInput?: Function,
     highLight?: boolean | null
 }) {
 
@@ -21,7 +21,7 @@ export function Cell({colIndex, rowIndex, value, handleInput, highLight}: {
             min={1}
             max={9}
             value={value || ''}
-            onChange={(event) => handleInput(event, rowIndex, colIndex)}
+            onChange={(event) => handleInput&&handleInput(event, rowIndex, colIndex)}
         />
     )
 }
