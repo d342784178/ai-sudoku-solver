@@ -6,14 +6,15 @@ import {Record} from "@/app/ui/record";
 
 export default function Board() {
     const {
-        gameData,
+        // gameData,
         newGame,
         makeMove,
         checkGame,
-        moveHistory,
+        historys,
+        userSolution,
+        gameState,
     } = useSudoku();
     const [historyHover, setHistoryHover] = useState<History | null>(null)
-
 
     useEffect(() => {
         newGame()
@@ -27,7 +28,7 @@ export default function Board() {
         }
     };
     // 渲染棋盘
-    const renderBoard = gameData.map((row: (number | null)[], rowIndex: number) => (
+    const renderBoard = userSolution().map((row: (number | null)[], rowIndex: number) => (
         <div key={rowIndex}>
             {row.map(
                 (value, colIndex) => (
@@ -44,11 +45,11 @@ export default function Board() {
             <div className="flex flex-col items-center  p-5 rounded-xl shadow-lg">
                 <button className="btn" onClick={newGame}>创建新游戏</button>
                 {/*<button className="btn" onClick={checkGame}>检查结果</button>*/}
-                <div className={"shadow-xl rounded-xl"}>
+                <div className={`shadow-xl rounded-xl ${gameState ? "border-4 border-green-300 " : "border-4 border-red-300"}`}>
                     {renderBoard}
                 </div>
                 <div>
-                    <Record records={moveHistory}
+                    <Record records={historys}
                             onMouseEnterRecord={(record, index) => setHistoryHover(record)}
                             onMouseLeaveRecord={(record, index) => setHistoryHover(null)}/>
                 </div>
