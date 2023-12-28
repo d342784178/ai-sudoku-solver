@@ -1,7 +1,7 @@
 import {ChangeEvent, useEffect, useState} from 'react';
 import {Game, UserStep, useSudoku} from "@/app/ui/hook/useSudoku";
 import {Cell} from "@/app/ui/cell";
-import {Record} from "@/app/ui/record";
+import {Step} from "@/app/ui/step";
 import {getSudokuPuzzleById} from "@/app/lib/dal/SudokuPuzzleMapper";
 import {getUserStepByPuzzleId} from "@/app/lib/dal/UserStepMapper";
 
@@ -39,9 +39,9 @@ export function HistoryBoard({id}: { id: number }) {
                     {renderBoard}
                 </div>
                 <div>
-                    <Record records={game ? game.userSteps : []}
-                            onMouseEnterRecord={(record, index) => setHistoryHover(record)}
-                            onMouseLeaveRecord={(record, index) => setHistoryHover(null)}/>
+                    <Step userSteps={game ? game.userSteps : []}
+                          onMouseEnterRecord={(record, index) => setHistoryHover(record)}
+                          onMouseLeaveRecord={(record, index) => setHistoryHover(null)}/>
                 </div>
             </div>
         </main>
@@ -52,7 +52,7 @@ async function fetchGameHistory(id: number) {
     let game = await getSudokuPuzzleById(id);
     let userSteps = await getUserStepByPuzzleId(id);
     if (game != null) {
-        let game1 = new Game(game.puzzle, game.difficulty, game.solution, game.create_time);
+        let game1 = Game.parse(game)
         game1.userSteps = userSteps ? userSteps.map(userStep => new UserStep(userStep.cell, userStep.cell, userStep.value, userStep.create_time)) : [];
         return game1;
     } else {

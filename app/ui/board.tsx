@@ -2,8 +2,9 @@
 import {ChangeEvent, useEffect, useState} from 'react';
 import {UserStep, useSudoku} from "@/app/ui/hook/useSudoku";
 import {Cell} from "@/app/ui/cell";
-import {Record} from "@/app/ui/record";
+import {Step} from "@/app/ui/step";
 import {useDebounce} from "react-use";
+import {GameHistory} from "@/app/ui/gameHitory";
 
 export default function Board() {
     const {
@@ -15,7 +16,7 @@ export default function Board() {
         userSolution,
         gameState,
     } = useSudoku();
-    const [historyHover, setHistoryHover] = useState<UserStep | null>(null)
+    const [userStepHover, setUserStepHover] = useState<UserStep | null>(null)
 
     // useEffect(() => {
     //     newGame()
@@ -34,7 +35,7 @@ export default function Board() {
             {row.map(
                 (value, colIndex) => (
                     <Cell key={colIndex} colIndex={colIndex} rowIndex={rowIndex} value={value} handleInput={handleInput}
-                          highLight={historyHover && historyHover.row === rowIndex && historyHover.col === colIndex}/>
+                          highLight={userStepHover && userStepHover.cell == rowIndex * 9 + colIndex}/>
                 )
             )
             }
@@ -51,10 +52,14 @@ export default function Board() {
                     {renderBoard}
                 </div>
                 <div className="max-h-64 my-2">
-                    <Record records={userSteps}
-                            onMouseEnterRecord={(record, index) => setHistoryHover(record)}
-                            onMouseLeaveRecord={(record, index) => setHistoryHover(null)}/>
+                    <Step userSteps={userSteps}
+                          onMouseEnterRecord={(userStep, index) => setUserStepHover(userStep)}
+                          onMouseLeaveRecord={(userStep, index) => setUserStepHover(null)}/>
                 </div>
+
+                {/*<div className="max-h-64 my-2">*/}
+                {/*    <GameHistory />*/}
+                {/*</div>*/}
             </div>
         </main>
     )

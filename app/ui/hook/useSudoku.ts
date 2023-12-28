@@ -2,6 +2,8 @@
 import {useCallback} from 'react';
 import {useCallbackState} from "@/app/ui/hook/useCallbackState";
 import _ from "lodash";
+import {Prisma,} from '@prisma/client'
+import sudoku_puzzleCreateInput = Prisma.sudoku_puzzleCreateInput;
 
 export function useSudoku() {
     //游戏数据
@@ -22,7 +24,7 @@ export function useSudoku() {
     }, [setGame]);
 
     const makeMove = useCallback((row: number, col: number, value: number) => {
-        game?.addUserStep({row, col, value, create_time: new Date()} as UserStep).then((newUserSteps) => {
+        game?.addUserStep(new UserStep(row * 9 + col, value, new Date())).then((newUserSteps) => {
             setUserSteps(newUserSteps, (newMoveHistory) => {
                 setGameState(game ? game.checkSolution() : false)
             });
@@ -103,10 +105,22 @@ export class Game {
         this.create_time = create_time;
     }
 
+    static parse(d: {
+        id: number,
+        puzzle: string
+        difficulty: string
+        solution: string
+        create_time: Date
+    }) {
+        let game = new Game(d.puzzle, d.difficulty, d.solution, d.create_time);
+        game.id = d.id;
+        return game;
+    }
+
     public async addUserStep(history: UserStep) {
         history.puzzle_id = this.id;
         //TODO 异步保存操作记录
-        fetch("/api/puzzle/history", {
+        fetch("/api/puzzle/userStep", {
             method: "PUT",
             body: JSON.stringify(history),
         }).then(async (resp) => {
@@ -128,7 +142,7 @@ export class Game {
     public userSolution() {
         const puzzleData = _.chunk(this.puzzle.split(",").map(numStr => Number(numStr)), 9)
         this.userSteps.map(history => {
-            puzzleData[history.row][history.col] = history.value;
+            puzzleData[Math.floor(history.cell / 9)][history.cell % 9] = history.value;
         })
         return puzzleData;
     }
@@ -141,6 +155,7 @@ export class Game {
             const set = new Set(numbers);
             return set.size === 9;
         }
+
         const solution = this.userSolution();
         //检查solution是否正确
         //1. 检查所有行
@@ -185,15 +200,23 @@ export class Game {
 export class UserStep {
     public id?: number;
     public puzzle_id?: number;
-    public row: number;
-    public col: number;
+    public cell: number;
     public value: number
     public create_time: Date
 
-    constructor(row: number, col: number, value: number, create_time: Date) {
-        this.row = row;
-        this.col = col;
+    constructor(cell: number, value: number, create_time: Date) {
+        this.cell = cell;
         this.value = value;
         this.create_time = create_time;
+    }
+
+    static parse(d: {
+        id: number, puzzle_id: number,
+        cell: number, value: number, create_time: Date
+    }) {
+        let userStep = new UserStep(d.cell, d.value, d.create_time);
+        userStep.id = d.id;
+        userStep.puzzle_id = d.puzzle_id;
+        return userStep;
     }
 }
