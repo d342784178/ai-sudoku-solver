@@ -74,16 +74,17 @@ async function innerNewGame(): Promise<Game> {
     }
 
     let game = new Game(puzzle, '1', solution, new Date());
-    const resp = await fetch("/api/puzzle", {
+    fetch("/api/puzzle", {
         method: "PUT",
         body: JSON.stringify(game),
-    });
-    if (resp.ok) {
-        const res = await resp.json();
-        if (res.data) {
-            game.id = res.data.id;
+    }).then(async resp => {
+        if (resp.ok) {
+            const res = await resp.json();
+            if (res.data) {
+                game.id = res.data.id;
+            }
         }
-    }
+    });
     return game;
 }
 
