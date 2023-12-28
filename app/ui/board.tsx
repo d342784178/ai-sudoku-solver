@@ -11,7 +11,7 @@ export default function Board() {
         newGame,
         makeMove,
         checkGame,
-        historys,
+        userSteps,
         userSolution,
         gameState,
     } = useSudoku();
@@ -51,7 +51,7 @@ export default function Board() {
                     {renderBoard}
                 </div>
                 <div className="max-h-64 my-2">
-                    <Record records={historys}
+                    <Record records={userSteps}
                             onMouseEnterRecord={(record, index) => setHistoryHover(record)}
                             onMouseLeaveRecord={(record, index) => setHistoryHover(null)}/>
                 </div>

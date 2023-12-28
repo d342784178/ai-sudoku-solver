@@ -9,21 +9,21 @@ export function useSudoku() {
         useCallbackState<Game | null>(null);
 
     //用户操作记录
-    const [historys, setHistorys] = useCallbackState<UserStep[]>([])
+    const [userSteps, setUserSteps] = useCallbackState<UserStep[]>([])
     const [gameState, setGameState] =
         useCallbackState<boolean>(false);
 
     const newGame = useCallback(() => {
         innerNewGame().then((newGame) => {
             setGame(newGame);
-            setHistorys([]); //重置操作历史
+            setUserSteps([]); //重置操作历史
             setGameState(false)
         });
     }, [setGame]);
 
     const makeMove = useCallback((row: number, col: number, value: number) => {
-        game?.addHistory({row, col, value, create_time: new Date()} as UserStep).then((newHistorys) => {
-            setHistorys(newHistorys, (newMoveHistory) => {
+        game?.addUserStep({row, col, value, create_time: new Date()} as UserStep).then((newUserSteps) => {
+            setUserSteps(newUserSteps, (newMoveHistory) => {
                 setGameState(game ? game.checkSolution() : false)
             });
         });
@@ -31,18 +31,18 @@ export function useSudoku() {
 
     const checkGame = useCallback(() => {
         return game ? game.checkSolution() : false;
-    }, [game, historys]);
+    }, [game, userSteps]);
 
     const userSolution = useCallback(() => {
         return game ? game.userSolution() : Array.from({length: 9}, () => new Array(9).fill(-1));
-    }, [game, historys]);
+    }, [game, userSteps]);
 
     return {
         // game,//游戏数据
         newGame,//创建新游戏
         makeMove,//用户操作
         checkGame,//检查游戏结果
-        historys, // 输出用户操作历史
+        userSteps, // 输出用户操作历史
         userSolution,///输出用户当前解法
         gameState,//游戏状态
     };
@@ -94,7 +94,7 @@ export class Game {
     public difficulty: string | null
     public solution: string;
     public create_time: Date;
-    public historys: UserStep[] = [];
+    public userSteps: UserStep[] = [];
 
     constructor(puzzle: number[][] | string, difficulty: string | null, solution: number[][] | string, create_time: Date) {
         this.puzzle = typeof puzzle === 'string' ? puzzle : _.flatten(puzzle).join(",");
@@ -103,7 +103,7 @@ export class Game {
         this.create_time = create_time;
     }
 
-    public async addHistory(history: UserStep) {
+    public async addUserStep(history: UserStep) {
         history.puzzle_id = this.id;
         //TODO 异步保存操作记录
         fetch("/api/puzzle/history", {
@@ -117,17 +117,17 @@ export class Game {
                 }
             }
         });
-        this.historys = [
-            ...this.historys,
+        this.userSteps = [
+            ...this.userSteps,
             history
         ]
-        return this.historys
+        return this.userSteps
     }
 
     //根据plzzle和history生成solution
     public userSolution() {
         const puzzleData = _.chunk(this.puzzle.split(",").map(numStr => Number(numStr)), 9)
-        this.historys.map(history => {
+        this.userSteps.map(history => {
             puzzleData[history.row][history.col] = history.value;
         })
         return puzzleData;

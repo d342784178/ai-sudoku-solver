@@ -39,7 +39,7 @@ export function HistoryBoard({id}: { id: number }) {
                     {renderBoard}
                 </div>
                 <div>
-                    <Record records={game ? game.historys : []}
+                    <Record records={game ? game.userSteps : []}
                             onMouseEnterRecord={(record, index) => setHistoryHover(record)}
                             onMouseLeaveRecord={(record, index) => setHistoryHover(null)}/>
                 </div>
@@ -53,7 +53,7 @@ async function fetchGameHistory(id: number) {
     let userSteps = await getUserStepByPuzzleId(id);
     if (game != null) {
         let game1 = new Game(game.puzzle, game.difficulty, game.solution, game.create_time);
-        game1.historys = userSteps ? userSteps.map(userStep => new UserStep(userStep.cell, userStep.cell, userStep.value, userStep.create_time)) : [];
+        game1.userSteps = userSteps ? userSteps.map(userStep => new UserStep(userStep.cell, userStep.cell, userStep.value, userStep.create_time)) : [];
         return game1;
     } else {
         return null;
