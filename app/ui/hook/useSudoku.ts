@@ -67,7 +67,7 @@ async function innerNewGame(): Promise<Game> {
     // 随机移除一部分数字
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
-            if (Math.random() > 0.99) {
+            if (Math.random() > 0.98) {
                 puzzle[i][j] = -1;
             }
         }
@@ -84,7 +84,6 @@ async function innerNewGame(): Promise<Game> {
             game.id = res.data.id;
         }
     }
-    console.log(game)
     return game;
 }
 
@@ -105,16 +104,18 @@ export class Game {
 
     public async addHistory(history: UserStep) {
         history.puzzle_id = this.id;
-        const resp = await fetch("/api/puzzle/history", {
+        //TODO 异步保存操作记录
+        fetch("/api/puzzle/history", {
             method: "PUT",
             body: JSON.stringify(history),
-        });
-        if (resp.ok) {
-            const res = await resp.json();
-            if (res.data) {
-                history.id = res.data.id;
+        }).then(async (resp) => {
+            if (resp.ok) {
+                const res = await resp.json();
+                if (res.data) {
+                    history.id = res.data.id;
+                }
             }
-        }
+        });
         this.historys = [
             ...this.historys,
             history
