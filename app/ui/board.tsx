@@ -1,12 +1,27 @@
 'use client';
 import {ChangeEvent, useEffect, useState} from 'react';
-import {UserStep, useSudoku} from "@/app/ui/hook/useSudoku";
+import {useSudoku} from "@/app/ui/hook/useSudoku";
 import {Cell} from "@/app/ui/cell";
 import {Step} from "@/app/ui/step";
 import {useDebounce} from "react-use";
-import {GameHistory} from "@/app/ui/gameHitory";
+import {Game, UserStep} from "@/app/lib/model/model";
 
-export default function Board() {
+export function Board({game}: {
+    game?: {
+        id: number,
+        puzzle: string
+        difficulty: string
+        solution: string
+        create_time: Date
+        userSteps: {
+            id: number;
+            puzzle_id: number;
+            cell: number;
+            value: number
+            create_time: Date
+        }[]
+    }
+}) {
     const {
         // game,
         newGame,
@@ -15,12 +30,17 @@ export default function Board() {
         userSteps,
         userSolution,
         gameState,
+        recoverGame,
     } = useSudoku();
     const [userStepHover, setUserStepHover] = useState<UserStep | null>(null)
 
-    // useEffect(() => {
-    //     newGame()
-    // }, []);
+    useEffect(() => {
+        if (game) {
+            let game1 = Game.parse(game);
+            console.log(game1)
+            recoverGame(game1)
+        }
+    }, [game]);
 
     // 当用户输入数据时更新棋盘
     const handleInput = (inputNumber: number, row: any, col: any) => {
@@ -45,7 +65,7 @@ export default function Board() {
     return (
         <main className="max-w-full h-full p-4 md:p-0">
             <div className="flex flex-col items-center justify-center md:px-5 lg:px-0 rounded-xl shadow-lg max-w-full">
-                <button className="btn my-2" onClick={newGame}>创建新游戏</button>
+                {game ? (<div/>) : (<button className="btn my-2" onClick={newGame}>创建新游戏</button>)}
                 {/* <button className="btn my-2">检查结果</button> */}
                 <div
                     className={`overflow-auto border-4 shadow-xl rounded-xl my-4 md:my-2 ${gameState ? "border-green-300 " : "border-red-300"}`}>
@@ -56,10 +76,6 @@ export default function Board() {
                           onMouseEnterRecord={(userStep, index) => setUserStepHover(userStep)}
                           onMouseLeaveRecord={(userStep, index) => setUserStepHover(null)}/>
                 </div>
-
-                {/*<div className="max-h-64 my-2">*/}
-                {/*    <GameHistory />*/}
-                {/*</div>*/}
             </div>
         </main>
     )

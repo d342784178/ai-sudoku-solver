@@ -1,13 +1,16 @@
-import Board from "@/app/ui/board";
-import {HistoryBoard} from "@/app/ui/historyBoard";
+import {History} from "@/app/ui/history";
+import { Board } from "./ui/board";
 
 export default function Home() {
 
     return (
         <main>
             <div>
+                <Board/>
             </div>
-            <Board/>
+            <div className="max-h-64 my-2">
+                <History />
+            </div>
         </main>
     )
 }

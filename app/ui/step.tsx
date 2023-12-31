@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import {useState} from "react";
-import {UserStep} from "@/app/ui/hook/useSudoku";
+import {UserStep} from "@/app/lib/model/model";
 
 export function Step({userSteps, onMouseEnterRecord, onMouseLeaveRecord}: {
     userSteps: UserStep[],

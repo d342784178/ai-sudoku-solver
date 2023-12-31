@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react';
 import {useState} from "react";
-import {Game, UserStep} from "@/app/ui/hook/useSudoku";
 import {getSudokuPuzzleById, listSudokuPuzzleById} from "@/app/lib/dal/SudokuPuzzleMapper";
 import Link from "next/link";
+import {Game} from "@/app/lib/model/model";
 
-export function GameHistory({}: {}) {
-    const [historys, setHistorys] = useState<Game[]>()
-    useEffect(() => {
-        fetchGameHistory().then(games => setHistorys(games))
-    }, [])
+export async function History({}: {}) {
+    // const [historys, setHistorys] = useState<Game[]>()
+    // useEffect(() => {
+    const historys = await fetchGameHistory()
+    // }, [])
 
     return (
         <div className="flex flex-col items-center  p-5 rounded-xl ">

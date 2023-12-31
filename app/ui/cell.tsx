@@ -3,7 +3,6 @@ import {classnames} from "@/app/lib/util/commonUtil";
 import {useCallbackState} from "@/app/ui/hook/useCallbackState";
 import {useState} from "react";
 import {useDebounce} from "react-use";
-import {number} from "prop-types";
 
 export function Cell({colIndex, rowIndex, value, handleInput, highLight}: {
     colIndex: number,

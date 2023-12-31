@@ -23,9 +23,6 @@ dependencies:
   next:
     specifier: 14.0.4
     version: 14.0.4(react-dom@18.2.0)(react@18.2.0)
-  prisma:
-    specifier: ^5.7.1
-    version: 5.7.1
   react:
     specifier: ^18
     version: 18.2.0
@@ -64,6 +61,9 @@ devDependencies:
   postcss:
     specifier: ^8
     version: 8.4.32
+  prisma:
+    specifier: ^5.7.1
+    version: 5.7.1
   tailwindcss:
     specifier: ^3.4.0
     version: 3.4.0
@@ -331,11 +331,9 @@ packages:
 
   /@prisma/debug@5.7.1:
     resolution: {integrity: sha512-yrVSO/YZOxdeIxcBtZ5BaNqUfPrZkNsAKQIQg36cJKMxj/VYK3Vk5jMKkI+gQLl0KReo1YvX8GWKfV788SELjw==}
-    dev: false
 
   /@prisma/engines-version@5.7.1-1.0ca5ccbcfa6bdc81c003cf549abe4269f59c41e5:
     resolution: {integrity: sha512-dIR5IQK/ZxEoWRBDOHF87r1Jy+m2ih3Joi4vzJRP+FOj5yxCwS2pS5SBR3TWoVnEK1zxtLI/3N7BjHyGF84fgw==}
-    dev: false
 
   /@prisma/engines@5.7.1:
     resolution: {integrity: sha512-R+Pqbra8tpLP2cvyiUpx+SIKglav3nTCpA+rn6826CThviQ8yvbNG0s8jNpo51vS9FuZO3pOkARqG062vKX7uA==}
@@ -345,7 +343,6 @@ packages:
       '@prisma/engines-version': 5.7.1-1.0ca5ccbcfa6bdc81c003cf549abe4269f59c41e5
       '@prisma/fetch-engine': 5.7.1
       '@prisma/get-platform': 5.7.1
-    dev: false
 
   /@prisma/fetch-engine@5.7.1:
     resolution: {integrity: sha512-9ELauIEBkIaEUpMIYPRlh5QELfoC6pyHolHVQgbNxglaINikZ9w9X7r1TIePAcm05pCNp2XPY1ObQIJW5nYfBQ==}
@@ -353,13 +350,11 @@ packages:
       '@prisma/debug': 5.7.1
       '@prisma/engines-version': 5.7.1-1.0ca5ccbcfa6bdc81c003cf549abe4269f59c41e5
       '@prisma/get-platform': 5.7.1
-    dev: false
 
   /@prisma/get-platform@5.7.1:
     resolution: {integrity: sha512-eDlswr3a1m5z9D/55Iyt/nZqS5UpD+DZ9MooBB3hvrcPhDQrcf9m4Tl7buy4mvAtrubQ626ECtb8c6L/f7rGSQ==}
     dependencies:
       '@prisma/debug': 5.7.1
-    dev: false
 
   /@rushstack/eslint-patch@1.6.1:
     resolution: {integrity: sha512-UY+FGM/2jjMkzQLn8pxcHGMaVLh9aEitG3zY2CiY7XHdLiz3bZOwa6oDxNqEMv7zZkV+cj5DOdz0cQ1BP5Hjgw==}
@@ -2448,7 +2443,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@prisma/engines': 5.7.1
-    dev: false
 
   /prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}

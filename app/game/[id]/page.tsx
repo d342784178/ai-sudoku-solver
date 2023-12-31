@@ -1,14 +1,30 @@
-import Board from "@/app/ui/board";
 import React from "react";
-import {HistoryBoard} from "@/app/ui/historyBoard";
+import {getSudokuPuzzleById} from "@/app/lib/dal/SudokuPuzzleMapper";
+import {getUserStepByPuzzleId} from "@/app/lib/dal/UserStepMapper";
+import {Game, UserStep} from "@/app/lib/model/model";
+import {Board} from "@/app/ui/board";
 
-export default function Home({params}: { params: { id: number } }) {
-
+export default async function Home({params}: { params: { id: string } }) {
+    const game = await fetchGameHistory(Number(params.id))
     return (
         <main>
             <div>
             </div>
-            <HistoryBoard id={params.id}/>
+            <Board game={game}/>
         </main>
     )
 }
+
+async function fetchGameHistory(id: number) {
+    let gameJsonObject = await getSudokuPuzzleById(id);
+    let userStepsJsonArray = await getUserStepByPuzzleId(id);
+    if (gameJsonObject) {
+        let game1 = Game.parse(gameJsonObject)
+        game1.userSteps = userStepsJsonArray ? userStepsJsonArray.map(userStepJson => UserStep.parse(userStepJson)) : [];
+        console.log(game1)
+        return JSON.parse(JSON.stringify(game1));
+    } else {
+        return undefined;
+    }
+}
+
