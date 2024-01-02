@@ -2,8 +2,6 @@
 import {useCallback} from 'react';
 import {useCallbackState} from "@/app/ui/hook/useCallbackState";
 import _ from "lodash";
-import {Prisma,} from '@prisma/client'
-import sudoku_puzzleCreateInput = Prisma.sudoku_puzzleCreateInput;
 import {Game, UserStep} from "@/app/lib/model/model";
 
 export function useSudoku() {
@@ -22,14 +20,14 @@ export function useSudoku() {
             setUserSteps([]); //重置操作历史
             setGameState(false)
         });
-    }, [setGame]);
+    }, [setGame,setGameState]);
 
     const recoverGame = useCallback((game: Game) => {
         console.log(typeof game)
         setGame(game);
         setUserSteps(game.userSteps); //重置操作历史
         setGameState(false)
-    }, [setGame]);
+    }, [setGame,setGameState]);
 
 
     const makeMove = useCallback((row: number, col: number, value: number) => {
