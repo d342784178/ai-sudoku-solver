@@ -1,4 +1,4 @@
-import {PrismaClient, Prisma} from '@prisma/client'
+import {Prisma, PrismaClient} from '@prisma/client'
 import SortOrder = Prisma.SortOrder;
 
 const prisma = new PrismaClient();
@@ -18,7 +18,7 @@ export async function getUserStepByPuzzleId(puzzle_id: number) {
     return await prisma.user_step.findMany({
         where: {puzzle_id},
         orderBy: {
-            create_time: SortOrder.desc
+            create_time: SortOrder.asc
         }
     });
 }

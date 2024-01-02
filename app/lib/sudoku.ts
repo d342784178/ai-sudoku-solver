@@ -1,4 +1,4 @@
-const sudoku = {
+export const sudoku = {
     //总行数
     rowNum: 9,
     //总列数

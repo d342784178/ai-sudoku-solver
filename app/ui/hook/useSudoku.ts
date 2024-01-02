@@ -3,6 +3,7 @@ import {useCallback} from 'react';
 import {useCallbackState} from "@/app/ui/hook/useCallbackState";
 import _ from "lodash";
 import {Game, UserStep} from "@/app/lib/model/model";
+import {sudoku} from "@/app/lib/sudoku";
 
 export function useSudoku() {
     //游戏数据
@@ -12,13 +13,13 @@ export function useSudoku() {
     //用户操作记录
     const [userSteps, setUserSteps] = useCallbackState<UserStep[]>([])
     const [gameState, setGameState] =
-        useCallbackState<boolean>(false);
+        useCallbackState<number>(0);
 
     const newGame = useCallback(() => {
         innerNewGame().then((newGame) => {
             setGame(newGame);
-            setUserSteps([]); //重置操作历史
-            setGameState(false)
+            setUserSteps(newGame.userSteps); //重置操作历史
+            setGameState(newGame.state)
         });
     }, [setGame, setUserSteps, setGameState]);
 
@@ -26,14 +27,26 @@ export function useSudoku() {
         console.log(typeof game)
         setGame(game);
         setUserSteps(game.userSteps); //重置操作历史
-        setGameState(false)
+        setGameState(game.state)
     }, [setGame, setUserSteps, setGameState]);
 
-
     const makeMove = useCallback((row: number, col: number, value: number) => {
-        game?.addUserStep(new UserStep(row * 9 + col, value, new Date())).then((newUserSteps) => {
-            setUserSteps(newUserSteps, (newMoveHistory) => {
-                setGameState(game ? game.checkSolution() : false)
+        game?.addUserStep(row * 9 + col, value).then((userStep) => {
+            setUserSteps([
+                ...game.userSteps,
+            ]);
+            setGameState(game?.state)
+
+            fetch("/api/puzzle/userStep", {
+                method: "PUT",
+                body: JSON.stringify(userStep),
+            }).then(async (resp) => {
+                if (resp.ok) {
+                    const res = await resp.json();
+                    if (res.data) {
+                        userStep.id = res.data.id;
+                    }
+                }
             });
         });
     }, [game, setUserSteps, setGameState]);
@@ -47,7 +60,7 @@ export function useSudoku() {
     }, [game]);
 
     return {
-        // game,//游戏数据
+        game,//游戏数据
         newGame,//创建新游戏
         makeMove,//用户操作
         checkGame,//检查游戏结果
@@ -88,7 +101,7 @@ async function innerNewGame(difficulty: number = 1): Promise<Game> {
     let solution = _.cloneDeep(puzzle);
     puzzle = sudoku.digHole(puzzle, difficulty)
 
-    let game = new Game(puzzle, '1', solution, new Date());
+    let game = new Game(puzzle, difficulty, solution, new Date());
 
     fetch("/api/puzzle", {
         method: "PUT",

@@ -4,13 +4,14 @@ import SortOrder = Prisma.SortOrder;
 
 const prisma = new PrismaClient();
 
-export async function createSudokuPuzzle(puzzle: string, difficulty: string, solution: string, create_time: Date) {
+export async function createSudokuPuzzle(puzzle: string, difficulty: number, solution: string, create_time: Date, state: number) {
     return await prisma.sudoku_puzzle.create({
         data: {
             puzzle,
             difficulty,
             solution,
             create_time,
+            state,
         },
     });
 }

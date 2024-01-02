@@ -1,16 +1,15 @@
 'use client';
-import {ChangeEvent, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useSudoku} from "@/app/ui/hook/useSudoku";
 import {Cell} from "@/app/ui/cell";
 import {Step} from "@/app/ui/step";
-import {useDebounce} from "react-use";
 import {Game, UserStep} from "@/app/lib/model/model";
 
-export function Board({game}: {
-    game?: {
+export function Board({currentGame}: {
+    currentGame?: {
         id: number,
         puzzle: string
-        difficulty: string
+        difficulty: number
         solution: string
         create_time: Date
         userSteps: {
@@ -19,28 +18,29 @@ export function Board({game}: {
             cell: number;
             value: number
             create_time: Date
-        }[]
+        }[],
+        state: number
     }
 }) {
     const {
-        // game,
+        game,
         newGame,
         makeMove,
         checkGame,
-        userSteps,
-        userSolution,
-        gameState,
+        // userSteps,
+        // userSolution,
+        // gameState,
         recoverGame,
     } = useSudoku();
     const [userStepHover, setUserStepHover] = useState<UserStep | null>(null)
 
     useEffect(() => {
-        if (game) {
-            let game1 = Game.parse(game);
+        if (currentGame) {
+            let game1 = Game.parse(currentGame);
             console.log(game1)
             recoverGame(game1)
         }
-    }, [game]);
+    }, [currentGame]);
 
     // 当用户输入数据时更新棋盘
     const handleInput = (inputNumber: number, row: any, col: any) => {
@@ -50,7 +50,7 @@ export function Board({game}: {
         }
     };
     // 渲染棋盘
-    const renderBoard = userSolution().map((row: number[], rowIndex: number) => (
+    const renderBoard = game?.userSolution().map((row: number[], rowIndex: number) => (
         <div className="grid grid-cols-9 gap-1" key={rowIndex}>
             {row.map(
                 (value, colIndex) => (
@@ -65,14 +65,14 @@ export function Board({game}: {
     return (
         <main className="max-w-full h-full p-4 md:p-0">
             <div className="flex flex-col items-center justify-center md:px-5 lg:px-0 rounded-xl shadow-lg max-w-full">
-                {game ? (<div/>) : (<button className="btn my-2" onClick={newGame}>创建新游戏</button>)}
+                {currentGame ? (<div/>) : (<button className="btn my-2" onClick={newGame}>创建新游戏</button>)}
                 {/* <button className="btn my-2">检查结果</button> */}
                 <div
-                    className={`overflow-auto border-4 shadow-xl rounded-xl my-4 md:my-2 ${gameState ? "border-green-300 " : "border-red-300"}`}>
+                    className={`overflow-auto border-4 shadow-xl rounded-xl my-4 md:my-2 ${game?.state > 0 ? "border-green-300 " : game?.state < 0 ? "border-red-300" : "border-gray-300"}`}>
                     {renderBoard}
                 </div>
                 <div className="max-h-64 my-2">
-                    <Step userSteps={userSteps}
+                    <Step userSteps={game?.userSteps}
                           onMouseEnterRecord={(userStep, index) => setUserStepHover(userStep)}
                           onMouseLeaveRecord={(userStep, index) => setUserStepHover(null)}/>
                 </div>

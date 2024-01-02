@@ -14,6 +14,7 @@ model sudoku_puzzle {
   difficulty  Int
   solution    String   @db.VarChar(200)
   create_time  DateTime
+  state        Int
 }
 
 model user_step {

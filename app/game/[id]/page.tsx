@@ -10,7 +10,7 @@ export default async function Home({params}: { params: { id: string } }) {
         <main>
             <div>
             </div>
-            <Board game={game}/>
+            <Board currentGame={game}/>
         </main>
     )
 }
