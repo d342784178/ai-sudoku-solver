@@ -26,10 +26,6 @@ export function Board({currentGame}: {
         game,
         newGame,
         makeMove,
-        checkGame,
-        // userSteps,
-        // userSolution,
-        // gameState,
         recoverGame,
     } = useSudoku();
     const [userStepHover, setUserStepHover] = useState<UserStep | null>(null)
@@ -40,7 +36,7 @@ export function Board({currentGame}: {
             console.log(game1)
             recoverGame(game1)
         }
-    }, [currentGame]);
+    }, [currentGame, recoverGame]);
 
     // 当用户输入数据时更新棋盘
     const handleInput = (inputNumber: number, row: any, col: any) => {
@@ -50,17 +46,19 @@ export function Board({currentGame}: {
         }
     };
     // 渲染棋盘
-    const renderBoard = game?.userSolution().map((row: number[], rowIndex: number) => (
-        <div className="grid grid-cols-9 gap-1" key={rowIndex}>
-            {row.map(
-                (value, colIndex) => (
-                    <Cell key={colIndex} colIndex={colIndex} rowIndex={rowIndex} value={value} handleInput={handleInput}
-                          highLight={userStepHover && userStepHover.cell == rowIndex * 9 + colIndex}/>
+    const renderBoard = (game ? game.userSolution() : Array.from({length: 9}, () => new Array(9).fill(-1)))
+        .map((row: number[], rowIndex: number) => (
+            <div className="grid grid-cols-9 gap-1" key={rowIndex}>
+                {row.map(
+                    (value, colIndex) => (
+                        <Cell key={colIndex} colIndex={colIndex} rowIndex={rowIndex} value={value}
+                              handleInput={handleInput}
+                              highLight={userStepHover && userStepHover.cell == rowIndex * 9 + colIndex}/>
+                    )
                 )
-            )
-            }
-        </div>
-    ));
+                }
+            </div>
+        ));
 
     return (
         <main className="max-w-full h-full p-4 md:p-0">
@@ -68,11 +66,11 @@ export function Board({currentGame}: {
                 {currentGame ? (<div/>) : (<button className="btn my-2" onClick={newGame}>创建新游戏</button>)}
                 {/* <button className="btn my-2">检查结果</button> */}
                 <div
-                    className={`overflow-auto border-4 shadow-xl rounded-xl my-4 md:my-2 ${game?.state > 0 ? "border-green-300 " : game?.state < 0 ? "border-red-300" : "border-gray-300"}`}>
+                    className={`overflow-auto border-4 shadow-xl rounded-xl my-4 md:my-2 ${game && game.state > 0 ? "border-green-300 " : game && game.state < 0 ? "border-red-300" : "border-gray-300"}`}>
                     {renderBoard}
                 </div>
                 <div className="max-h-64 my-2">
-                    <Step userSteps={game?.userSteps}
+                    <Step userSteps={game && game.userSteps}
                           onMouseEnterRecord={(userStep, index) => setUserStepHover(userStep)}
                           onMouseLeaveRecord={(userStep, index) => setUserStepHover(null)}/>
                 </div>
