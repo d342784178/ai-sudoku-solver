@@ -14,7 +14,7 @@ export const sudoku = {
             sudoku[i] = []
         }
         for (let x = 0; x < sudoku.length; x++) {
-            let repeat = this.randomNum()
+            let repeat = this.__randomNum()
             for (let y = 0; y < this.colNum; y++) {
                 if (this.blockError > 10) {
                     //回退
@@ -29,14 +29,14 @@ export const sudoku = {
                     //重置
                     y = -1
                     this.errorNum = 0;
-                    repeat = this.randomNum()
+                    repeat = this.__randomNum()
                     sudoku[x] = []
                     continue
                 }
                 //随机数
-                let num = this.random(repeat, 0, repeat.length - 1)
+                let num = this.__random(repeat, 0, repeat.length - 1)
                 //通过状态
-                let status = this.isTrue(num, sudoku, x, y);
+                let status = this.__isTrue(num, sudoku, x, y);
                 if (status) {
                     this.errorNum = 0
                     this.blockError = 0
@@ -57,7 +57,7 @@ export const sudoku = {
      * @param {Number} max 最大值
      * @returns {Number} 返回随机数
      **/
-    random(arr: number[], min: number, max: number) {
+    __random(arr: number[], min: number, max: number): number {
         if (arr.length === 1) return arr[0]
         let num = Math.floor(Math.random() * (max - min + 1)) + min;
         return arr[num];
@@ -65,7 +65,7 @@ export const sudoku = {
     /**
      * 返回1到9的数组
      */
-    randomNum() {
+    __randomNum() {
         return [1, 2, 3, 4, 5, 6, 7, 8, 9];
     },
     /**
@@ -76,7 +76,7 @@ export const sudoku = {
      * @param {Number} y 列数，y轴
      * @returns {Boolean} 返回布尔
      */
-    isTrue(num: number, sudoku: number[][], x: number, y: number) {
+    __isTrue(num: number, sudoku: number[][], x: number, y: number): boolean {
         // console.log(x, y);
         if (sudoku[x].includes(num)) {
             // console.log('%c行重复', 'color: red');
@@ -114,7 +114,7 @@ export const sudoku = {
      * @param {Number} y 列数，y轴
      * @returns {Array} 返回3*3区域数组
      */
-    returnBlock(sudoku: number[][], x: number, y: number) {
+    returnBlock(sudoku: number[][], x: number, y: number): Array<any> {
         if (x === 0) return []
         let block = [];
         if (x < 3) {
@@ -143,14 +143,14 @@ export const sudoku = {
      * 将所传的数独棋盘根据难度等级挖孔并返回
      * @param {Array} sudoku 二维数组
      * @param {Number} difficulty 难度等级
-     * @returns {Boolean} 返回数组
+     * @returns {number[][]} 返回数组
      */
-    digHole(sudoku: number[][], difficulty = 1) {
+    digHole(sudoku: number[][], difficulty: number = 1): number[][] {
         //难度等级
         difficulty = difficulty > 6 ? 6 : difficulty;
         //浮动区间
-        const interval = this.random([-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5], 0, 10)
-        const level = difficulty * 10 + interval;
+        const interval = this.__random([-3, -2, -1, 0, 1, 2, 3,], 0, 6)
+        const level = difficulty * 5 + interval;
         let arr = [];
         for (let i = 0; i < 81; i++) {
             arr.push(i);
@@ -158,7 +158,7 @@ export const sudoku = {
         //产生随机去除的数位置
         let digArr: number[] = [];
         for (let i = 0; i < level; i++) {
-            let num = this.random(arr, 0, arr.length - 1);
+            let num = this.__random(arr, 0, arr.length - 1);
             arr.splice(arr.indexOf(num), 1);
             digArr.push(num);
         }

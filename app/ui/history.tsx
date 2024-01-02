@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
-import {useState} from "react";
-import {getSudokuPuzzleById, listSudokuPuzzleById} from "@/app/lib/dal/SudokuPuzzleMapper";
+import React from 'react';
+import {listSudokuPuzzleById} from "@/app/lib/dal/SudokuPuzzleMapper";
 import Link from "next/link";
 import {Game} from "@/app/lib/model/model";
 
@@ -20,6 +19,7 @@ export async function History({}: {}) {
                              style={{display: 'flex', justifyContent: 'space-around'}}>
                             <div>时间: {game.create_time.toLocaleTimeString()}</div>
                             <div>难度: {game.difficulty}</div>
+                            <div>状态: {game.state > 0 ? '成功' : game.state < 0 ? '失败' : '进行中'}</div>
                             <Link href={`/game/${game.id}`}>点击查看</Link>
                         </div>
                     </div>

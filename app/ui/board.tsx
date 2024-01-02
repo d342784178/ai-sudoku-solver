@@ -53,7 +53,8 @@ export function Board({currentGame}: {
                     (value, colIndex) => (
                         <Cell key={colIndex} colIndex={colIndex} rowIndex={rowIndex} value={value}
                               handleInput={handleInput}
-                              highLight={userStepHover && userStepHover.cell == rowIndex * 9 + colIndex}/>
+                              highLight={userStepHover && userStepHover.cell == rowIndex * 9 + colIndex}
+                              userStepIndex={game ? game.userStepIndex(rowIndex * 9 + colIndex) + 1 : 0}/>
                     )
                 )
                 }

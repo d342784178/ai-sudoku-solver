@@ -16,6 +16,19 @@ export async function createSudokuPuzzle(puzzle: string, difficulty: number, sol
     });
 }
 
+export async function updateSudokuPuzzle(id: number, puzzle?: string, difficulty?: number, solution?: string, create_time?: Date, state?: number) {
+    return await prisma.sudoku_puzzle.update({
+        data: {
+            puzzle,
+            difficulty,
+            solution,
+            create_time,
+            state,
+        },
+        where: {id},
+    });
+}
+
 export async function getSudokuPuzzleById(id: number) {
     return await prisma.sudoku_puzzle.findUnique({
         where: {id},

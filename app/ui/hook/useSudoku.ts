@@ -21,23 +21,39 @@ export function useSudoku() {
     }, [setGame]);
 
     const makeMove = useCallback((row: number, col: number, value: number) => {
-        game?.addUserStep(row * 9 + col, value).then((userStep) => {
-            //更新game数据
-            let newGame = Object.assign(Object.create(Object.getPrototypeOf(game)), game);
-            setGame(newGame);
+        if (game) {
+            game.addUserStep(row * 9 + col, value).then((userStep) => {
+                //更新game数据
+                let newGame = Object.assign(Object.create(Object.getPrototypeOf(game)), game);
+                setGame(newGame);
 
-            fetch("/api/puzzle/userStep", {
-                method: "PUT",
-                body: JSON.stringify(userStep),
-            }).then(async (resp) => {
-                if (resp.ok) {
-                    const res = await resp.json();
-                    if (res.data) {
-                        userStep.id = res.data.id;
+                fetch("/api/puzzle/userStep", {
+                    method: "PUT",
+                    body: JSON.stringify(userStep),
+                }).then(async (resp) => {
+                    if (resp.ok) {
+                        const res = await resp.json();
+                        if (res.data) {
+                            userStep.id = res.data.id;
+                        }
                     }
+                });
+                //游戏结束
+                if (game.state > 0) {
+                    fetch("/api/puzzle", {
+                        method: "PUT",
+                        body: JSON.stringify(game),
+                    }).then(async resp => {
+                        if (resp.ok) {
+                            const res = await resp.json();
+                            if (res.data) {
+                                game.id = res.data.id;
+                            }
+                        }
+                    });
                 }
             });
-        });
+        }
     }, [game]);
 
     return {

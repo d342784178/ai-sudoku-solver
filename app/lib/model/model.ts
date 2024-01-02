@@ -38,6 +38,10 @@ export class Game {
         return game;
     }
 
+    public userStepIndex(cell: number) {
+        return _.findIndex(this.userSteps, (userStep) => userStep.cell === cell);
+    }
+
     public async addUserStep(cell: number, value: number) {
         let userStep = new UserStep(cell, value, new Date());
         userStep.puzzle_id = this.id;
