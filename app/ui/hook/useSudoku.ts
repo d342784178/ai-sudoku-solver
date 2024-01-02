@@ -25,7 +25,7 @@ export function useSudoku() {
     }, [setGame]);
 
     const recoverGame = useCallback((game: Game) => {
-        console.log(typeof  game)
+        console.log(typeof game)
         setGame(game);
         setUserSteps(game.userSteps); //重置操作历史
         setGameState(false)
@@ -61,31 +61,37 @@ export function useSudoku() {
 }
 
 
-async function innerNewGame(): Promise<Game> {
-    // 一开始我们将全部填满1-9
-    const puzzle: (number)[][] = [
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [4, 5, 6, 7, 8, 9, 1, 2, 3],
-        [7, 8, 9, 1, 2, 3, 4, 5, 6],
-        [2, 3, 4, 5, 6, 7, 8, 9, 1],
-        [5, 6, 7, 8, 9, 1, 2, 3, 4],
-        [8, 9, 1, 2, 3, 4, 5, 6, 7],
-        [3, 4, 5, 6, 7, 8, 9, 1, 2],
-        [6, 7, 8, 9, 1, 2, 3, 4, 5],
-        [9, 1, 2, 3, 4, 5, 6, 7, 8],
-    ];
+async function innerNewGame(difficulty: number = 1): Promise<Game> {
+    // // 一开始我们将全部填满1-9
+    // const puzzle: (number)[][] = [
+    //     [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    //     [4, 5, 6, 7, 8, 9, 1, 2, 3],
+    //     [7, 8, 9, 1, 2, 3, 4, 5, 6],
+    //     [2, 3, 4, 5, 6, 7, 8, 9, 1],
+    //     [5, 6, 7, 8, 9, 1, 2, 3, 4],
+    //     [8, 9, 1, 2, 3, 4, 5, 6, 7],
+    //     [3, 4, 5, 6, 7, 8, 9, 1, 2],
+    //     [6, 7, 8, 9, 1, 2, 3, 4, 5],
+    //     [9, 1, 2, 3, 4, 5, 6, 7, 8],
+    // ];
+    //
+    // let solution = _.cloneDeep(puzzle);
+    // // 随机移除一部分数字
+    // for (let i = 0; i < 9; i++) {
+    //     for (let j = 0; j < 9; j++) {
+    //         if (Math.random() > 0.98) {
+    //             puzzle[i][j] = -1;
+    //         }
+    //     }
+    // }
 
+
+    let puzzle = sudoku.init();
     let solution = _.cloneDeep(puzzle);
-    // 随机移除一部分数字
-    for (let i = 0; i < 9; i++) {
-        for (let j = 0; j < 9; j++) {
-            if (Math.random() > 0.98) {
-                puzzle[i][j] = -1;
-            }
-        }
-    }
+    puzzle = sudoku.digHole(puzzle, difficulty)
 
     let game = new Game(puzzle, '1', solution, new Date());
+
     fetch("/api/puzzle", {
         method: "PUT",
         body: JSON.stringify(game),

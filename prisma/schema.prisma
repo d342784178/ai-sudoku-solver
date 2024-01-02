@@ -11,7 +11,7 @@ datasource db {
 model sudoku_puzzle {
   id          Int      @id @default(autoincrement())
   puzzle      String   @db.VarChar(200)
-  difficulty  String   @db.VarChar(20)
+  difficulty  Int
   solution    String   @db.VarChar(200)
   create_time  DateTime
 }

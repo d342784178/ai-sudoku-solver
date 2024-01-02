@@ -11,13 +11,13 @@ async function initDB() {
     await sql`CREATE TABLE sudoku_puzzle (
             id SERIAL PRIMARY KEY,
             puzzle VARCHAR(200) NOT NULL,
-            difficulty VARCHAR(20) NOT NULL,
+            difficulty INTEGER NOT NULL,
             solution VARCHAR(200) NOT NULL,
             create_time TIMESTAMP
         );`
     await sql`CREATE TABLE user_step (
                 id SERIAL PRIMARY KEY,
-                puzzle_id INTEGER,
+                puzzle_id INTEGER NOT NULL,
                 cell INTEGER CHECK (cell >= 0 AND cell <= 80),
                 value INTEGER CHECK (value >= 1 AND value <= 9),
                 create_time TIMESTAMP
