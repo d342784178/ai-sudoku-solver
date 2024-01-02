@@ -56,11 +56,28 @@ export function useSudoku() {
         }
     }, [game]);
 
+    const saveAsGame = useCallback((puzzle: number[][]) => {
+        let game = new Game(puzzle, 6, puzzle, new Date());
+
+        fetch("/api/puzzle", {
+            method: "PUT",
+            body: JSON.stringify(game),
+        }).then(async resp => {
+            if (resp.ok) {
+                const res = await resp.json();
+                if (res.data) {
+                    game.id = res.data.id;
+                }
+            }
+        });
+        setGame(game);
+    }, [setGame]);
     return {
         game,//游戏数据
         newGame,//创建新游戏
         makeMove,//用户操作
         recoverGame,//创建新游戏
+        saveAsGame,//保存为新游戏
     };
 }
 

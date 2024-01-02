@@ -1,9 +1,10 @@
 'use client';
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {useSudoku} from "@/app/ui/hook/useSudoku";
 import {Cell} from "@/app/ui/cell";
 import {Step} from "@/app/ui/step";
 import {Game, UserStep} from "@/app/lib/model/model";
+import _ from "lodash";
 
 export function Board({currentGame}: {
     currentGame?: {
@@ -27,6 +28,7 @@ export function Board({currentGame}: {
         newGame,
         makeMove,
         recoverGame,
+        saveAsGame,
     } = useSudoku();
     const [userStepHover, setUserStepHover] = useState<UserStep | null>(null)
 
@@ -37,6 +39,7 @@ export function Board({currentGame}: {
             recoverGame(game1)
         }
     }, [currentGame, recoverGame]);
+    let initBoardData = useRef<number[][]>(Array.from({length: 9}, () => new Array(9).fill(-1)));
 
     // 当用户输入数据时更新棋盘
     const handleInput = (inputNumber: number, row: any, col: any) => {
@@ -46,7 +49,7 @@ export function Board({currentGame}: {
         }
     };
     // 渲染棋盘
-    const renderBoard = (game ? game.userSolution() : Array.from({length: 9}, () => new Array(9).fill(-1)))
+    const renderBoard = (game ? game.userSolution() : initBoardData.current)
         .map((row: number[], rowIndex: number) => (
             <div className="grid grid-cols-9 gap-1" key={rowIndex}>
                 {row.map(
@@ -61,11 +64,26 @@ export function Board({currentGame}: {
             </div>
         ));
 
+    function gameStartButton() {
+        if (currentGame) {
+            return (<div/>);
+        } else {
+            if (game) {
+                return (<button className="btn my-2 bg-green-200" onClick={newGame}>创建新游戏</button>)
+            } else if (_.findIndex(_.flatten(initBoardData.current), (d) => d > -1)) {
+                return (<button className="btn my-2 bg-yellow-300"
+                                onClick={() => saveAsGame(initBoardData.current)}>保存为新游戏</button>);
+            } else {
+                return (<button className="btn my-2 bg-green-200" onClick={newGame}>创建新游戏</button>);
+            }
+        }
+    }
+
     return (
         <main className="max-w-full h-full p-4 md:p-0">
             <div className="flex flex-col items-center justify-center md:px-5 lg:px-0 rounded-xl shadow-lg max-w-full">
-                {currentGame ? (<div/>) : (<button className="btn my-2" onClick={newGame}>创建新游戏</button>)}
-                {/* <button className="btn my-2">检查结果</button> */}
+                {/*{currentGame ? (<div/>) : (<button className="btn my-2" onClick={newGame}>创建新游戏</button>)}*/}
+                {gameStartButton()}
                 <div
                     className={`overflow-auto border-4 shadow-xl rounded-xl my-4 md:my-2 ${game && game.state > 0 ? "border-green-300 " : game && game.state < 0 ? "border-red-300" : "border-gray-300"}`}>
                     {renderBoard}
