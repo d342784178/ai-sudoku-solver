@@ -20,14 +20,14 @@ export function useSudoku() {
             setUserSteps([]); //重置操作历史
             setGameState(false)
         });
-    }, [setGame,setGameState]);
+    }, [setGame, setUserSteps, setGameState]);
 
     const recoverGame = useCallback((game: Game) => {
         console.log(typeof game)
         setGame(game);
         setUserSteps(game.userSteps); //重置操作历史
         setGameState(false)
-    }, [setGame,setGameState]);
+    }, [setGame, setUserSteps, setGameState]);
 
 
     const makeMove = useCallback((row: number, col: number, value: number) => {
@@ -36,15 +36,15 @@ export function useSudoku() {
                 setGameState(game ? game.checkSolution() : false)
             });
         });
-    }, [game]);
+    }, [game, setUserSteps, setGameState]);
 
     const checkGame = useCallback(() => {
         return game ? game.checkSolution() : false;
-    }, [game, userSteps]);
+    }, [game]);
 
     const userSolution = useCallback(() => {
         return game ? game.userSolution() : Array.from({length: 9}, () => new Array(9).fill(-1));
-    }, [game, userSteps]);
+    }, [game]);
 
     return {
         // game,//游戏数据
