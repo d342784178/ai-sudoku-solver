@@ -1,6 +1,6 @@
-import {classnames} from "@/app/lib/util/commonUtil";
 import {useState} from "react";
 import {useDebounce} from "react-use";
+import clsx from "clsx";
 
 export function Cell({colIndex, rowIndex, value, handleInput, highLight, userStepIndex}: {
     colIndex: number,
@@ -30,7 +30,7 @@ export function Cell({colIndex, rowIndex, value, handleInput, highLight, userSte
     return (
         <div className="relative">
             <input
-                className={classnames(
+                className={clsx(
                     "rounded-lg border-4 shadow-sm text-center text-lg font-bold text-gray-700 focus:outline-none focus:border-transparent m-0.5",
                     highLight ? "border-yellow-300" : value !== -1 ? " border-gray-300" : "border-yellow-300",
                     isLight ? "bg-white" : "bg-blue-100",

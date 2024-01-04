@@ -9,8 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/nextjs-registry": "^1.0.0",
     "@prisma/client": "^5.7.1",
     "@vercel/postgres": "^0.5.1",
+    "antd": "^5.12.7",
+    "clsx": "^2.1.0",
     "dotenv": "^16.3.1",
     "kysely": "^0.26.3",
     "lodash": "^4.17.21",

@@ -9,11 +9,11 @@ export class Game {
     public userSteps: UserStep[] = [];
     public state: number = 0;
 
-    constructor(puzzle: number[][] | string, difficulty: number, solution: number[][] | string, create_time: Date) {
+    constructor(puzzle: number[][] | string, difficulty: number, solution: number[][] | string, create_time: Date | string) {
         this.puzzle = typeof puzzle === 'string' ? puzzle : _.flatten(puzzle).join(",");
         this.difficulty = difficulty;
         this.solution = typeof solution === 'string' ? solution : _.flatten(solution).join(",");
-        this.create_time = create_time;
+        this.create_time = typeof create_time === 'string' ? new Date(create_time) : create_time;
     }
 
     static parse(d: {
@@ -21,13 +21,13 @@ export class Game {
         puzzle: string
         difficulty: number
         solution: string
-        create_time: Date,
+        create_time: Date | string,
         userSteps?: {
             id: number;
             puzzle_id: number;
             cell: number;
             value: number
-            create_time: Date
+            create_time: Date | string
         }[],
         state: number,
     }) {
