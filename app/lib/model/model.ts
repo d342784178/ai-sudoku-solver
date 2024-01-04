@@ -1,7 +1,7 @@
 import _ from "lodash";
 
 export class Game {
-    public id?: number;
+    public id?: string;
     public puzzle: string;
     public difficulty: number
     public solution: string;
@@ -17,14 +17,14 @@ export class Game {
     }
 
     static parse(d: {
-        id: number,
+        id: string,
         puzzle: string
         difficulty: number
         solution: string
         create_time: Date | string,
         userSteps?: {
             id: number;
-            puzzle_id: number;
+            puzzle_id: string;
             cell: number;
             value: number
             create_time: Date | string
@@ -121,7 +121,7 @@ export class Game {
 
 export class UserStep {
     public id?: number;
-    public puzzle_id?: number;
+    public puzzle_id?: string;
     public cell: number;
     public value: number
     public create_time: Date
@@ -133,7 +133,7 @@ export class UserStep {
     }
 
     static parse(d: {
-        id: number, puzzle_id: number,
+        id: number, puzzle_id: string,
         cell: number, value: number, create_time: Date | string
     }) {
         let userStep = new UserStep(d.cell, d.value, d.create_time instanceof Date ? d.create_time : new Date(d.create_time));

@@ -5,7 +5,7 @@ import {Game, UserStep} from "@/app/lib/model/model";
 import {Board} from "@/app/ui/board";
 
 export default async function Home({params}: { params: { id: string } }) {
-    const game = await fetchGameHistory(Number(params.id))
+    const game = await fetchGameHistory(params.id)
     return (
         <main>
             <div>
@@ -15,7 +15,7 @@ export default async function Home({params}: { params: { id: string } }) {
     )
 }
 
-async function fetchGameHistory(id: number) {
+async function fetchGameHistory(id: string) {
     let gameJsonObject = await getSudokuPuzzleById(id);
     let userStepsJsonArray = await getUserStepByPuzzleId(id);
     if (gameJsonObject) {

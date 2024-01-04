@@ -9,17 +9,17 @@ datasource db {
 }
 
 model sudoku_puzzle {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid()) @db.VarChar(36)
   puzzle      String   @db.VarChar(200)
   difficulty  Int
   solution    String   @db.VarChar(200)
-  create_time  DateTime
-  state        Int
+  create_time DateTime
+  state       Int
 }
 
 model user_step {
   id          Int      @id @default(autoincrement())
-  puzzle_id    Int
+  puzzle_id   String   @db.VarChar(36)
   cell        Int
   value       Int
   create_time  DateTime

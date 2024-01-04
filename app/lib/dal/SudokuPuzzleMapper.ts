@@ -16,7 +16,7 @@ export async function createSudokuPuzzle(puzzle: string, difficulty: number, sol
     });
 }
 
-export async function updateSudokuPuzzle(id: number, puzzle?: string, difficulty?: number, solution?: string, create_time?: Date, state?: number) {
+export async function updateSudokuPuzzle(id: string, puzzle?: string, difficulty?: number, solution?: string, create_time?: Date, state?: number) {
     return await prisma.sudoku_puzzle.update({
         data: {
             puzzle,
@@ -29,13 +29,13 @@ export async function updateSudokuPuzzle(id: number, puzzle?: string, difficulty
     });
 }
 
-export async function getSudokuPuzzleById(id: number) {
+export async function getSudokuPuzzleById(id: string) {
     return await prisma.sudoku_puzzle.findUnique({
         where: {id},
     });
 }
 
-export async function deleteSudokuPuzzleById(id: number) {
+export async function deleteSudokuPuzzleById(id: string) {
     return await prisma.sudoku_puzzle.delete({
         where: {id},
     });

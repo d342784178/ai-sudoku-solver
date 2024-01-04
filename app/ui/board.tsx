@@ -5,17 +5,18 @@ import {Cell} from "@/app/ui/cell";
 import {Step} from "@/app/ui/step";
 import {Game, UserStep} from "@/app/lib/model/model";
 import _ from "lodash";
+import clsx from "clsx";
 
 export function Board({currentGame}: {
     currentGame?: {
-        id: number,
+        id: string,
         puzzle: string
         difficulty: number
         solution: string
         create_time: Date
         userSteps: {
             id: number;
-            puzzle_id: number;
+            puzzle_id: string;
             cell: number;
             value: number
             create_time: Date
@@ -31,6 +32,7 @@ export function Board({currentGame}: {
         makeMove,
         recoverGame,
         saveAsGame,
+        msgContextHolder,
     } = useSudoku();
     const [userStepHover, setUserStepHover] = useState<UserStep | null>(null)
 
@@ -83,11 +85,13 @@ export function Board({currentGame}: {
 
     return (
         <main className="max-w-full h-full p-4 md:p-0">
+            {msgContextHolder}
             <div className="flex flex-col items-center justify-center md:px-5 lg:px-0 rounded-xl  max-w-full">
                 {/*{currentGame ? (<div/>) : (<button className="btn my-2" onClick={newGame}>创建新游戏</button>)}*/}
                 {gameStartButton()}
                 <div
-                    className={`overflow-auto border-4 shadow-xl rounded-xl my-4 md:my-2 ${game && game.state > 0 ? "border-green-300 " : game && game.state < 0 ? "border-red-300" : "border-gray-300"}`}>
+                    className={clsx(`overflow-auto border-4 shadow-xl rounded-xl my-4 md:my-2`,
+                        game && game.state > 0 ? "border-green-300 " : game && game.state < 0 ? "border-red-300" : "border-gray-300")}>
                     {renderBoard}
                 </div>
                 <div className="max-h-64 my-2">

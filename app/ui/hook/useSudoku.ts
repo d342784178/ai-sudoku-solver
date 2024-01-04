@@ -11,7 +11,7 @@ export function useSudoku() {
     const [game, setGame] = useCallbackState<Game>();
     const [gameLoading, setGameLoading] = useState(false);
     const [moveLoading, setMoveLoading] = useState(false);
-    const [messageApi, contextHolder] = message.useMessage();
+    const [messageApi, msgContextHolder] = message.useMessage();
 
     const newGame = useCallback(() => {
         let game1 = innerNewGame();
@@ -20,12 +20,13 @@ export function useSudoku() {
         setGameLoading(true)
         fetch("/api/puzzle", {
             method: "PUT",
-            body: JSON.stringify(game),
+            body: JSON.stringify(game1),
         }).then(async resp => {
             if (resp.ok) {
                 const res = await resp.json();
                 if (res.data) {
                     game1.id = res.data.id;
+                    console.log(game1)
                 }
             }
             setGameLoading(false)
@@ -40,6 +41,7 @@ export function useSudoku() {
     const makeMove = useCallback((row: number, col: number, value: number) => {
         if (game) {
             if (!game.id) {
+                console.log(game)
                 messageApi.info('游戏正在保存到服务端,请稍后进行操作');
                 return;
             }
@@ -101,7 +103,8 @@ export function useSudoku() {
         newGame,//创建新游戏
         makeMove,//用户操作
         recoverGame,//创建新游戏
-        saveAsGame,//保存为新游戏
+        saveAsGame,//保存为新游戏,
+        msgContextHolder
     };
 }
 

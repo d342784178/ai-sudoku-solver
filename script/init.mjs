@@ -8,17 +8,19 @@ async function initDB() {
     await sql`DROP TABLE IF EXISTS sudoku_puzzle;`
     await sql`DROP TABLE IF EXISTS user_step;`
 
-    await sql`CREATE TABLE sudoku_puzzle (
-            id SERIAL PRIMARY KEY,
+    await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
+    await sql`
+        CREATE TABLE sudoku_puzzle (
+            id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
             puzzle VARCHAR(200) NOT NULL,
             difficulty INTEGER NOT NULL,
             solution VARCHAR(200) NOT NULL,
             create_time TIMESTAMP NOT NULL,
             state INTEGER NOT NULL
-        );`
+    );`
     await sql`CREATE TABLE user_step (
                 id SERIAL PRIMARY KEY,
-                puzzle_id INTEGER NOT NULL,
+                puzzle_id VARCHAR(36) NOT NULL,
                 cell INTEGER CHECK (cell >= 0 AND cell <= 80) NOT NULL,
                 value INTEGER CHECK (value >= 1 AND value <= 9) NOT NULL,
                 create_time TIMESTAMP NOT NULL
