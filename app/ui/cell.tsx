@@ -15,7 +15,6 @@ export function Cell({colIndex, rowIndex, value, handleInput, highLight, userSte
     //防抖
     const [, cancel] = useDebounce(
         () => {
-            console.log(inputNumber)
             handleInput && handleInput(inputNumber, rowIndex, colIndex)
         },
         100,

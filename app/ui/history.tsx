@@ -36,9 +36,11 @@ const columns: ColumnsType<Game> = [
 ];
 
 export function History({}: {}) {
+    const [loading, setLoading] = useState(false);
     const [historys, setHistorys] = useState<Game[]>()
 
     useEffect(() => {
+        setLoading(true)
         fetch("/api/puzzle/history", {
             method: "GET",
         }).then(async resp => {
@@ -49,8 +51,13 @@ export function History({}: {}) {
                     setHistorys(_.map(res.data, (data) => Game.parse(data)));
                 }
             }
+            setLoading(false)
         });
     }, [])
 
-    return (<Table columns={columns} dataSource={historys}/>);
+    return (
+        <div className="flex flex-col items-center justify-center md:px-5 lg:px-0 max-w-full">
+            <h1 className="text-lg font-semibold mb-4">游戏记录</h1>
+            <Table columns={columns} dataSource={historys} loading={loading}/>
+        </div>);
 }

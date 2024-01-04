@@ -1,58 +1,80 @@
 'use client';
-import {useCallback} from 'react';
+import {useCallback, useState} from 'react';
 import {useCallbackState} from "@/app/ui/hook/useCallbackState";
 import _ from "lodash";
 import {Game} from "@/app/lib/model/model";
 import {sudoku} from "@/app/lib/sudoku";
+import {message} from "antd";
 
 export function useSudoku() {
     //游戏数据
     const [game, setGame] = useCallbackState<Game>();
+    const [gameLoading, setGameLoading] = useState(false);
+    const [moveLoading, setMoveLoading] = useState(false);
+    const [messageApi, contextHolder] = message.useMessage();
 
     const newGame = useCallback(() => {
-        innerNewGame().then((newGame) => {
-            setGame(newGame);
+        let game1 = innerNewGame();
+        setGame(game1);
+
+        setGameLoading(true)
+        fetch("/api/puzzle", {
+            method: "PUT",
+            body: JSON.stringify(game),
+        }).then(async resp => {
+            if (resp.ok) {
+                const res = await resp.json();
+                if (res.data) {
+                    game1.id = res.data.id;
+                }
+            }
+            setGameLoading(false)
         });
+
     }, [setGame]);
 
     const recoverGame = useCallback((game: Game) => {
-        console.log(typeof game)
         setGame(game);
     }, [setGame]);
 
     const makeMove = useCallback((row: number, col: number, value: number) => {
         if (game) {
-            game.addUserStep(row * 9 + col, value).then((userStep) => {
-                //更新game数据
-                let newGame = Object.assign(Object.create(Object.getPrototypeOf(game)), game);
-                setGame(newGame);
+            if (!game.id) {
+                messageApi.info('游戏正在保存到服务端,请稍后进行操作');
+                return;
+            }
+            let userStep = game.addUserStep(row * 9 + col, value);
+            //更新game数据
+            let newGame = Object.assign(Object.create(Object.getPrototypeOf(game)), game);
+            setGame(newGame);
 
-                fetch("/api/puzzle/userStep", {
+            setMoveLoading(true)
+            fetch("/api/puzzle/userStep", {
+                method: "PUT",
+                body: JSON.stringify(userStep),
+            }).then(async (resp) => {
+                if (resp.ok) {
+                    const res = await resp.json();
+                    if (res.data) {
+                        userStep.id = res.data.id;
+                    }
+                }
+            });
+            setMoveLoading(false)
+            //游戏结束
+            if (game.state !== 0) {
+                fetch("/api/puzzle", {
                     method: "PUT",
-                    body: JSON.stringify(userStep),
-                }).then(async (resp) => {
+                    body: JSON.stringify(game),
+                }).then(async resp => {
                     if (resp.ok) {
                         const res = await resp.json();
                         if (res.data) {
-                            userStep.id = res.data.id;
+                            game.id = res.data.id;
                         }
                     }
                 });
-                //游戏结束
-                if (game.state > 0) {
-                    fetch("/api/puzzle", {
-                        method: "PUT",
-                        body: JSON.stringify(game),
-                    }).then(async resp => {
-                        if (resp.ok) {
-                            const res = await resp.json();
-                            if (res.data) {
-                                game.id = res.data.id;
-                            }
-                        }
-                    });
-                }
-            });
+            }
         }
     }, [game]);
 
@@ -74,6 +96,8 @@ export function useSudoku() {
     }, [setGame]);
     return {
         game,//游戏数据
+        gameLoading,
+        moveLoading,
         newGame,//创建新游戏
         makeMove,//用户操作
         recoverGame,//创建新游戏
@@ -82,23 +106,11 @@ export function useSudoku() {
 }
 
 
-async function innerNewGame(difficulty: number = 1): Promise<Game> {
+function innerNewGame(difficulty: number = 1) {
     let puzzle = sudoku.init();
     let solution = _.cloneDeep(puzzle);
     puzzle = sudoku.digHole(puzzle, difficulty)
 
     let game = new Game(puzzle, difficulty, solution, new Date());
-
-    fetch("/api/puzzle", {
-        method: "PUT",
-        body: JSON.stringify(game),
-    }).then(async resp => {
-        if (resp.ok) {
-            const res = await resp.json();
-            if (res.data) {
-                game.id = res.data.id;
-            }
-        }
-    });
     return game;
 }

@@ -25,6 +25,8 @@ export function Board({currentGame}: {
 }) {
     const {
         game,
+        gameLoading,
+        moveLoading,
         newGame,
         makeMove,
         recoverGame,
@@ -70,7 +72,7 @@ export function Board({currentGame}: {
         } else {
             if (game) {
                 return (<button className="btn my-2 bg-green-200" onClick={newGame}>创建新游戏</button>)
-            } else if (_.findIndex(_.flatten(initBoardData.current), (d) => d > -1)) {
+            } else if (_.findIndex(_.flatten(initBoardData.current), (d) => d > -1) > 0) {
                 return (<button className="btn my-2 bg-yellow-300"
                                 onClick={() => saveAsGame(initBoardData.current)}>保存为新游戏</button>);
             } else {
@@ -81,7 +83,7 @@ export function Board({currentGame}: {
 
     return (
         <main className="max-w-full h-full p-4 md:p-0">
-            <div className="flex flex-col items-center justify-center md:px-5 lg:px-0 rounded-xl shadow-lg max-w-full">
+            <div className="flex flex-col items-center justify-center md:px-5 lg:px-0 rounded-xl  max-w-full">
                 {/*{currentGame ? (<div/>) : (<button className="btn my-2" onClick={newGame}>创建新游戏</button>)}*/}
                 {gameStartButton()}
                 <div

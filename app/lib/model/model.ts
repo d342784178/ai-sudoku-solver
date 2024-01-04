@@ -42,7 +42,7 @@ export class Game {
         return _.findIndex(this.userSteps, (userStep) => userStep.cell === cell);
     }
 
-    public async addUserStep(cell: number, value: number) {
+    public addUserStep(cell: number, value: number) {
         let userStep = new UserStep(cell, value, new Date());
         userStep.puzzle_id = this.id;
         this.userSteps.push(userStep);

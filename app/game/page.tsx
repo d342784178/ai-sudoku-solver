@@ -5,15 +5,15 @@ import React from "react";
 export default function Home() {
 
     return (
-        <main>
-            <div>
+        <main style={{display: 'flex'}}>
+            <div style={{flex: '30%', maxWidth: '30%'}}>
+                <History/>
+            </div>
+
+            <div style={{flex: '70%', maxWidth: '70%'}}>
                 <Board/>
             </div>
-            <div className="max-h-64 my-2">
-                <section>
-                    <History/>
-                </section>
-            </div>
+
         </main>
     )
 }
