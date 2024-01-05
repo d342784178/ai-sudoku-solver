@@ -15,7 +15,10 @@ export default async function Home({params}: { params: { id: string } }) {
 
 async function fetchGameHistory(id: string) {
     let gameJsonObject = await getSudokuPuzzleById(id);
-    let userStepsJsonArray = await getUserStepByPuzzleId(id);
+    let userStepsJsonArray: {
+        id: number, puzzle_id: string,
+        cell: number, value: number, create_time: Date | string
+    }[] = await getUserStepByPuzzleId(id);
     if (gameJsonObject) {
         let game1 = Game.parse(gameJsonObject)
         game1.userSteps = userStepsJsonArray ? userStepsJsonArray.map(userStepJson => UserStep.parse(userStepJson)) : [];
