@@ -8,8 +8,6 @@ export default async function Home({params}: { params: { id: string } }) {
     const game = await fetchGameHistory(params.id)
     return (
         <main>
-            <div>
-            </div>
             <Board currentGame={game}/>
         </main>
     )
