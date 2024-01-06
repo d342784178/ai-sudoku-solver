@@ -2,9 +2,10 @@
 import React, {useEffect, useState} from 'react';
 import Link from "next/link";
 import {Game} from "@/app/lib/model/model";
-import {Table} from 'antd';
+import {Table, Tooltip} from 'antd';
 import {ColumnsType} from "antd/es/table";
 import _ from "lodash";
+import {IoRefreshCircle} from "react-icons/io5";
 
 const columns: ColumnsType<Game> = [
     {
@@ -38,6 +39,7 @@ const columns: ColumnsType<Game> = [
 export function History({}: {}) {
     const [loading, setLoading] = useState(false);
     const [historys, setHistorys] = useState<Game[]>()
+    const [refreshIndex, setRefreshIndex] = useState(0);
 
     useEffect(() => {
         setLoading(true)
@@ -53,11 +55,16 @@ export function History({}: {}) {
             }
             setLoading(false)
         });
-    }, [])
+    }, [refreshIndex])
 
     return (
         <div className="flex flex-col items-center justify-center md:px-5 lg:px-0 max-w-full">
-            <h1 className="text-lg font-semibold mb-4">游戏记录</h1>
+            <div className="flex justify-items-center">
+                <h3 className="text-lg font-semibold mb-4">游戏记录</h3>
+                <Tooltip title="点击刷新">
+                    <span onClick={() => setRefreshIndex(refreshIndex + 1)}><IoRefreshCircle /></span>
+                </Tooltip>
+            </div>
             <Table columns={columns} dataSource={historys} loading={loading}/>
         </div>);
 }
