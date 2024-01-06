@@ -89,8 +89,7 @@ export function Board({currentGame}: {
             <div className="flex flex-col items-center justify-center md:px-5 lg:px-0 rounded-xl  max-w-full">
                 {/*{currentGame ? (<div/>) : (<button className="btn my-2" onClick={newGame}>创建新游戏</button>)}*/}
                 {gameStartButton()}
-                <div
-                    className={clsx(`overflow-auto border-4 shadow-xl rounded-xl my-4 md:my-2`,
+                <div className={clsx(`overflow-auto border-4 shadow-xl rounded-xl my-4 md:my-2`,
                         game && game.state > 0 ? "border-green-300 " : game && game.state < 0 ? "border-red-300" : "border-gray-300")}>
                     {renderBoard}
                 </div>

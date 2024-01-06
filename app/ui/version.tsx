@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from "clsx";
 
 
 const versionDatas = [
@@ -62,9 +63,10 @@ const VersionTable: React.FC<PropTypes> = ({currentVersion}) => {
             <tr>
                 <th className="p-2"/>
                 {cols.map((version, index) => {
-                    let columnHighlight = currentVersion === index + 1 ? 'bg-gray-200' : 'bg-gray-100';
+                    let columnHighlight = currentVersion === index + 1 ? 'bg-blue-50 ' : 'bg-gray-100';
                     return (
-                        <th key={String(index + 1)} className={`p-2 ${columnHighlight}`}>Version{String(index + 1)}</th>
+                        <th key={String(index + 1)}
+                            className={clsx(`p-2`, columnHighlight)}>Version{String(index + 1)}</th>
                     );
                 })}
             </tr>
@@ -72,7 +74,14 @@ const VersionTable: React.FC<PropTypes> = ({currentVersion}) => {
             <tbody>
             {versionDatas.map((versionData) => (
                 <tr key={versionData.keyword}>
-                    <td className='p-2'>{versionData.keyword}</td>
+
+                    <td className='p-2'>
+                        <div className="group flex relative">
+                            <span> {versionData.keyword}</span>
+                            <span className="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2
+        -translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto">{versionData.tooltip}</span>
+                        </div>
+                    </td>
                     {cols.map((version, index) => {
                         const item = versionData.versions.find(
                             (version) => version === index + 1,
@@ -81,18 +90,12 @@ const VersionTable: React.FC<PropTypes> = ({currentVersion}) => {
                         const hasKeyword = Boolean(item)
                         const color = hasKeyword ? 'text-green-600' : 'text-gray-400'
                         const symbol = hasKeyword ? '✓' : '×'
-                        let cellHighlight = currentVersion === index + 1 ? 'bg-gray-200' : 'bg-gray-100';
+                        let cellHighlight = currentVersion === index + 1 ? 'bg-blue-50' : 'bg-gray-100';
 
                         return (
-                            <td
-                                key={`${versionData.keyword}-${version}`}
-                                className={`p-2 ${color} ${cellHighlight}`}
+                            <td key={`${versionData.keyword}-${version}`} className={`p-2 ${color} ${cellHighlight}`}
                                 data-tip={versionData.tooltip || ''}>
-                                <div className="group flex relative">
-                                    <span>{symbol}</span>
-                                    <span className="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2
-    -translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto">Tooltip</span>
-                                </div>
+                                {symbol}
                             </td>
                         )
                     })}

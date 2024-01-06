@@ -1,19 +1,18 @@
 import {History} from "@/app/ui/history";
 import {Board} from "../ui/board";
 import React from "react";
+import clsx from "clsx";
 
 export default function Home() {
 
     return (
-        <main style={{display: 'flex'}}>
-            <div style={{flex: '30%', maxWidth: '30%'}}>
-                <History/>
-            </div>
-
-            <div style={{flex: '70%', maxWidth: '70%'}}>
+        <main className={clsx("flex flex-col sm:flex-row")}>
+            <div className={clsx("w-full sm:max-w-3/10 sm:w-3/5 p-4")}>
                 <Board/>
             </div>
-
+            <div className={clsx("w-full sm:max-w-2/5 sm:w-2/5 p-4")}>
+                <History/>
+            </div>
         </main>
-    )
+    );
 }

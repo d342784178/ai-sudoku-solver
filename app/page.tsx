@@ -58,10 +58,16 @@ export default function Home() {
             <section className="relatve">
                 <div className="mx-auto w-full max-w-7xl px-4 mt-12 md:mt-24">
                     <div className="mx-auto w-full max-w-6xl text-center">
-                        <h2 className="text-3xl font-bold md:text-7xl">AI Sudoku Solver</h2>
-                        <p className="mt-4 mb-4 md:mt-12 md:mb-8 text:lg md:text-4xl">
-                            build in public <span className="text-primary font-bold">with you</span>
-                        </p>
+                        {/*<h1 className="text-3xl font-bold md:text-7xl">Sudoku AI Solver</h1>*/}
+                        {/*<p className="mt-4 mb-4 md:mt-12 md:mb-8 text:lg md:text-4xl">*/}
+                        {/*    build in public <span className="text-primary font-bold">with you</span>*/}
+                        {/*</p>*/}
+                        <h1 className="text-5xl font-bold text-blue-600 mb-4">Welcome to Sudoku AI Solver</h1>
+                        <h2 className="text-2xl font-bold text-gray-500 my-2">Our Features</h2>
+                        <p className="text-base text-gray-800 mb-4">Our AI Sudoku Solver leverages cutting-edge technology to tackle Sudoku puzzles.</p>
+                        <p className="text-base text-gray-800 mb-4">It serves as an apt tool for both novice players and seasoned Sudoku experts, offering pertinent solutions to all.</p>
+                        <h2 className="text-2xl font-bold text-gray-500 my-2">How to Use</h2>
+                        <p className="text-base text-gray-800 mb-4">Just input your sudoku puzzle, and our AI will promptly provide a solution for you.</p>
                     </div>
                 </div>
                 <img src="/bgstar.svg" alt=""
@@ -72,11 +78,10 @@ export default function Home() {
 
 
             <section>
-                <div className="mb-4 mx-auto justify-center flex">
-                    <Link className="btn my-2 bg-blue-400 " href={`/game`}>开始游戏</Link>
+                <div className="mb-4 mx-auto justify-center flex ">
+                    <Link className="btn my-2 bg-blue-400 " href={`/game`}>START GAME</Link>
                 </div>
             </section>
-
 
             {/*<!-- 版本说明 */}
             <section>
@@ -84,10 +89,10 @@ export default function Home() {
                 <div className="mx-auto w-full max-w-7xl px-5 py-16 md:px-10 md:py-24 lg:py-32">
                     {/*<!-- Pricing Title -*/}
                     <div className="text-center">
-                        <h2 className="text-xl font-bold md:text-5xl">版本计划</h2>
-                        <p className="mx-auto mb-8 mt-4 max-w-lg text-[#636262] md:mb-12 lg:mb-16">每个版本逐渐增加功能</p>
+                        <h2 className="text-xl font-bold md:text-5xl">Version Plan</h2>
+                        <p className="mx-auto mb-8 mt-4 max-w-lg text-[#636262] md:mb-12 lg:mb-16">We embrace a step-by-step iterative method for functional evolution.</p>
                     </div>
-                    <VersionTable currentVersion={1}/>
+                    <VersionTable currentVersion={2}/>
                 </div>
             </section>
         </main>

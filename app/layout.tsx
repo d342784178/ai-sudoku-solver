@@ -6,9 +6,9 @@ import {AntdRegistry} from "@ant-design/nextjs-registry";
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-    title: 'AI Sudoku Game Solution Strategies and Explanation',
-    description: 'Get an in-depth understanding of how AI solves Sudoku puzzles. Learn the working principles of AI and how they are applied to Sudoku games.',
-    keywords: ['AI Sudoku', 'Sudoku Solution Strategies', 'AI Sudoku Explanation', 'Game Strategies', 'Artificial Intelligence Games']
+    title: 'Solve Sudoku Puzzle By AI',
+    description: 'Use AI technology to explain the solution ideas of Sudoku puzzles for you',
+    keywords: ['Sudoku Solution Strategies', 'AI Sudoku Explanation']
 }
 
 export default function RootLayout({

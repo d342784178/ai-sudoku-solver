@@ -35,6 +35,7 @@ export function Cell({colIndex, rowIndex, value, handleInput, highLight, userSte
                     isLight ? "bg-white" : "bg-blue-100",
                     value !== -1 ? "cursor-not-allowed" : "",
                     {"focus:ring-blue-600": !highLight},
+                    "w-full sm:w-12",
                 )}
                 style={{height: 'calc(min(10vw, 40px))', WebkitAppearance: 'none'}}
                 key={colIndex}
