@@ -73,12 +73,12 @@ export function Board({currentGame}: {
             return (<div/>);
         } else {
             if (game) {
-                return (<button className="btn my-2 bg-green-200" onClick={newGame}>创建新游戏</button>)
+                return (<button className="btn my-2 bg-blue-400" onClick={newGame}>创建新游戏</button>)
             } else if (_.findIndex(_.flatten(initBoardData.current), (d) => d > -1) > 0) {
                 return (<button className="btn my-2 bg-yellow-300"
                                 onClick={() => saveAsGame(initBoardData.current)}>保存为新游戏</button>);
             } else {
-                return (<button className="btn my-2 bg-green-200" onClick={newGame}>创建新游戏</button>);
+                return (<button className="btn my-2 bg-blue-400" onClick={newGame}>创建新游戏</button>);
             }
         }
     }
@@ -93,11 +93,11 @@ export function Board({currentGame}: {
                         game && game.state > 0 ? "border-green-300 " : game && game.state < 0 ? "border-red-300" : "border-gray-300")}>
                     {renderBoard}
                 </div>
-                <div className="max-h-64 my-2">
-                    <Step userSteps={game && game.userSteps}
-                          onMouseEnterRecord={(userStep, index) => setUserStepHover(userStep)}
-                          onMouseLeaveRecord={(userStep, index) => setUserStepHover(null)}/>
-                </div>
+                {/*<div className="max-h-64 my-2">*/}
+                {/*    <Step userSteps={game && game.userSteps}*/}
+                {/*          onMouseEnterRecord={(userStep, index) => setUserStepHover(userStep)}*/}
+                {/*          onMouseLeaveRecord={(userStep, index) => setUserStepHover(null)}/>*/}
+                {/*</div>*/}
             </div>
         </main>
     )
