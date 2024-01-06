@@ -2,13 +2,13 @@ import React from "react";
 import {getSudokuPuzzleById} from "@/app/lib/dal/SudokuPuzzleMapper";
 import {getUserStepByPuzzleId} from "@/app/lib/dal/UserStepMapper";
 import {Game, UserStep} from "@/app/lib/model/model";
-import {Board} from "@/app/ui/board";
+import {GamePlace} from "@/app/ui/gamePlace";
 
 export default async function Home({params}: { params: { id: string } }) {
     const game = await fetchGameHistory(params.id)
     return (
         <main>
-            <Board currentGame={game}/>
+            <GamePlace currentGame={game}/>
         </main>
     )
 }

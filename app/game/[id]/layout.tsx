@@ -13,7 +13,6 @@ export default function RootLayout({children}: {
     children: React.ReactNode
 }) {
     return (
-        <html lang="en">
         <body className={inter.className}>
         <Suspense fallback={<div
             className="max-w-full h-full p-4 md:p-0 content-center justify-center items-center max-h-4">Loading
@@ -21,6 +20,5 @@ export default function RootLayout({children}: {
             {children}
         </Suspense>
         </body>
-        </html>
     )
 }

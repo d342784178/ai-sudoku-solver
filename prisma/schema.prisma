@@ -3,16 +3,16 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model sudoku_puzzle {
   id          String   @id @default(uuid()) @db.VarChar(36)
-  puzzle      String   @db.VarChar(200)
+  puzzle      String   @db.VarChar(300)
   difficulty  Int
-  solution    String   @db.VarChar(200)
+  solution    String   @db.VarChar(300)
   create_time DateTime
   state       Int
 }
@@ -22,5 +22,5 @@ model user_step {
   puzzle_id   String   @db.VarChar(36)
   cell        Int
   value       Int
-  create_time  DateTime
+  create_time DateTime
 }

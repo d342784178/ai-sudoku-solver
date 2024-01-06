@@ -81,20 +81,34 @@ export function useSudoku() {
     }, [game]);
 
     const saveAsGame = useCallback((puzzle: number[][]) => {
-        let game = new Game(puzzle, 6, puzzle, new Date());
-
-        fetch("/api/puzzle", {
-            method: "PUT",
-            body: JSON.stringify(game),
-        }).then(async resp => {
-            if (resp.ok) {
-                const res = await resp.json();
-                if (res.data) {
-                    game.id = res.data.id;
-                }
+        return new Promise<Game|string>((resolve, reject) => {
+            if (_.filter(_.flatten(puzzle), (value) => value !== -1).length < 60) {
+                messageApi.warning("出题必须填充元素数量超过 60")
+                reject("出题必须填充元素数量超过 60")
+                return;
             }
-        });
-        setGame(game);
+            let solution = _.cloneDeep(puzzle);
+            if (Game.solveSudoku(solution)) {
+                let game = new Game(puzzle, 6, solution, new Date());
+
+                fetch("/api/puzzle", {
+                    method: "PUT",
+                    body: JSON.stringify(game),
+                }).then(async resp => {
+                    if (resp.ok) {
+                        const res = await resp.json();
+                        if (res.data) {
+                            game.id = res.data.id;
+                            resolve(game)
+                        }
+                    }
+                });
+                console.log(game)
+            } else {
+                messageApi.warning("此题无解,请检查题目数据")
+                reject("此题无解,请检查题目数据")
+            }
+        })
     }, [setGame]);
     return {
         game,//游戏数据

@@ -18,6 +18,7 @@ const columns: ColumnsType<Game> = [
         title: '难度',
         dataIndex: 'difficulty',
         key: 'difficulty',
+        render: (value, record) => (<div>{record.difficulty <= 5 ? record.difficulty : '自定义'}</div>),
     },
     {
         title: '状态',
@@ -49,7 +50,6 @@ export function History({}: {}) {
             if (resp.ok) {
                 const res = await resp.json();
                 if (res.data) {
-                    console.log(_.map(res.data, (data) => Game.parse(data)));
                     setHistorys(_.map(res.data, (data) => Game.parse(data)));
                 }
             }
@@ -62,7 +62,7 @@ export function History({}: {}) {
             <div className="flex justify-items-center">
                 <h3 className="text-lg font-semibold mb-4">游戏记录</h3>
                 <Tooltip title="点击刷新">
-                    <span onClick={() => setRefreshIndex(refreshIndex + 1)}><IoRefreshCircle /></span>
+                    <span onClick={() => setRefreshIndex(refreshIndex + 1)}><IoRefreshCircle/></span>
                 </Tooltip>
             </div>
             <Table columns={columns} dataSource={historys} loading={loading}/>

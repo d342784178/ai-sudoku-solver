@@ -12,9 +12,9 @@ async function initDB() {
     await sql`
         CREATE TABLE sudoku_puzzle (
             id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-            puzzle VARCHAR(200) NOT NULL,
+            puzzle VARCHAR(300) NOT NULL,
             difficulty INTEGER NOT NULL,
-            solution VARCHAR(200) NOT NULL,
+            solution VARCHAR(300) NOT NULL,
             create_time TIMESTAMP NOT NULL,
             state INTEGER NOT NULL
     );`
