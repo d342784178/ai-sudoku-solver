@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+参加了 @哥飞 大佬的[AI 数独游戏讲解小练习]( https://mp.weixin.qq.com/s/9Tl8TG8hnvlLfCkVmPzf-w). 功能不算复杂,正好适合刚学习前端的我.
 
-## Getting Started
+在这里想借鉴 build in public 的模式, 跟大家分享整个项目的开发过程.
+
+我将会按照下面的游戏版本逐步进行开发(一周一个版本),也欢迎大家给这个简单小游戏提供一些建议.
+
+作为一个前端/出海新人, 整个项目过程会关注在**前端技术学习***以及**网站出海**上, 也希望项目过程能给同样想做网站出海的朋友一些经验参考.
+
+本项目使用react+nextjs+prisma搭建, 数据库采用postgresql, 部署在vercel上.
+
+### Getting Started
 
 First, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+#1. 安装node依赖
+pnpm install
+#2. 调整.env配置(vercel数据库配置),从vercel上拷贝配置
+POSTGRES_DATABASE=
+POSTGRES_HOST=
+POSTGRES_PASSWORD=
+POSTGRES_PRISMA_URL=
+POSTGRES_URL=
+POSTGRES_URL_NON_POOLING=
+POSTGRES_USER=
+#3. 初始化库表
+node ./script/init.mjs
+#4. 启动项目
+pnpm run dev
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+访问[http://localhost:3000](http://localhost:3000) 即可.
