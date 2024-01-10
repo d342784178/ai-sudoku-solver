@@ -21,7 +21,7 @@ async function getPageFromParams(params: { slug: string[] }) {
     const slug = '/' + params?.slug?.join("/");
     const page = allPosts.find((page) => page.slug === slug);
     if (!page) {
-        null;
+        return null;
     }
 
     return page;
@@ -70,7 +70,7 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 
 export async function generateStaticParams(): Promise<PageProps["params"][]> {
     return allPosts.map((page) => ({
-        slug: page.slugAsParams?.split("/"),
+        slug: page.slug.replace("/", "").split("/"),
     }));
 }
 
