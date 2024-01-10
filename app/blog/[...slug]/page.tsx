@@ -68,13 +68,10 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
     };
 }
 
-export async function getStaticPaths() {
-    return {
-        paths: allPosts.map((page) => ({
-            params: {slug: page.slugAsParams?.split("/")},
-        })),
-        fallback: false
-    };
+export async function generateStaticParams(): Promise<PageProps["params"][]> {
+    return allPosts.map((page) => ({
+        slug: page.slugAsParams?.split("/"),
+    }));
 }
 
 export default async function PagePage({params}: PageProps) {
