@@ -7,7 +7,8 @@
     "dev": "concurrently \"contentlayer dev\" \"next dev\"",
     "build": "contentlayer build && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "bloginit": "contentlayer dev"
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.0",

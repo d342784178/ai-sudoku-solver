@@ -30,7 +30,7 @@ const components: MDXComponents = {
     h3: ({className, ...props}) => (
         <h3
             className={cn(
-                "mt-8 scroll-m-20 text-2xl font-semibold tracking-tight",
+                "mt-8 scroll-m-20 text-2xl font-medium tracking-tight",
                 className
             )}
             {...props}
@@ -39,7 +39,7 @@ const components: MDXComponents = {
     h4: ({className, ...props}) => (
         <h4
             className={cn(
-                "mt-8 scroll-m-20 text-xl font-semibold tracking-tight",
+                "mt-8 scroll-m-20 text-xl font-normal tracking-tight",
                 className
             )}
             {...props}
@@ -48,7 +48,7 @@ const components: MDXComponents = {
     h5: ({className, ...props}) => (
         <h5
             className={cn(
-                "mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
+                "mt-8 scroll-m-20 text-lg font-light tracking-tight",
                 className
             )}
             {...props}
@@ -57,7 +57,7 @@ const components: MDXComponents = {
     h6: ({className, ...props}) => (
         <h6
             className={cn(
-                "mt-8 scroll-m-20 text-base font-semibold tracking-tight",
+                "mt-8 scroll-m-20 text-base font-light tracking-tight",
                 className
             )}
             {...props}
@@ -65,7 +65,7 @@ const components: MDXComponents = {
     ),
     a: ({className, ...props}) => (
         <a
-            className={cn("font-medium underline underline-offset-4", className)}
+            className={cn("font-medium underline underline-offset-4 text-blue-500", className)}
             {...props}
         />
     ),
@@ -134,7 +134,7 @@ const components: MDXComponents = {
     pre: ({className, ...props}) => (
         <pre
             className={cn(
-                "mb-4 mt-6 overflow-x-auto rounded-lg border bg-black py-4",
+                "mb-4 mt-6 overflow-x-auto rounded-lg border-0 border-amber-50 shadow  py-4 bg-gray-700 text-white  p-3",
                 className
             )}
             {...props}
@@ -143,7 +143,7 @@ const components: MDXComponents = {
     code: ({className, ...props}) => (
         <code
             className={cn(
-                "relative rounded border px-[0.3rem] py-[0.2rem] font-mono text-sm",
+                "relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm",
                 className
             )}
             {...props}

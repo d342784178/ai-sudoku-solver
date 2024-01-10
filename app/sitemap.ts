@@ -1,15 +1,22 @@
 import {MetadataRoute} from 'next'
+import {absoluteUrl} from "@/app/lib/util/commonUtil";
 
 export default function sitemap(): MetadataRoute.Sitemap {
     return [
         {
-            url: 'https://ai-sudoku.top',
+            url: absoluteUrl(''),
             lastModified: new Date(),
             changeFrequency: 'weekly',
             priority: 1,
         },
         {
-            url: 'https://ai-sudoku.top/game',
+            url: absoluteUrl('/game'),
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 1,
+        },
+        {
+            url: absoluteUrl('/blog/how-to-play-sudoku'),
             lastModified: new Date(),
             changeFrequency: 'weekly',
             priority: 1,
