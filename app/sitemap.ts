@@ -7,6 +7,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             lastModified: new Date(),
             changeFrequency: 'weekly',
             priority: 1,
+        },
+        {
+            url: 'https://ai-sudoku.top/game',
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 1,
         }
     ]
 }
