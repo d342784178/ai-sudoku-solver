@@ -4,24 +4,31 @@
   "private": true,
   "scripts": {
     "postinstall": "prisma generate",
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "concurrently \"contentlayer dev\" \"next dev\"",
+    "build": "contentlayer build && next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.0",
     "@prisma/client": "^5.7.1",
+    "@types/mdx": "^2.0.10",
     "@vercel/postgres": "^0.5.1",
     "antd": "^5.12.7",
     "clsx": "^2.1.0",
+    "concurrently": "^8.2.2",
+    "contentlayer": "^0.3.4",
     "dotenv": "^16.3.1",
     "kysely": "^0.26.3",
     "lodash": "^4.17.21",
+    "markdown-wasm": "^1.2.0",
     "next": "14.0.4",
+    "next-contentlayer": "^0.3.4",
     "react": "^18",
     "react-dom": "^18",
-    "react-use": "^17.4.2"
+    "react-use": "^17.4.2",
+    "remark-gfm": "^4.0.0",
+    "tailwind-merge": "^2.2.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",
