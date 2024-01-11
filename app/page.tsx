@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import {Board} from "@/app/ui/board";
 import clsx from "clsx";
-import {cn} from "@/app/lib/util/commonUtil";
+import {History} from "@/app/ui/history";
 
 export default function Home() {
     return (
@@ -10,8 +10,7 @@ export default function Home() {
             <header className="text-gray-600 body-font">
                 <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
                     <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
-                             stroke-linejoin="round" stroke-width="2"
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
                              className="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
                             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                         </svg>
@@ -81,13 +80,14 @@ export default function Home() {
                      className="absolute bottom-[auto] right-[auto] left-0 top-60 -z-10 inline-block max-[767px]:hidden"/>
             </section>
 
-            <section
-                className={clsx("flex flex-col sm:flex-row content-center justify-center items-center px-4 py-16")}>
-                <div className={cn("w-full sm:max-w-3/10 sm:w-3/5 p-4")}>
+            <main className={clsx("flex flex-col sm:flex-row")}>
+                <div className={clsx("w-full sm:max-w-3/10 sm:w-3/5 p-4")}>
                     <Board/>
                 </div>
-            </section>
-
+                <div className={clsx("w-full sm:max-w-2/5 sm:w-2/5 p-4")}>
+                    <History/>
+                </div>
+            </main>
             {/*<section>*/}
             {/*    <div className="mb-4 mx-auto justify-center flex ">*/}
             {/*        <Link className="btn my-2 bg-blue-400 " href={`/game`}>START GAME</Link>*/}
@@ -107,7 +107,7 @@ export default function Home() {
             {/*    </div>*/}
             {/*</section>*/}
 
-            <section className={clsx("content-center justify-center items-center ")}>
+            <section className="mx-auto w-full max-w-6xl text-center">
                 <h2 className="mt-10 scroll-m-20 border-b pb-1 text-3xl font-semibold tracking-tight first:mt-0"><Link
                     href={`/blog/how-to-play-sudoku`}>How to Play Sudoku</Link></h2>
                 <p>Sudoku is a logic-based number-placement puzzle. The objective is to fill a 9x9 grid with digits so
