@@ -66,10 +66,13 @@ export default function Home() {
                         {/*</p>*/}
                         <h1 className="text-5xl font-bold text-blue-600 mb-4">Welcome to Sudoku AI Solver</h1>
                         <h2 className="text-2xl font-bold text-gray-500 my-2">Our Features</h2>
-                        <p className="text-base text-gray-800 mb-4">Our AI Sudoku Solver leverages cutting-edge technology to tackle Sudoku puzzles.</p>
-                        <p className="text-base text-gray-800 mb-4">It serves as an apt tool for both novice players and seasoned Sudoku experts, offering pertinent solutions to all.</p>
+                        <p className="text-base text-gray-800 mb-4">Our AI Sudoku Solver leverages cutting-edge
+                            technology to tackle Sudoku puzzles.</p>
+                        <p className="text-base text-gray-800 mb-4">It serves as an apt tool for both novice players and
+                            seasoned Sudoku experts, offering pertinent solutions to all.</p>
                         <h2 className="text-2xl font-bold text-gray-500 my-2">How to Use</h2>
-                        <p className="text-base text-gray-800 mb-4">Just input your sudoku puzzle, and our AI will promptly provide a solution for you.</p>
+                        <p className="text-base text-gray-800 mb-4">Just input your sudoku puzzle, and our AI will
+                            promptly provide a solution for you.</p>
                     </div>
                 </div>
                 <img src="/bgstar.svg" alt=""
@@ -178,6 +181,7 @@ export default function Home() {
                     Does Sudoku Mean</h2>
                 {/* eslint-disable-next-line react/no-unescaped-entities */}
                 <p>The name "Sudoku" is a combination of the Japanese words "su" (meaning "number") and "doku" (meaning
+                    {/* eslint-disable-next-line react/no-unescaped-entities */}
                     "single" or "unique").</p>
                 {/* eslint-disable-next-line react/no-unescaped-entities */}
                 <p>Together, it translates to "single number" or "number place," reflecting the game's objective of
