@@ -2,13 +2,14 @@ import {useState} from "react";
 import {useDebounce} from "react-use";
 import clsx from "clsx";
 
-export function Cell({colIndex, rowIndex, value, handleInput, highLight, userStepIndex}: {
+export function Cell({colIndex, rowIndex, value, handleInput, highLight, userStepIndex, removeUserStep}: {
     colIndex: number,
     rowIndex: number,
     value: number,
     handleInput?: Function,
     highLight?: boolean | null,
     userStepIndex: number,
+    removeUserStep?: Function,
 }) {
     const isLight = Math.floor(rowIndex / 3) % 2 === Math.floor(colIndex / 3) % 2;
     const renderUserStepIndex = userStepIndex > 0 ? (
@@ -17,8 +18,13 @@ export function Cell({colIndex, rowIndex, value, handleInput, highLight, userSte
             {userStepIndex}
         </div>) : (<div/>);
 
+    const doubleClickCallBack = () => {
+        console.log(userStepIndex)
+        removeUserStep && removeUserStep(userStepIndex)
+    }
+
     return (
-        <div className="relative">
+        <div className="relative" onDoubleClick={userStepIndex > 0 ? () => doubleClickCallBack() : undefined}>
             <input
                 className={clsx(
                     "rounded-lg border-4 shadow-sm text-center text-lg font-bold text-gray-700 focus:outline-none focus:border-transparent m-0.5",

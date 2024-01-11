@@ -50,6 +50,13 @@ export class Game {
         return userStep;
     }
 
+    public removeUserStep(index: number) {
+        const remove = this.userSteps[index]
+        this.userSteps.splice(index, 1);
+        this.state = 0;
+        return remove;
+    }
+
     //根据puzzle和history生成solution
     public userSolution() {
         const puzzleData = _.chunk(this.puzzle.split(",").map(numStr => Number(numStr)), 9)

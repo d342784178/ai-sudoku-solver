@@ -33,8 +33,8 @@ export function GamePlace({currentGame}: {
         newGame,
         makeMove,
         recoverGame,
-        saveAsGame,
         msgContextHolder,
+        removeUserStep,
     } = useSudoku();
     const [userStepHover, setUserStepHover] = useState<UserStep | null>(null)
 
@@ -59,7 +59,7 @@ export function GamePlace({currentGame}: {
                     </div>
                 )}
 
-                <Board makeMove={makeMove} game={game}/>
+                <Board makeMove={makeMove} game={game} removeUserStep={removeUserStep}/>
 
                 {/*<div className="max-h-64 my-2">*/}
                 {/*    <Step userSteps={game && game.userSteps}*/}

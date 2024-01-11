@@ -31,7 +31,10 @@ async function initDB() {
 
 
 async function main() {
-    await initDB();
+    // await initDB();
+    const a=[1,2,3]
+    console.log(a.splice(1,1))
+    console.log(a)
 }
 
 
