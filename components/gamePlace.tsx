@@ -1,11 +1,7 @@
 'use client';
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useSudoku} from "@/components/hook/useSudoku";
-import {Cell} from "@/components/cell";
-import {Step} from "@/components/step";
 import {Game, UserStep} from "@/lib/model/model";
-import _ from "lodash";
-import clsx from "clsx";
 import {Board} from "@/components/board";
 import Link from "next/link";
 
@@ -54,8 +50,8 @@ export function GamePlace({currentGame}: {
                 {/*{currentGame ? (<div/>) : (<button className="btn my-2" onClick={newGame}>创建新游戏</button>)}*/}
 
                 {currentGame ? (<div/>) : (<div>
-                        <button className="btn my-2 bg-blue-400" onClick={newGame}>生成新游戏</button>
-                        <Link className="btn my-2 bg-yellow-400" href="/game/create">自定义游戏</Link>
+                        <button className="btn my-2 bg-blue-400" onClick={newGame}>New Game</button>
+                        <Link className="mx-5 btn my-2 bg-yellow-400" href="/game/create">Define Your Game</Link>
                     </div>
                 )}
 

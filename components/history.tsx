@@ -9,25 +9,25 @@ import {IoRefreshCircle} from "react-icons/io5";
 
 const columns: ColumnsType<Game> = [
     {
-        title: '时间',
+        title: 'Create Time',
         dataIndex: 'create_time',
         key: 'create_time',
         render: (value, record) => (<div>{record.create_time.toLocaleTimeString()}</div>),
     },
     {
-        title: '难度',
+        title: 'Difficulty',
         dataIndex: 'difficulty',
         key: 'difficulty',
         render: (value, record) => (<div>{record.difficulty <= 5 ? record.difficulty : '自定义'}</div>),
     },
     {
-        title: '状态',
+        title: 'Game State',
         dataIndex: 'state',
         key: 'state',
-        render: (value, record) => (<div>{record.state > 0 ? '成功' : record.state < 0 ? '失败' : '进行中'}</div>),
+        render: (value, record) => (<div>{record.state > 0 ? 'Passed' : record.state < 0 ? 'Failed' : 'Ongoing'}</div>),
     },
     {
-        title: '操作',
+        title: 'Action',
         dataIndex: 'action',
         key: 'action',
         render: (value: any, record) => (
@@ -60,8 +60,8 @@ export function History({}: {}) {
     return (
         <div className="flex flex-col items-center justify-center md:px-5 lg:px-0 max-w-full">
             <div className="flex justify-items-center">
-                <h3 className="text-lg font-semibold mb-4">游戏记录</h3>
-                <Tooltip title="点击刷新">
+                <h3 className="text-lg font-semibold mb-4">Game History</h3>
+                <Tooltip title="Refresh">
                     <span onClick={() => setRefreshIndex(refreshIndex + 1)}><IoRefreshCircle/></span>
                 </Tooltip>
             </div>

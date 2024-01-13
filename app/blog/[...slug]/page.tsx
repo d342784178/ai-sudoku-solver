@@ -8,6 +8,7 @@ import "@/styles/mdx.css";
 import {Metadata} from "next";
 import {siteConfig} from "@/config/site";
 import {absoluteUrl} from "@/lib/util/commonUtil";
+import React from "react";
 
 // import { absoluteUrl } from "@/lib/utils";
 
@@ -82,17 +83,20 @@ export default async function PagePage({params}: PageProps) {
     }
 
     return (
-        <article className="container max-w-3xl mx-auto py-6 lg:py-12 flex justify-center items-center">
-            {/*<div className="space-y-4">*/}
-            {/*    <h1 className="inline-block font-heading text-4xl lg:text-5xl">*/}
-            {/*        {page.title}*/}
-            {/*    </h1>*/}
-            {/*    {page.description && (*/}
-            {/*        <p className="text-xl text-muted-foreground">{page.description}</p>*/}
-            {/*    )}*/}
-            {/*</div>*/}
-            <hr className="my-4"/>
-            <Mdx code={page.body.code}/>
-        </article>
+        <div>
+
+            <article className="container max-w-3xl mx-auto py-6 lg:py-12 flex justify-center items-center">
+                {/*<div className="space-y-4">*/}
+                {/*    <h1 className="inline-block font-heading text-4xl lg:text-5xl">*/}
+                {/*        {page.title}*/}
+                {/*    </h1>*/}
+                {/*    {page.description && (*/}
+                {/*        <p className="text-xl text-muted-foreground">{page.description}</p>*/}
+                {/*    )}*/}
+                {/*</div>*/}
+                <hr className="my-4"/>
+                <Mdx code={page.body.code}/>
+            </article>
+        </div>
     );
 }

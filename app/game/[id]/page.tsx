@@ -3,11 +3,15 @@ import {getSudokuPuzzleById} from "@/lib/dal/SudokuPuzzleMapper";
 import {getUserStepByPuzzleId} from "@/lib/dal/UserStepMapper";
 import {Game, UserStep} from "@/lib/model/model";
 import {GamePlace} from "@/components/gamePlace";
+import {Header} from "@/components/Header";
 
 export default async function Home({params}: { params: { id: string } }) {
     const game = await fetchGameHistory(params.id)
     return (
         <main>
+            <header className="text-gray-600 body-font">
+                <Header/>
+            </header>
             <GamePlace currentGame={game}/>
         </main>
     )

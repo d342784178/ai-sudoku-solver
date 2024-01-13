@@ -1,32 +1,31 @@
 'use client';
-import {useEffect, useRef, useState} from 'react';
-import {useSudoku} from "@/components/hook/useSudoku";
+import {ForwardedRef, forwardRef, useImperativeHandle, useState} from 'react';
 import {Cell} from "@/components/cell";
-import {Step} from "@/components/step";
 import {Game, UserStep} from "@/lib/model/model";
-import _ from "lodash";
 import clsx from "clsx";
 import {sudoku} from "@/lib/sudoku";
 
-export function Board({game, makeMove, removeUserStep, boardDataChange}: {
+
+export const Board = forwardRef(({game, makeMove, removeUserStep, boardDataChange}: {
     game?: Game
     makeMove?: Function,
     removeUserStep?: Function
     boardDataChange?: Function
-}) {
+}, ref: ForwardedRef<{ initialBoardData: Function }>) => {
     const [userStepHover, setUserStepHover] = useState<UserStep | null>(null)
-
     let [initBoardData, setInitBoardData] = useState<number[][]>(Array.from({length: 9}, () => new Array(9).fill(-1)));
-    // TODO 生成一些初始数据调试用
-    useEffect(() => {
-        if (boardDataChange) {
-            let puzzle = sudoku.init();
-            puzzle = sudoku.digHole(puzzle, 4)
-            setInitBoardData(puzzle)
-            boardDataChange(puzzle)
-            console.log('生成一些初始数据调试用')
-        }
-    }, [])
+    //绑定 ref 可用函数
+    useImperativeHandle(ref, () => ({
+        initialBoardData
+    }));
+
+    const initialBoardData = () => {
+        let puzzle = sudoku.init();
+        puzzle = sudoku.digHole(puzzle, 4)
+        setInitBoardData(puzzle)
+        boardDataChange && boardDataChange(puzzle)
+        console.log('生成一些初始数据调试用')
+    }
 
     // 当用户输入数据时更新棋盘
     const handleInput = (inputNumber: number, row: any, col: any) => {
@@ -63,4 +62,6 @@ export function Board({game, makeMove, removeUserStep, boardDataChange}: {
             ))}
         </div>
     )
-}
+})
+Board.displayName = 'Board';
+
