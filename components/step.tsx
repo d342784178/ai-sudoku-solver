@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import {UserStep} from "@/app/lib/model/model";
+import {UserStep} from "@/lib/model/model";
 
 export function Step({userSteps, onMouseEnterRecord, onMouseLeaveRecord}: {
     userSteps: UserStep[] | undefined,

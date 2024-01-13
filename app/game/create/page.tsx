@@ -1,11 +1,11 @@
 "use client"
-import {History} from "@/app/ui/history";
+import {History} from "@/components/history";
 import clsx from "clsx";
-import {useSudoku} from "@/app/ui/hook/useSudoku";
+import {useSudoku} from "@/components/hook/useSudoku";
 import Link from "next/link";
-import {Board} from "@/app/ui/board";
-import {useCallbackState} from "@/app/ui/hook/useCallbackState";
-import {Game} from "@/app/lib/model/model";
+import {Board} from "@/components/board";
+import {useCallbackState} from "@/components/hook/useCallbackState";
+import {Game} from "@/lib/model/model";
 import {useRouter} from "next/navigation";
 
 export default function Home() {

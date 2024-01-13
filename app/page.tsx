@@ -1,8 +1,8 @@
 import Link from "next/link";
 import React from "react";
 import clsx from "clsx";
-import {History} from "@/app/ui/history";
-import {GamePlace} from "@/app/ui/gamePlace";
+import {History} from "@/components/history";
+import {GamePlace} from "@/components/gamePlace";
 
 export default function Home() {
     return (

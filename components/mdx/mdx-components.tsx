@@ -6,7 +6,7 @@ import type {MDXComponents} from "mdx/types";
 
 import {Callout} from "@/components/mdx/callout";
 import {MdxCard} from "@/components/mdx/mdx-card";
-import {cn} from "@/app/lib/util/commonUtil";
+import {cn} from "@/lib/util/commonUtil";
 
 const components: MDXComponents = {
     h1: ({className, ...props}) => (

@@ -1,9 +1,9 @@
 'use client';
 import {useCallback, useState} from 'react';
-import {useCallbackState} from "@/app/ui/hook/useCallbackState";
+import {useCallbackState} from "@/components/hook/useCallbackState";
 import _ from "lodash";
-import {Game} from "@/app/lib/model/model";
-import {sudoku} from "@/app/lib/sudoku";
+import {Game} from "@/lib/model/model";
+import {sudoku} from "@/lib/sudoku";
 import {message} from "antd";
 
 export function useSudoku() {

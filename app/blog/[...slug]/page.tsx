@@ -7,7 +7,7 @@ import {Mdx} from "@/components/mdx/mdx-components";
 import "@/styles/mdx.css";
 import {Metadata} from "next";
 import {siteConfig} from "@/config/site";
-import {absoluteUrl} from "@/app/lib/util/commonUtil";
+import {absoluteUrl} from "@/lib/util/commonUtil";
 
 // import { absoluteUrl } from "@/lib/utils";
 

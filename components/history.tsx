@@ -1,7 +1,7 @@
 'use client'
 import React, {useEffect, useState} from 'react';
 import Link from "next/link";
-import {Game} from "@/app/lib/model/model";
+import {Game} from "@/lib/model/model";
 import {Table, Tooltip} from 'antd';
 import {ColumnsType} from "antd/es/table";
 import _ from "lodash";

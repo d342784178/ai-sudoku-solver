@@ -1,12 +1,12 @@
 'use client';
 import {useEffect, useRef, useState} from 'react';
-import {useSudoku} from "@/app/ui/hook/useSudoku";
-import {Cell} from "@/app/ui/cell";
-import {Step} from "@/app/ui/step";
-import {Game, UserStep} from "@/app/lib/model/model";
+import {useSudoku} from "@/components/hook/useSudoku";
+import {Cell} from "@/components/cell";
+import {Step} from "@/components/step";
+import {Game, UserStep} from "@/lib/model/model";
 import _ from "lodash";
 import clsx from "clsx";
-import {sudoku} from "@/app/lib/sudoku";
+import {sudoku} from "@/lib/sudoku";
 
 export function Board({game, makeMove, removeUserStep, boardDataChange}: {
     game?: Game

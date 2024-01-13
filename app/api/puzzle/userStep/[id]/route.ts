@@ -1,6 +1,6 @@
-import {respData} from "@/app/lib/util/resp";
-import {createSudokuPuzzle, updateSudokuPuzzle} from "@/app/lib/dal/SudokuPuzzleMapper";
-import {createUserStep, deleteUserStepById} from "@/app/lib/dal/UserStepMapper";
+import {respData} from "@/lib/util/resp";
+import {createSudokuPuzzle, updateSudokuPuzzle} from "@/lib/dal/SudokuPuzzleMapper";
+import {createUserStep, deleteUserStepById} from "@/lib/dal/UserStepMapper";
 
 
 export async function DELETE(

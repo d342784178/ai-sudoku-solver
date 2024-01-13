@@ -1,5 +1,5 @@
 import {MetadataRoute} from 'next'
-import {absoluteUrl} from "@/app/lib/util/commonUtil";
+import {absoluteUrl} from "@/lib/util/commonUtil";
 
 export default function sitemap(): MetadataRoute.Sitemap {
     return [

@@ -1,5 +1,5 @@
-import {respData} from "@/app/lib/util/resp";
-import {createSudokuPuzzle, listSudokuPuzzleById, updateSudokuPuzzle} from "@/app/lib/dal/SudokuPuzzleMapper";
+import {respData} from "@/lib/util/resp";
+import {createSudokuPuzzle, listSudokuPuzzleById, updateSudokuPuzzle} from "@/lib/dal/SudokuPuzzleMapper";
 
 
 export async function PUT(req: Request) {

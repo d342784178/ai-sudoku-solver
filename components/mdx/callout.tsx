@@ -1,6 +1,6 @@
 // callout.tsx
 
-import {cn} from "@/app/lib/util/commonUtil";
+import {cn} from "@/lib/util/commonUtil";
 
 interface CalloutProps {
     icon?: string

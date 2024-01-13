@@ -1,6 +1,6 @@
 // mdx-card.tsx
 import Link from "next/link"
-import {cn} from "@/app/lib/util/commonUtil";
+import {cn} from "@/lib/util/commonUtil";
 
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {

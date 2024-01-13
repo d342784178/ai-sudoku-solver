@@ -1,7 +1,7 @@
 import {Inter} from 'next/font/google'
 import './globals.css'
 import {AntdRegistry} from "@ant-design/nextjs-registry";
-import GoogleAnalytics from "@/app/ui/Google";
+import GoogleAnalytics from "@/components/Google";
 import {siteConfig} from "@/config/site";
 
 const inter = Inter({subsets: ['latin']})
