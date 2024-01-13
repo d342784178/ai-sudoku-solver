@@ -65,7 +65,7 @@ export default function Home() {
 
             <section className="mx-auto w-full max-w-6xl text-center">
                 <h2 className="mt-10 scroll-m-20 border-b pb-1 text-3xl font-semibold tracking-tight first:mt-0">
-                    <Link className={"text-blue-800 underline"} href={`/blog/what-is-Sudoku`}>What is Sudoku</Link></h2>
+                    <Link className={"text-blue-800 underline"} href={`/blog/what-is-sudoku`}>What is Sudoku</Link></h2>
                 <p>Sudoku is a puzzle game that originated in Japan and has become popular worldwide.</p>
                 <p>It consists of a 9x9 grid, divided into nine 3x3 sub-grids, and the goal is to fill the grid with
                     numbers from 1 to 9 in such a way that each row, column, and sub-grid contains each number only
