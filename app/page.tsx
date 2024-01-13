@@ -1,8 +1,8 @@
 import Link from "next/link";
 import React from "react";
-import {Board} from "@/app/ui/board";
 import clsx from "clsx";
 import {History} from "@/app/ui/history";
+import {GamePlace} from "@/app/ui/gamePlace";
 
 export default function Home() {
     return (
@@ -64,14 +64,14 @@ export default function Home() {
                         {/*    build in public <span className="text-primary font-bold">with you</span>*/}
                         {/*</p>*/}
                         <h1 className="text-5xl font-bold text-blue-600 mb-4">Welcome to Sudoku AI Solver</h1>
-                        <h2 className="text-2xl font-bold text-gray-500 my-2">Our Features</h2>
-                        <p className="text-base text-gray-800 mb-4">Our AI Sudoku Solver leverages cutting-edge
-                            technology to tackle Sudoku puzzles.</p>
-                        <p className="text-base text-gray-800 mb-4">It serves as an apt tool for both novice players and
-                            seasoned Sudoku experts, offering pertinent solutions to all.</p>
-                        <h2 className="text-2xl font-bold text-gray-500 my-2">How to Use</h2>
-                        <p className="text-base text-gray-800 mb-4">Just input your sudoku puzzle, and our AI will
-                            promptly provide a solution for you.</p>
+                        {/*<h2 className="text-2xl font-bold text-gray-500 my-2">Our Features</h2>*/}
+                        {/*<p className="text-base text-gray-800 mb-4">Our AI Sudoku Solver leverages cutting-edge*/}
+                        {/*    technology to tackle Sudoku puzzles.</p>*/}
+                        {/*<p className="text-base text-gray-800 mb-4">It serves as an apt tool for both novice players and*/}
+                        {/*    seasoned Sudoku experts, offering pertinent solutions to all.</p>*/}
+                        {/*<h2 className="text-2xl font-bold text-gray-500 my-2">How to Use</h2>*/}
+                        {/*<p className="text-base text-gray-800 mb-4">Just input your sudoku puzzle, and our AI will*/}
+                        {/*    promptly provide a solution for you.</p>*/}
                     </div>
                 </div>
                 <img src="/bgstar.svg" alt=""
@@ -82,7 +82,7 @@ export default function Home() {
 
             <main className={clsx("flex flex-col sm:flex-row")}>
                 <div className={clsx("w-full sm:max-w-3/10 sm:w-3/5 p-4")}>
-                    <Board/>
+                    <GamePlace/>
                 </div>
                 <div className={clsx("w-full sm:max-w-2/5 sm:w-2/5 p-4")}>
                     <History/>
@@ -108,7 +108,7 @@ export default function Home() {
             {/*</section>*/}
 
             <section className="mx-auto w-full max-w-6xl text-center">
-                <h2 className="mt-10 scroll-m-20 border-b pb-1 text-3xl font-semibold tracking-tight first:mt-0"><Link
+                <h2 className="mt-10 scroll-m-20 border-b pb-1 text-3xl font-semibold tracking-tight first:mt-0 text-blue-800 underline"><Link
                     href={`/blog/how-to-play-sudoku`}>How to Play Sudoku</Link></h2>
                 <p>Sudoku is a logic-based number-placement puzzle. The objective is to fill a 9x9 grid with digits so
                     that each column, each row, and each of the nine 3x3 sub-grids contain all of the digits from 1 to

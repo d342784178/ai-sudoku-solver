@@ -54,7 +54,7 @@ export function GamePlace({currentGame}: {
                 {/*{currentGame ? (<div/>) : (<button className="btn my-2" onClick={newGame}>创建新游戏</button>)}*/}
 
                 {currentGame ? (<div/>) : (<div>
-                        <button className="btn my-2 bg-blue-400" onClick={newGame}>生成游戏</button>
+                        <button className="btn my-2 bg-blue-400" onClick={newGame}>生成新游戏</button>
                         <Link className="btn my-2 bg-yellow-400" href="/game/create">自定义游戏</Link>
                     </div>
                 )}
