@@ -9,6 +9,7 @@ import {Metadata} from "next";
 import {siteConfig} from "@/config/site";
 import {absoluteUrl} from "@/lib/util/commonUtil";
 import React from "react";
+import {Header} from "@/components/Header";
 
 // import { absoluteUrl } from "@/lib/utils";
 
@@ -46,6 +47,7 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
     return {
         title: page.title,
         description: page.description,
+        keywords: page.keywords,
         openGraph: {
             title: page.title,
             description: page.description,
@@ -84,7 +86,9 @@ export default async function PagePage({params}: PageProps) {
 
     return (
         <div>
-
+            <header className="text-gray-600 body-font">
+                <Header/>
+            </header>
             <article className="container max-w-3xl mx-auto py-6 lg:py-12 flex justify-center items-center">
                 {/*<div className="space-y-4">*/}
                 {/*    <h1 className="inline-block font-heading text-4xl lg:text-5xl">*/}

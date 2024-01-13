@@ -64,8 +64,25 @@ export default function Home() {
             {/*</section>*/}
 
             <section className="mx-auto w-full max-w-6xl text-center">
-                <h2 className="mt-10 scroll-m-20 border-b pb-1 text-3xl font-semibold tracking-tight first:mt-0 text-blue-800 underline">
-                    <Link href={`/blog/how-to-play-sudoku`}>How to Play Sudoku</Link></h2>
+                <h2 className="mt-10 scroll-m-20 border-b pb-1 text-3xl font-semibold tracking-tight first:mt-0">
+                    <Link className={"text-blue-800 underline"} href={`/blog/what-is-Sudoku`}>What is Sudoku</Link></h2>
+                <p>Sudoku is a puzzle game that originated in Japan and has become popular worldwide.</p>
+                <p>It consists of a 9x9 grid, divided into nine 3x3 sub-grids, and the goal is to fill the grid with
+                    numbers from 1 to 9 in such a way that each row, column, and sub-grid contains each number only
+                    once.</p>
+                <p>Sudoku is a game of logic and deduction, requiring no calculations or math skills beyond basic
+                    addition.</p>
+
+                <h2 className="mt-10 scroll-m-20 border-b pb-1 text-3xl font-semibold tracking-tight first:mt-0">
+                    <Link className={"text-blue-800 underline"} href={`/blog/how-does-sudoku-work`}>How Does Sudoku Work </Link></h2>
+                <p>Sudoku works by providing a partially filled grid with numbers.</p>
+                <p>Players must use logic to deduce where the remaining numbers should be placed, ensuring that each
+                    number appears exactly once in each row, column, and sub-grid.</p>
+                <p>The game relies on the principle of elimination and the ability to recognize patterns within the
+                    grid.</p>
+
+                <h2 className="mt-10 scroll-m-20 border-b pb-1 text-3xl font-semibold tracking-tight first:mt-0">
+                    <Link className={"text-blue-800 underline"} href={`/blog/how-to-play-sudoku`}>How to Play Sudoku</Link></h2>
                 <p>Sudoku is a logic-based number-placement puzzle. The objective is to fill a 9x9 grid with digits so
                     that each column, each row, and each of the nine 3x3 sub-grids contain all of the digits from 1 to
                     9.</p>
@@ -109,22 +126,7 @@ export default function Home() {
                 {/* eslint-disable-next-line react/no-unescaped-entities */}
                 <p>As you progress, you'll need to use more advanced techniques to solve the puzzle.</p>
 
-                <h2 className="mt-10 scroll-m-20 border-b pb-1 text-3xl font-semibold tracking-tight first:mt-0">What is
-                    Sudoku</h2>
-                <p>Sudoku is a puzzle game that originated in Japan and has become popular worldwide.</p>
-                <p>It consists of a 9x9 grid, divided into nine 3x3 sub-grids, and the goal is to fill the grid with
-                    numbers from 1 to 9 in such a way that each row, column, and sub-grid contains each number only
-                    once.</p>
-                <p>Sudoku is a game of logic and deduction, requiring no calculations or math skills beyond basic
-                    addition.</p>
 
-                <h2 className="mt-10 scroll-m-20 border-b pb-1 text-3xl font-semibold tracking-tight first:mt-0">How
-                    Does Sudoku Work</h2>
-                <p>Sudoku works by providing a partially filled grid with numbers.</p>
-                <p>Players must use logic to deduce where the remaining numbers should be placed, ensuring that each
-                    number appears exactly once in each row, column, and sub-grid.</p>
-                <p>The game relies on the principle of elimination and the ability to recognize patterns within the
-                    grid.</p>
 
                 <h2 className="mt-10 scroll-m-20 border-b pb-1 text-3xl font-semibold tracking-tight first:mt-0">How to
                     Solve Hard Sudoku</h2>

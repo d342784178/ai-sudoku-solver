@@ -18,7 +18,7 @@ const columns: ColumnsType<Game> = [
         title: 'Difficulty',
         dataIndex: 'difficulty',
         key: 'difficulty',
-        render: (value, record) => (<div>{record.difficulty <= 5 ? record.difficulty : '自定义'}</div>),
+        render: (value, record) => (<div>{record.difficulty <= 5 ? record.difficulty : 'custom'}</div>),
     },
     {
         title: 'Game State',

@@ -26,10 +26,10 @@ export const Post = defineDocumentType(() => ({
         description: {
             type: "string",
         },
-        // date: {
-        //   type: "date",
-        //   required: true,
-        // },
+        keywords: {
+            type: 'list',
+            of: {type: 'string'},
+        },
         // published: {
         //   type: "boolean",
         //   default: true,
