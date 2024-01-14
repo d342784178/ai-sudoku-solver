@@ -23,6 +23,8 @@ async function initDB() {
                 puzzle_id VARCHAR(36) NOT NULL,
                 cell INTEGER CHECK (cell >= 0 AND cell <= 80) NOT NULL,
                 value INTEGER CHECK (value >= 1 AND value <= 9) NOT NULL,
+                byUser BOOLEAN  DEFAULT true NOT NULL ,
+                message VARCHAR(300) NULL, 
                 create_time TIMESTAMP NOT NULL
             );`
     console.log("创建库表成功")
@@ -31,10 +33,7 @@ async function initDB() {
 
 
 async function main() {
-    // await initDB();
-    const a=[1,2,3]
-    console.log(a.splice(1,1))
-    console.log(a)
+    initDB()
 }
 
 

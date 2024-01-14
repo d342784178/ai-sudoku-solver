@@ -38,14 +38,14 @@ export function useSudoku() {
         setGame(game);
     }, [setGame]);
 
-    const makeMove = useCallback((row: number, col: number, value: number) => {
+    const makeMove = useCallback((row: number, col: number, value: number,byUser=true,message?:string) => {
         if (game) {
             if (!game.id) {
                 console.log(game)
                 messageApi.info('游戏正在保存到服务端,请稍后进行操作');
                 return;
             }
-            let userStep = game.addUserStep(row * 9 + col, value);
+            let userStep = game.addUserStep(row * 9 + col, value, byUser, message);
             //更新game数据
             let newGame = Object.assign(Object.create(Object.getPrototypeOf(game)), game);
             setGame(newGame);
@@ -122,7 +122,7 @@ export function useSudoku() {
                 return;
             }
             let solution = _.cloneDeep(puzzle);
-            if (Game.solveSudoku(solution)) {
+            if (Game.haveResolution(solution)) {
                 let game = new Game(puzzle, 6, solution, new Date());
 
                 fetch("/api/puzzle", {

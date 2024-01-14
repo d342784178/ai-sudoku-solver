@@ -42,12 +42,25 @@ export class Game {
         return _.findIndex(this.userSteps, (userStep) => userStep.cell === cell);
     }
 
-    public addUserStep(cell: number, value: number) {
-        let userStep = new UserStep(cell, value, new Date());
-        userStep.puzzle_id = this.id;
-        this.userSteps.push(userStep);
-        this.state = this.checkSolution()
-        return userStep;
+    static haveResolution(data: number[][]) {
+        for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                if (data[i][j] == -1) {
+                    for (let num = 1; num <= 9; num++) {
+                        if (isSafe(data, i, j, num)) {
+                            data[i][j] = num;
+                            if (this.haveResolution(data)) {
+                                return true;
+                            } else {
+                                data[i][j] = -1;
+                            }
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public removeUserStep(index: number) {
@@ -66,6 +79,32 @@ export class Game {
         return puzzleData;
     }
 
+    static resolve(data: number[][]) {
+        for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                if (data[i][j] == -1) {
+                    for (let num = 1; num <= 9; num++) {
+                        if (isSafe(data, i, j, num)) {
+                            data[i][j] = num;
+                            if (this.haveResolution(data)) {
+                                return {i, j, num};
+                            } else {
+                                data[i][j] = -1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public addUserStep(cell: number, value: number, byUser = true, message?: string) {
+        let userStep = new UserStep(cell, value, new Date(), byUser, message);
+        userStep.puzzle_id = this.id;
+        this.userSteps.push(userStep);
+        this.state = this.checkSolution()
+        return userStep;
+    }
 
     public checkSolution() {
         function gameResultCheck() {
@@ -79,8 +118,8 @@ export class Game {
             //1. 检查所有行
             for (let i = 0; i < 9; i++) {
                 if (!isValidSection(solution[i])) {
-                    // console.log('行')
-                    // console.log(solution[i])
+                    console.log('行')
+                    console.log(solution[i])
                     return false;
                 }
             }
@@ -89,8 +128,8 @@ export class Game {
             for (let i = 0; i < 9; i++) {
                 const column = solution.map(row => row[i]);
                 if (!isValidSection(column)) {
-                    // console.log("列")
-                    // console.log(column)
+                    console.log("列")
+                    console.log(column)
                     return false;
                 }
             }
@@ -105,12 +144,13 @@ export class Game {
                         }
                     }
                     if (!isValidSection(block)) {
-                        // console.log("block")
-                        // console.log(block)
+                        console.log("block")
+                        console.log(block)
                         return false;
                     }
                 }
             }
+            return true
         }
 
         const solution = this.userSolution();
@@ -125,54 +165,33 @@ export class Game {
         return gameResultCheck() ? 1 : -1;
     }
 
+}
 
-    static solveSudoku(data: number[][]) {
-        function isSafe(board: number[][], row: number, col: number, num: number) {
-            // Checking the row
-            for (let x = 0; x <= 8; x++) {
-                if (board[row][x] == num) {
-                    return false;
-                }
-            }
-
-            // Checking the column
-            for (let x = 0; x <= 8; x++) {
-                if (board[x][col] == num) {
-                    return false;
-                }
-            }
-
-            // Checking the box
-            let startRow = row - row % 3, startCol = col - col % 3;
-            for (let i = 0; i < 3; i++) {
-                for (let j = 0; j < 3; j++) {
-                    if (board[i + startRow][j + startCol] == num) {
-                        return false;
-                    }
-                }
-            }
-            return true;
+function isSafe(board: number[][], row: number, col: number, num: number) {
+    // Checking the row
+    for (let x = 0; x <= 8; x++) {
+        if (board[row][x] == num) {
+            return false;
         }
-
-        for (let i = 0; i < 9; i++) {
-            for (let j = 0; j < 9; j++) {
-                if (data[i][j] == -1) {
-                    for (let num = 1; num <= 9; num++) {
-                        if (isSafe(data, i, j, num)) {
-                            data[i][j] = num;
-                            if (this.solveSudoku(data)) {
-                                return true;
-                            } else {
-                                data[i][j] = -1;
-                            }
-                        }
-                    }
-                    return false;
-                }
-            }
-        }
-        return true;
     }
+
+    // Checking the column
+    for (let x = 0; x <= 8; x++) {
+        if (board[x][col] == num) {
+            return false;
+        }
+    }
+
+    // Checking the box
+    let startRow = row - row % 3, startCol = col - col % 3;
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            if (board[i + startRow][j + startCol] == num) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 export class UserStep {
@@ -180,12 +199,16 @@ export class UserStep {
     public puzzle_id?: string;
     public cell: number;
     public value: number
+    public byUser: boolean;
+    public message?: String;
     public create_time: Date
 
-    constructor(cell: number, value: number, create_time: Date) {
+    constructor(cell: number, value: number, create_time: Date, byUser = true, message?: String) {
         this.cell = cell;
         this.value = value;
         this.create_time = create_time;
+        this.byUser = byUser;
+        this.message = message;
     }
 
     static parse(d: {

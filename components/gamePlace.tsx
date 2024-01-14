@@ -43,6 +43,13 @@ export function GamePlace({currentGame}: {
     }, [currentGame, recoverGame]);
 
 
+    const resoleGame = () => {
+        if (game) {
+            const result = Game.resolve(game.userSolution())
+            result && makeMove(result.i, result.j, result.num, false);
+        }
+    }
+
     return (
         <main className="max-w-full h-full p-4 md:p-0">
             {msgContextHolder}
@@ -54,6 +61,9 @@ export function GamePlace({currentGame}: {
                         <Link className="mx-5 btn my-2 bg-yellow-400" href="/game/create">Define Your Game</Link>
                     </div>
                 )}
+                <div>
+                    <button className="btn my-2 bg-blue-400" onClick={resoleGame}>Resolve</button>
+                </div>
 
                 <Board makeMove={makeMove} game={game} removeUserStep={removeUserStep}/>
 
