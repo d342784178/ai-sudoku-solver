@@ -1,7 +1,7 @@
 const baseSiteConfig = {
     name: 'Solve Sudoku Puzzle By AI',
     description: 'Use AI technology to explain the solution ideas of Sudoku puzzles for you',
-    keywords: ['Sudoku Solution Strategies', 'AI Sudoku Explanation'],
+    keywords: ['Sudoku Solver', 'Sudoku Explanation', 'Sudoku Solver Step By Step'],
     url: "https://ai-sudoku.top",
     // authors: [
     //     {

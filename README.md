@@ -8,9 +8,11 @@
 
 本项目使用react+nextjs+prisma搭建, 数据库采用postgresql, 部署在vercel上.
 
-### Getting Started
+## Getting Started
 
 First, run the development server:
+
+## 手动部署
 
 ```bash
 #1. 安装node依赖
@@ -31,3 +33,9 @@ pnpm run dev
 ```
 
 访问[http://localhost:3000](http://localhost:3000) 即可.
+
+### Deploy With Vercel(Recommended)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/d342784178/sudoku)
+
+Just click the button above and follow the instructions to deploy your own copy of the app.
