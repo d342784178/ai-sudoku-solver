@@ -79,7 +79,9 @@ export class Game {
         return puzzleData;
     }
 
+    //根据算法得出下一步解
     static resolve(data: number[][]) {
+        //遍历行列,然后填写1-9,判断游戏是否失败,失败则回滚
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
                 if (data[i][j] == -1) {
