@@ -21,7 +21,7 @@ async function fetchGameHistory(id: string) {
     let gameJsonObject = await getSudokuPuzzleById(id);
     let userStepsJsonArray: {
         id: number, puzzle_id: string,
-        cell: number, value: number, create_time: Date | string
+        cell: number, value: number, create_time: Date | string, by_user: boolean, message: string|null
     }[] = await getUserStepByPuzzleId(id);
     if (gameJsonObject) {
         let game1 = Game.parse(gameJsonObject)

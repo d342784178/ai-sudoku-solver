@@ -4,7 +4,7 @@ import SortOrder = Prisma.SortOrder;
 const prisma = new PrismaClient();
 
 
-export async function createUserStep(puzzle_id: string, cell: number, value: number, create_time: Date, by_user = true, message: string|null) {
+export async function createUserStep(puzzle_id: string, cell: number, value: number, create_time: Date, by_user = true, message?: string) {
     return await prisma.user_step.create({
         data: {
             puzzle_id,

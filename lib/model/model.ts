@@ -24,7 +24,7 @@ export class Game {
         create_time: Date | string,
         userSteps?: {
             id: number, puzzle_id: string,
-            cell: number, value: number, create_time: Date | string, by_user: boolean, message?: string
+            cell: number, value: number, create_time: Date | string, by_user: boolean, message: string|null
         }[],
         state: number,
     }) {
@@ -118,7 +118,7 @@ export class Game {
         };
     }
 
-    public addUserStep(cell: number, value: number, byUser = true, message?: string) {
+    public addUserStep(cell: number, value: number, byUser = true, message: string|null) {
         let userStep = new UserStep(cell, value, new Date(), byUser, message);
         userStep.puzzle_id = this.id;
         this.userSteps=[...this.userSteps,userStep];
@@ -220,10 +220,10 @@ export class UserStep {
     public cell: number;
     public value: number
     public by_user: boolean;
-    public message?: String;
+    public message: String|null;
     public create_time: Date
 
-    constructor(cell: number, value: number, create_time: Date, by_user = true, message?: String) {
+    constructor(cell: number, value: number, create_time: Date, by_user = true, message: String|null) {
         this.cell = cell;
         this.value = value;
         this.create_time = create_time;
@@ -233,7 +233,7 @@ export class UserStep {
 
     static parse(d: {
         id: number, puzzle_id: string,
-        cell: number, value: number, create_time: Date | string, by_user: boolean, message?: string
+        cell: number, value: number, create_time: Date | string, by_user: boolean, message: string|null
     }) {
         let userStep = new UserStep(d.cell, d.value, d.create_time instanceof Date ? d.create_time : new Date(d.create_time), d.by_user, d.message);
         userStep.id = d.id;

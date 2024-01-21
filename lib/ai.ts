@@ -4,7 +4,7 @@ import {StringOutputParser} from "@langchain/core/output_parsers";
 import _ from "lodash";
 
 const model = new ChatOpenAI({
-    openAIApiKey: "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",
+    openAIApiKey: process.env.OPEN_AI_KEY,
     configuration: {
         baseURL: "https://api.openai-proxy.com/v1/",
     },

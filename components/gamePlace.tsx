@@ -19,7 +19,7 @@ export function GamePlace({currentGame}: {
         create_time: Date
         userSteps: {
             id: number, puzzle_id: string,
-            cell: number, value: number, create_time: Date | string, by_user: boolean, message?: string
+            cell: number, value: number, create_time: Date | string, by_user: boolean, message: string|null
         }[],
         state: number
     }
@@ -61,7 +61,7 @@ export function GamePlace({currentGame}: {
                     setAiMessage(message)
                 }
 
-                makeMove(result.row, result.col, result.num, false);
+                makeMove(result.row, result.col, result.num, false,null);
                 // makeMove(result.index[0], result.index[1], result.value, false,result.message);
             }
         }

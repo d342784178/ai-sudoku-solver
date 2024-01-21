@@ -38,7 +38,7 @@ export function useSudoku() {
         setGame(game);
     }, [setGame]);
 
-    const makeMove = useCallback((row: number, col: number, value: number,by_user=true,message?:string) => {
+    const makeMove = useCallback((row: number, col: number, value: number,by_user=true,message:string|null) => {
         if (game) {
             if (!game.id) {
                 console.log(game)
