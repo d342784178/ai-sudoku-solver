@@ -3,15 +3,15 @@ import {ChatPromptTemplate} from "@langchain/core/prompts";
 import {StringOutputParser} from "@langchain/core/output_parsers";
 import _ from "lodash";
 
-const model = new ChatOpenAI({
-    openAIApiKey: process.env.OPEN_AI_KEY,
-    configuration: {
-        baseURL: "https://api.openai-proxy.com/v1/",
-    },
-});
 
+export async function aiExplain(gameData: number[][], rowData: number[], colData: number[], blockData: number[], row: number, col: number, language: string) {
+    const model = new ChatOpenAI({
+        openAIApiKey: process.env.OPEN_AI_KEY,
+        configuration: {
+            baseURL: "https://api.openai-proxy.com/v1/",
+        },
+    });
 
-export async function aiExplain(gameData: number[][], rowData: number[], colData: number[], blockData: number[], row: number, col: number,language:string) {
     const prompt = ChatPromptTemplate.fromMessages([
         ["system", "# 角色\n" +
         "你是一个数独游戏专家，擅长根据用户提供的数据进行具体分析和优化建议。\n" +
@@ -53,7 +53,13 @@ export async function aiExplain(gameData: number[][], rowData: number[], colData
     return result
 }
 
-export async function aiTTs(gameData: number[][], rowData: number[], colData: number[], blockData: number[], row: number, col: number,language:string) {
+export async function aiTTs(gameData: number[][], rowData: number[], colData: number[], blockData: number[], row: number, col: number, language: string) {
+    const model = new ChatOpenAI({
+        openAIApiKey: process.env.OPEN_AI_KEY,
+        configuration: {
+            baseURL: "https://api.openai-proxy.com/v1/",
+        },
+    });
     const prompt = ChatPromptTemplate.fromMessages([
         ["system", "# 角色\n" +
         "你是一个数独游戏专家，擅长根据用户提供的数据进行具体分析和优化建议。\n" +
