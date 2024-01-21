@@ -121,7 +121,7 @@ export class Game {
     public addUserStep(cell: number, value: number, byUser = true, message?: string) {
         let userStep = new UserStep(cell, value, new Date(), byUser, message);
         userStep.puzzle_id = this.id;
-        this.userSteps.push(userStep);
+        this.userSteps=[...this.userSteps,userStep];
         this.state = this.checkSolution()
         return userStep;
     }

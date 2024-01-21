@@ -1,7 +1,5 @@
 import Link from "next/link";
 import React from "react";
-import clsx from "clsx";
-import {History} from "@/components/history";
 import {GamePlace} from "@/components/gamePlace";
 import {Header} from "@/components/Header";
 
@@ -19,7 +17,7 @@ export default function Home() {
                         {/*<p className="mt-4 mb-4 md:mt-12 md:mb-8 text:lg md:text-4xl">*/}
                         {/*    build in public <span className="text-primary font-bold">with you</span>*/}
                         {/*</p>*/}
-                        <h1 className="text-5xl font-bold text-blue-600 mb-4">Welcome to Sudoku AI Solver</h1>
+                        <h1 className="text-5xl font-bold text-blue-600 mb-4">Sudoku AI Solver</h1>
                         {/*<h2 className="text-2xl font-bold text-gray-500 my-2">Our Features</h2>*/}
                         {/*<p className="text-base text-gray-800 mb-4">Our AI Sudoku Solver leverages cutting-edge*/}
                         {/*    technology to tackle Sudoku puzzles.</p>*/}
@@ -36,14 +34,15 @@ export default function Home() {
                      className="absolute bottom-[auto] right-[auto] left-0 top-60 -z-10 inline-block max-[767px]:hidden"/>
             </section>
 
-            <main className={clsx("flex flex-col sm:flex-row md:mt-10")}>
-                <div className={clsx("w-full sm:max-w-3/10 sm:w-3/5 p-4")}>
+            {/*<main className={clsx("flex flex-col sm:flex-row md:mt-10 content-center justify-center")}>*/}
+                {/*<div className={clsx("w-full sm:max-w-3/10 sm:w-3/5 p-4")}>*/}
                     <GamePlace/>
-                </div>
-                <div className={clsx("w-full sm:max-w-2/5 sm:w-2/5 p-4")}>
-                    <History/>
-                </div>
-            </main>
+                {/*</div>*/}
+                {/*<div className={clsx("w-full sm:max-w-2/5 sm:w-2/5 p-4")}>*/}
+                {/*    <History/>*/}
+                {/*</div>*/}
+            {/*</main>*/}
+
             {/*<section>*/}
             {/*    <div className="mb-4 mx-auto justify-center flex ">*/}
             {/*        <Link className="btn my-2 bg-blue-400 " href={`/game`}>START GAME</Link>*/}

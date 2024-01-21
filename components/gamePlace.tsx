@@ -1,11 +1,14 @@
 'use client';
 import {useEffect, useState} from 'react';
 import {useSudoku} from "@/components/hook/useSudoku";
-import {Game, UserStep} from "@/lib/model/model";
+import {Game} from "@/lib/model/model";
 import {Board} from "@/components/board";
-import Link from "next/link";
 import {aiExplain} from "@/lib/ai";
-import {useCompletion} from 'ai/react';
+import {Step} from "@/components/step";
+import clsx from 'clsx';
+import {Tooltip} from 'antd';
+import {SoundOutlined} from '@ant-design/icons';
+
 
 export function GamePlace({currentGame}: {
     currentGame?: {
@@ -31,7 +34,6 @@ export function GamePlace({currentGame}: {
         msgContextHolder,
         removeUserStep,
     } = useSudoku();
-    const [userStepHover, setUserStepHover] = useState<UserStep | null>(null)
 
     useEffect(() => {
         if (currentGame) {
@@ -41,18 +43,17 @@ export function GamePlace({currentGame}: {
         }
     }, [currentGame, recoverGame]);
 
-    const {completion, input, handleInputChange, handleSubmit, error, complete} =
-        useCompletion({api: '/api/ai'});
-
 
     const [aiMessage, setAiMessage] = useState('')
-    const resoleGame = async () => {
+    const resolveGame = async () => {
         if (game) {
             const result = Game.resolve(game.userSolution())
             if (result) {
                 console.log(result)
 
-                const aiResult = await aiExplain(game.userSolution(), result.rowData, result.colData, result.blockData, result.row, result.col)
+                const language = navigator.language
+                console.log('language=',language)
+                const aiResult = await aiExplain(game.userSolution(), result.rowData, result.colData, result.blockData, result.row, result.col,language)
 
                 let message = '';
                 for await (const chunk of aiResult) {
@@ -66,32 +67,50 @@ export function GamePlace({currentGame}: {
         }
     }
 
+    const toTTS = async (message:string) => {
+        const msg = new SpeechSynthesisUtterance(message);
+        window.speechSynthesis.speak(msg);
+    }
+
+
     return (
-        <main className="max-w-full h-full p-4 md:p-0">
-            {msgContextHolder}
-            <div className="flex flex-col items-center justify-center md:px-5 lg:px-0 rounded-xl  max-w-full">
-                {/*{currentGame ? (<div/>) : (<button className="btn my-2" onClick={newGame}>创建新游戏</button>)}*/}
+        <main>
+            <div className={clsx("flex flex-col sm:flex-row md:mt-10 content-center justify-center")}>
+                {msgContextHolder}
+                <div className="flex flex-col items-center justify-center md:px-5 lg:px-0 rounded-xl  w-full sm:max-w-3/6 sm:w-3/6 p-2">
 
-                {currentGame ? (<div/>) : (<div>
-                        <button className="btn my-2 bg-blue-400" onClick={newGame}>New Game</button>
-                        <Link className="mx-5 btn my-2 bg-yellow-400" href="/game/create">Define Your Game</Link>
+                    <div className="flex justify-center items-center">
+                        {currentGame ? (
+                            <div/>
+                        ) : (
+                            <div>
+                                <button className="btn my-2 bg-blue-400 mr-2" onClick={newGame}>New Game</button>
+                                {/*<Link className="mx-5 btn my-2 bg-yellow-400" href="/game/create">Define Your Game</Link>*/}
+                            </div>
+                        )}
+                     <Tooltip title={'Figure out the next step in the game and use ai to explain why'}>
+                         <button disabled={!game || game.state > 0} className="btn my-2 bg-blue-400"
+                                 onClick={resolveGame}>AI Resolve
+                         </button>
+                     </Tooltip>
                     </div>
-                )}
-                <div>
-                    <button className="btn my-2 bg-blue-400" onClick={resoleGame}>Resolve</button>
+
+                    <Board makeMove={makeMove} game={game} removeUserStep={removeUserStep}/>
+
+
                 </div>
-
-                <Board makeMove={makeMove} game={game} removeUserStep={removeUserStep}/>
-
-                {/*<div className="max-h-64 my-2">*/}
-                {/*    <Step userSteps={game && game.userSteps}*/}
-                {/*          onMouseEnterRecord={(userStep, index) => setUserStepHover(userStep)}*/}
-                {/*          onMouseLeaveRecord={(userStep, index) => setUserStepHover(null)}/>*/}
-                {/*</div>*/}
-            </div>
-            <div className="flex flex-col w-full max-w-md py-8 mx-auto stretch">
-                <span>{aiMessage}</span>
+                <div className="w-full max-w-md py-8 stretch  sm:max-w-3/6 sm:w-2/6 p-2">
+                    <div className="my-2">
+                        <h3 className="text-lg font-bold  mb-1 w-full text-center">AI Notice</h3>
+                        <span>{aiMessage}</span>
+                        {aiMessage.length>0&& <span onClick={() => toTTS(aiMessage)}><SoundOutlined /></span>}
+                    </div>
+                    <div className="my-2">
+                        <Step userSteps={game && game.userSteps}/>
+                    </div>
+                </div>
             </div>
         </main>
+
     )
 }

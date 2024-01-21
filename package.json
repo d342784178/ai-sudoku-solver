@@ -11,6 +11,7 @@
     "bloginit": "contentlayer dev"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
     "@ant-design/nextjs-registry": "^1.0.0",
     "@langchain/google-genai": "^0.0.7",
     "@langchain/openai": "^0.0.11",
