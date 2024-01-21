@@ -22,7 +22,7 @@ model user_step {
   puzzle_id   String   @db.VarChar(36)
   cell        Int
   value       Int
-  byUser      Boolean  @default(true)
-  message     String   @db.VarChar(300)
+  by_user     Boolean  @default(true)
+  message     String?  @db.VarChar(300)
   create_time DateTime
 }

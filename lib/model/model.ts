@@ -23,11 +23,8 @@ export class Game {
         solution: string
         create_time: Date | string,
         userSteps?: {
-            id: number;
-            puzzle_id: string;
-            cell: number;
-            value: number
-            create_time: Date | string
+            id: number, puzzle_id: string,
+            cell: number, value: number, create_time: Date | string, by_user: boolean, message?: string
         }[],
         state: number,
     }) {
@@ -89,7 +86,8 @@ export class Game {
                         if (isSafe(data, i, j, num)) {
                             data[i][j] = num;
                             if (this.haveResolution(data)) {
-                                return {i, j, num};
+                                data[i][j] = -1;
+                                return {row:i, col:j, num, ...this.aaaData(data, i, j)};
                             } else {
                                 data[i][j] = -1;
                             }
@@ -98,6 +96,26 @@ export class Game {
                 }
             }
         }
+    }
+
+    static aaaData(data: number[][], row: number, col: number) {
+        let rowData = data[row].slice();
+        let colData = data.map((row) => row[col]);
+
+        let blockData = [];
+        let startRow = Math.floor(row / 3) * 3;
+        let startCol = Math.floor(col / 3) * 3;
+        for (let k = 0; k < 3; k++) {
+            for (let l = 0; l < 3; l++) {
+                blockData.push(data[startRow + k][startCol + l]);
+            }
+        }
+
+        return {
+            rowData,
+            colData,
+            blockData
+        };
     }
 
     public addUserStep(cell: number, value: number, byUser = true, message?: string) {
@@ -201,25 +219,26 @@ export class UserStep {
     public puzzle_id?: string;
     public cell: number;
     public value: number
-    public byUser: boolean;
+    public by_user: boolean;
     public message?: String;
     public create_time: Date
 
-    constructor(cell: number, value: number, create_time: Date, byUser = true, message?: String) {
+    constructor(cell: number, value: number, create_time: Date, by_user = true, message?: String) {
         this.cell = cell;
         this.value = value;
         this.create_time = create_time;
-        this.byUser = byUser;
+        this.by_user = by_user;
         this.message = message;
     }
 
     static parse(d: {
         id: number, puzzle_id: string,
-        cell: number, value: number, create_time: Date | string
+        cell: number, value: number, create_time: Date | string, by_user: boolean, message?: string
     }) {
-        let userStep = new UserStep(d.cell, d.value, d.create_time instanceof Date ? d.create_time : new Date(d.create_time));
+        let userStep = new UserStep(d.cell, d.value, d.create_time instanceof Date ? d.create_time : new Date(d.create_time), d.by_user, d.message);
         userStep.id = d.id;
         userStep.puzzle_id = d.puzzle_id;
+
         return userStep;
     }
 }

@@ -4,6 +4,8 @@ import {useSudoku} from "@/components/hook/useSudoku";
 import {Game, UserStep} from "@/lib/model/model";
 import {Board} from "@/components/board";
 import Link from "next/link";
+import {aiExplain} from "@/lib/ai";
+import {useCompletion} from 'ai/react';
 
 export function GamePlace({currentGame}: {
     currentGame?: {
@@ -13,11 +15,8 @@ export function GamePlace({currentGame}: {
         solution: string
         create_time: Date
         userSteps: {
-            id: number;
-            puzzle_id: string;
-            cell: number;
-            value: number
-            create_time: Date
+            id: number, puzzle_id: string,
+            cell: number, value: number, create_time: Date | string, by_user: boolean, message?: string
         }[],
         state: number
     }
@@ -42,11 +41,28 @@ export function GamePlace({currentGame}: {
         }
     }, [currentGame, recoverGame]);
 
+    const {completion, input, handleInputChange, handleSubmit, error, complete} =
+        useCompletion({api: '/api/ai'});
 
-    const resoleGame = () => {
+
+    const [aiMessage, setAiMessage] = useState('')
+    const resoleGame = async () => {
         if (game) {
             const result = Game.resolve(game.userSolution())
-            result && makeMove(result.i, result.j, result.num, false);
+            if (result) {
+                console.log(result)
+
+                const aiResult = await aiExplain(game.userSolution(), result.rowData, result.colData, result.blockData, result.row, result.col)
+
+                let message = '';
+                for await (const chunk of aiResult) {
+                    message = message + chunk;
+                    setAiMessage(message)
+                }
+
+                makeMove(result.row, result.col, result.num, false);
+                // makeMove(result.index[0], result.index[1], result.value, false,result.message);
+            }
         }
     }
 
@@ -72,6 +88,9 @@ export function GamePlace({currentGame}: {
                 {/*          onMouseEnterRecord={(userStep, index) => setUserStepHover(userStep)}*/}
                 {/*          onMouseLeaveRecord={(userStep, index) => setUserStepHover(null)}/>*/}
                 {/*</div>*/}
+            </div>
+            <div className="flex flex-col w-full max-w-md py-8 mx-auto stretch">
+                <span>{aiMessage}</span>
             </div>
         </main>
     )

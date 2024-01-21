@@ -38,14 +38,14 @@ export function useSudoku() {
         setGame(game);
     }, [setGame]);
 
-    const makeMove = useCallback((row: number, col: number, value: number,byUser=true,message?:string) => {
+    const makeMove = useCallback((row: number, col: number, value: number,by_user=true,message?:string) => {
         if (game) {
             if (!game.id) {
                 console.log(game)
                 messageApi.info('游戏正在保存到服务端,请稍后进行操作');
                 return;
             }
-            let userStep = game.addUserStep(row * 9 + col, value, byUser, message);
+            let userStep = game.addUserStep(row * 9 + col, value, by_user, message);
             //更新game数据
             let newGame = Object.assign(Object.create(Object.getPrototypeOf(game)), game);
             setGame(newGame);

@@ -31,7 +31,7 @@ const columns: ColumnsType<Game> = [
         dataIndex: 'action',
         key: 'action',
         render: (value: any, record) => (
-            <Link href={`/game/${record.id}`}>点击查看</Link>
+            <Link href={`/game/${record.id}`}>Detail</Link>
         )
     },
 
