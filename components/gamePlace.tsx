@@ -101,9 +101,8 @@ export function GamePlace({currentGame}: {
                 </div>
                 <div className="w-full max-w-md py-8 stretch  sm:max-w-3/6 sm:w-2/6 p-2">
                     <div className="my-2">
-                        <h3 className="text-lg font-bold  mb-1 w-full text-center">AI Notice</h3>
+                        <h3 className="text-lg font-bold  mb-1 w-full text-center">AI Notice {aiMessage.length>0&& <span onClick={() => toTTS(aiMessage)}><SoundOutlined /></span>}</h3>
                         <span>{aiMessage}</span>
-                        {aiMessage.length>0&& <span onClick={() => toTTS(aiMessage)}><SoundOutlined /></span>}
                     </div>
                     <div className="my-2">
                         <Step userSteps={game && game.userSteps}/>
