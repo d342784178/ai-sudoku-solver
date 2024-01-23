@@ -1,8 +1,8 @@
 'use client';
-import {UserStep} from "@/lib/model/model";
 import React from 'react';
 import {Table} from 'antd';
 import {ColumnsType} from "antd/es/table";
+import UserStep from '@/lib/model/UserStep';
 
 
 const columns: ColumnsType<UserStep> = [

@@ -2,13 +2,13 @@
 import {useCallback, useState} from 'react';
 import {useCallbackState} from "@/components/hook/useCallbackState";
 import _ from "lodash";
-import {Game} from "@/lib/model/model";
 import {sudoku} from "@/lib/sudoku";
 import {message} from "antd";
+import {Puzzle} from "@/lib/model/Puzzle";
 
 export function useSudoku() {
     //游戏数据
-    const [game, setGame] = useCallbackState<Game>();
+    const [game, setGame] = useCallbackState<Puzzle>();
     const [gameLoading, setGameLoading] = useState(false);
     const [moveLoading, setMoveLoading] = useState(false);
     const [messageApi, msgContextHolder] = message.useMessage();
@@ -34,7 +34,7 @@ export function useSudoku() {
 
     }, [setGame]);
 
-    const recoverGame = useCallback((game: Game) => {
+    const recoverGame = useCallback((game: Puzzle) => {
         setGame(game);
     }, [setGame]);
 
@@ -115,15 +115,15 @@ export function useSudoku() {
     }, [game]);
 
     const saveAsGame = useCallback((puzzle: number[][]) => {
-        return new Promise<Game | string>((resolve, reject) => {
+        return new Promise<Puzzle | string>((resolve, reject) => {
             if (_.filter(_.flatten(puzzle), (value) => value !== -1).length < 60) {
                 messageApi.warning("出题必须填充元素数量超过 60")
                 reject("出题必须填充元素数量超过 60")
                 return;
             }
             let solution = _.cloneDeep(puzzle);
-            if (Game.haveResolution(solution)) {
-                let game = new Game(puzzle, 6, solution, new Date());
+            if (Puzzle.haveResolution(solution)) {
+                let game = new Puzzle(puzzle, 6, solution, new Date());
 
                 fetch("/api/puzzle", {
                     method: "PUT",
@@ -163,6 +163,6 @@ function innerNewGame(difficulty: number = 1) {
     let solution = _.cloneDeep(puzzle);
     puzzle = sudoku.digHole(puzzle, difficulty)
 
-    let game = new Game(puzzle, difficulty, solution, new Date());
+    let game = new Puzzle(puzzle, difficulty, solution, new Date());
     return game;
 }

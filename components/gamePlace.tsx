@@ -1,28 +1,17 @@
 'use client';
 import {useEffect, useState} from 'react';
 import {useSudoku} from "@/components/hook/useSudoku";
-import {Game} from "@/lib/model/model";
 import {Board} from "@/components/board";
 import {aiExplain} from "@/lib/ai";
 import {Step} from "@/components/step";
 import clsx from 'clsx';
 import {Tooltip} from 'antd';
 import {SoundOutlined} from '@ant-design/icons';
+import {GameHelper, IPuzzle} from "@/lib/model/Puzzle";
 
 
 export function GamePlace({currentGame}: {
-    currentGame?: {
-        id: string,
-        puzzle: string
-        difficulty: number
-        solution: string
-        create_time: Date
-        userSteps: {
-            id: number, puzzle_id: string,
-            cell: number, value: number, create_time: Date | string, by_user: boolean, message: string|null
-        }[],
-        state: number
-    }
+    currentGame?: IPuzzle
 }) {
     const {
         game,
@@ -37,7 +26,7 @@ export function GamePlace({currentGame}: {
 
     useEffect(() => {
         if (currentGame) {
-            let game1 = Game.parse(currentGame);
+            let game1 = GameHelper.parseGame(currentGame);
             console.log(game1)
             recoverGame(game1)
         }
@@ -47,7 +36,7 @@ export function GamePlace({currentGame}: {
     const [aiMessage, setAiMessage] = useState('')
     const resolveGame = async () => {
         if (game) {
-            const result = Game.resolve(game.userSolution())
+            const result = GameHelper.resolveGame(game.userSolution())
             if (result) {
                 console.log(result)
 
@@ -100,7 +89,7 @@ export function GamePlace({currentGame}: {
 
                 </div>
                 <div className="w-full max-w-md py-8 stretch  sm:max-w-3/6 sm:w-2/6 p-2">
-                    <div className="my-2">
+                    <div className="my-2 min-h-3">
                         <h3 className="text-lg font-bold  mb-1 w-full text-center">AI Notice {aiMessage.length>0&& <span onClick={() => toTTS(aiMessage)}><SoundOutlined /></span>}</h3>
                         <span>{aiMessage}</span>
                     </div>

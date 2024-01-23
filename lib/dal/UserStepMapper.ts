@@ -1,11 +1,12 @@
 import {Prisma, PrismaClient} from '@prisma/client'
+import UserStep from "@/lib/model/UserStep";
 import SortOrder = Prisma.SortOrder;
 
 const prisma = new PrismaClient();
 
 
 export async function createUserStep(puzzle_id: string, cell: number, value: number, create_time: Date, by_user = true, message?: string) {
-    return await prisma.user_step.create({
+    const result = await prisma.user_step.create({
         data: {
             puzzle_id,
             cell,
@@ -15,26 +16,31 @@ export async function createUserStep(puzzle_id: string, cell: number, value: num
             create_time,
         },
     });
+    return result as UserStep;
 }
 
 export async function getUserStepByPuzzleId(puzzle_id: string) {
-    return await prisma.user_step.findMany({
+    const result = await prisma.user_step.findMany({
         where: {puzzle_id},
         orderBy: {
             create_time: SortOrder.asc
         }
     });
+
+    return result as UserStep[];
 }
 
 
 export async function getUserStepById(id: number) {
-    return await prisma.user_step.findUnique({
+    const result = await prisma.user_step.findUnique({
         where: {id},
     });
+    return result as UserStep;
 }
 
 export async function deleteUserStepById(id: number) {
-    return await prisma.user_step.delete({
+    const result = await prisma.user_step.delete({
         where: {id},
     });
+    return result as UserStep;
 }

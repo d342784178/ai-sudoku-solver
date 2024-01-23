@@ -2,10 +2,10 @@
 import {useSudoku} from "@/components/hook/useSudoku";
 import {Board} from "@/components/board";
 import {useCallbackState} from "@/components/hook/useCallbackState";
-import {Game} from "@/lib/model/model";
 import {useRouter} from "next/navigation";
 import {Header} from "@/components/Header";
 import {useRef} from "react";
+import {Puzzle} from "@/lib/model/Puzzle";
 
 export default function Home() {
     const {saveAsGame, msgContextHolder} = useSudoku()
@@ -20,7 +20,7 @@ export default function Home() {
     const save = () => {
         if (boardData) {
             saveAsGame(boardData).then((game) => {
-                if (game instanceof Game) {
+                if (game instanceof Puzzle) {
                     router.push(`/game/${game.id}`)
                 }
             }).catch((msg: string) => {

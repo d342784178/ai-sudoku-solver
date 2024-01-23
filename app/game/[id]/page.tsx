@@ -1,9 +1,9 @@
 import React from "react";
 import {getSudokuPuzzleById} from "@/lib/dal/SudokuPuzzleMapper";
 import {getUserStepByPuzzleId} from "@/lib/dal/UserStepMapper";
-import {Game, UserStep} from "@/lib/model/model";
 import {GamePlace} from "@/components/gamePlace";
 import {Header} from "@/components/Header";
+import {GameHelper} from "@/lib/model/Puzzle";
 
 export default async function Home({params}: { params: { id: string } }) {
     const game = await fetchGameHistory(params.id)
@@ -19,13 +19,10 @@ export default async function Home({params}: { params: { id: string } }) {
 
 async function fetchGameHistory(id: string) {
     let gameJsonObject = await getSudokuPuzzleById(id);
-    let userStepsJsonArray: {
-        id: number, puzzle_id: string,
-        cell: number, value: number, create_time: Date | string, by_user: boolean, message: string|null
-    }[] = await getUserStepByPuzzleId(id);
+    let userStepsJsonArray = await getUserStepByPuzzleId(id);
     if (gameJsonObject) {
-        let game1 = Game.parse(gameJsonObject)
-        game1.userSteps = userStepsJsonArray ? userStepsJsonArray.map(userStepJson => UserStep.parse(userStepJson)) : [];
+        let game1 = GameHelper.parseGame(gameJsonObject)
+        game1.userSteps = userStepsJsonArray ? userStepsJsonArray : [];
         console.log(game1)
         return JSON.parse(JSON.stringify(game1));
     } else {

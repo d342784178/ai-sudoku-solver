@@ -6,6 +6,10 @@ import _ from "lodash";
 
 export async function aiExplain(gameData: number[][], rowData: number[], colData: number[], blockData: number[], row: number, col: number, language: string) {
     const model = new ChatOpenAI({
+        // openAIApiKey: process.env.NEXT_PUBLIC_GEMINI_PRO_KEY,
+        // configuration: {
+        //     baseURL: "https://geminipro.ai-sudoku.top/v1/",
+        // },
         openAIApiKey: process.env.NEXT_PUBLIC_OPEN_AI_KEY,
         configuration: {
             baseURL: "https://api.openai-proxy.com/v1/",

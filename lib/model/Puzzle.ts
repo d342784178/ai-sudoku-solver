@@ -1,9 +1,23 @@
 import _ from "lodash";
+import UserStep, {UserStepHelper} from "@/lib/model/UserStep";
 
-export class Game {
+
+export interface IPuzzle {
+    id?: string;
+    puzzle: string;
+    difficulty: number;
+    solution: string;
+    create_time: Date;
+    userSteps: UserStep[];
+    state: number;
+}
+
+
+export class Puzzle implements IPuzzle {
+    // Properties
     public id?: string;
     public puzzle: string;
-    public difficulty: number
+    public difficulty: number;
     public solution: string;
     public create_time: Date;
     public userSteps: UserStep[] = [];
@@ -14,25 +28,6 @@ export class Game {
         this.difficulty = difficulty;
         this.solution = typeof solution === 'string' ? solution : _.flatten(solution).join(",");
         this.create_time = typeof create_time === 'string' ? new Date(create_time) : create_time;
-    }
-
-    static parse(d: {
-        id: string,
-        puzzle: string
-        difficulty: number
-        solution: string
-        create_time: Date | string,
-        userSteps?: {
-            id: number, puzzle_id: string,
-            cell: number, value: number, create_time: Date | string, by_user: boolean, message: string|null
-        }[],
-        state: number,
-    }) {
-        let game = new Game(d.puzzle, d.difficulty, d.solution, d.create_time);
-        game.id = d.id;
-        game.userSteps = d.userSteps?.map(UserStep.parse) ?? [];
-        game.state = d.state
-        return game;
     }
 
     public userStepIndex(cell: number) {
@@ -76,52 +71,10 @@ export class Game {
         return puzzleData;
     }
 
-    //根据算法得出下一步解
-    static resolve(data: number[][]) {
-        //遍历行列,然后填写1-9,判断游戏是否失败,失败则回滚
-        for (let i = 0; i < 9; i++) {
-            for (let j = 0; j < 9; j++) {
-                if (data[i][j] == -1) {
-                    for (let num = 1; num <= 9; num++) {
-                        if (isSafe(data, i, j, num)) {
-                            data[i][j] = num;
-                            if (this.haveResolution(data)) {
-                                data[i][j] = -1;
-                                return {row:i, col:j, num, ...this.aaaData(data, i, j)};
-                            } else {
-                                data[i][j] = -1;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    static aaaData(data: number[][], row: number, col: number) {
-        let rowData = data[row].slice();
-        let colData = data.map((row) => row[col]);
-
-        let blockData = [];
-        let startRow = Math.floor(row / 3) * 3;
-        let startCol = Math.floor(col / 3) * 3;
-        for (let k = 0; k < 3; k++) {
-            for (let l = 0; l < 3; l++) {
-                blockData.push(data[startRow + k][startCol + l]);
-            }
-        }
-
-        return {
-            rowData,
-            colData,
-            blockData
-        };
-    }
-
-    public addUserStep(cell: number, value: number, byUser = true, message: string|null) {
-        let userStep = new UserStep(cell, value, new Date(), byUser, message);
+    public addUserStep(cell: number, value: number, byUser = true, message: string | null) {
+        let userStep = UserStepHelper.createUserStep(cell, value, new Date(), byUser, message);
         userStep.puzzle_id = this.id;
-        this.userSteps=[...this.userSteps,userStep];
+        this.userSteps = [...this.userSteps, userStep];
         this.state = this.checkSolution()
         return userStep;
     }
@@ -187,7 +140,95 @@ export class Game {
 
 }
 
-function isSafe(board: number[][], row: number, col: number, num: number) {
+function parseGame(IGameObj: IPuzzle): Puzzle {
+    const game = new Puzzle(
+        IGameObj.puzzle,
+        IGameObj.difficulty,
+        IGameObj.solution,
+        IGameObj.create_time
+    );
+
+    // 如果在IGame对象中提供了id，就复制它
+    if (IGameObj.id) {
+        game.id = IGameObj.id;
+    }
+
+    // 复制userSteps，如果它们存在
+    if (IGameObj.userSteps && Array.isArray(IGameObj.userSteps)) {
+        game.userSteps = IGameObj.userSteps.slice();
+    }
+
+    // 设置state
+    game.state = IGameObj.state;
+
+    return game;
+}
+
+//根据算法得出下一步解
+function resolveGame(data: number[][]) {
+    //遍历行列,然后填写1-9,判断游戏是否失败,失败则回滚
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (data[i][j] == -1) {
+                for (let num = 1; num <= 9; num++) {
+                    if (isSafe(data, i, j, num)) {
+                        data[i][j] = num;
+                        if (haveResolution(data)) {
+                            data[i][j] = -1;
+                            return {row: i, col: j, num, ...aaaData(data, i, j)};
+                        } else {
+                            data[i][j] = -1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+function haveResolution(data: number[][]) {
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (data[i][j] == -1) {
+                for (let num = 1; num <= 9; num++) {
+                    if (isSafe(data, i, j, num)) {
+                        data[i][j] = num;
+                        if (haveResolution(data)) {
+                            return true;
+                        } else {
+                            data[i][j] = -1;
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
+function aaaData(data: number[][], row: number, col: number) {
+    let rowData = data[row].slice();
+    let colData = data.map((row) => row[col]);
+
+    let blockData = [];
+    let startRow = Math.floor(row / 3) * 3;
+    let startCol = Math.floor(col / 3) * 3;
+    for (let k = 0; k < 3; k++) {
+        for (let l = 0; l < 3; l++) {
+            blockData.push(data[startRow + k][startCol + l]);
+        }
+    }
+
+    return {
+        rowData,
+        colData,
+        blockData
+    };
+}
+
+function isSafe(board: number[][], row: number, col: number, num: number): boolean {
     // Checking the row
     for (let x = 0; x <= 8; x++) {
         if (board[row][x] == num) {
@@ -214,31 +255,4 @@ function isSafe(board: number[][], row: number, col: number, num: number) {
     return true;
 }
 
-export class UserStep {
-    public id?: number;
-    public puzzle_id?: string;
-    public cell: number;
-    public value: number
-    public by_user: boolean;
-    public message: String|null;
-    public create_time: Date
-
-    constructor(cell: number, value: number, create_time: Date, by_user = true, message: String|null) {
-        this.cell = cell;
-        this.value = value;
-        this.create_time = create_time;
-        this.by_user = by_user;
-        this.message = message;
-    }
-
-    static parse(d: {
-        id: number, puzzle_id: string,
-        cell: number, value: number, create_time: Date | string, by_user: boolean, message: string|null
-    }) {
-        let userStep = new UserStep(d.cell, d.value, d.create_time instanceof Date ? d.create_time : new Date(d.create_time), d.by_user, d.message);
-        userStep.id = d.id;
-        userStep.puzzle_id = d.puzzle_id;
-
-        return userStep;
-    }
-}
+export const GameHelper = {parseGame, resolveGame, haveResolution, isSafe, aaaData}

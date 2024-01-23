@@ -1,13 +1,13 @@
 'use client'
 import React, {useEffect, useState} from 'react';
 import Link from "next/link";
-import {Game} from "@/lib/model/model";
 import {Table, Tooltip} from 'antd';
 import {ColumnsType} from "antd/es/table";
 import _ from "lodash";
 import {IoRefreshCircle} from "react-icons/io5";
+import {GameHelper, Puzzle} from "@/lib/model/Puzzle";
 
-const columns: ColumnsType<Game> = [
+const columns: ColumnsType<Puzzle> = [
     {
         title: 'Create Time',
         dataIndex: 'create_time',
@@ -39,7 +39,7 @@ const columns: ColumnsType<Game> = [
 
 export function History({}: {}) {
     const [loading, setLoading] = useState(false);
-    const [historys, setHistorys] = useState<Game[]>()
+    const [historys, setHistorys] = useState<Puzzle[]>()
     const [refreshIndex, setRefreshIndex] = useState(0);
 
     useEffect(() => {
@@ -50,7 +50,7 @@ export function History({}: {}) {
             if (resp.ok) {
                 const res = await resp.json();
                 if (res.data) {
-                    setHistorys(_.map(res.data, (data) => Game.parse(data)));
+                    setHistorys(_.map(res.data, (data) => GameHelper.parseGame(data)));
                 }
             }
             setLoading(false)

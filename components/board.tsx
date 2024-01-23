@@ -1,13 +1,14 @@
 'use client';
 import {ForwardedRef, forwardRef, useImperativeHandle, useState} from 'react';
 import {Cell} from "@/components/cell";
-import {Game, UserStep} from "@/lib/model/model";
 import clsx from "clsx";
 import {sudoku} from "@/lib/sudoku";
+import UserStep from "@/lib/model/UserStep";
+import {Puzzle} from "@/lib/model/Puzzle";
 
 
 export const Board = forwardRef(({game, makeMove, removeUserStep, boardDataChange}: {
-    game?: Game
+    game?: Puzzle
     makeMove?: Function,
     removeUserStep?: Function
     boardDataChange?: Function

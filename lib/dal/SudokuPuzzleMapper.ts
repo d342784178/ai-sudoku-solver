@@ -1,11 +1,12 @@
 import {Prisma, PrismaClient,} from '@prisma/client'
+import {IPuzzle} from "@/lib/model/Puzzle";
 import SortOrder = Prisma.SortOrder;
 
 
 const prisma = new PrismaClient();
 
 export async function createSudokuPuzzle(puzzle: string, difficulty: number, solution: string, create_time: Date, state: number) {
-    return await prisma.sudoku_puzzle.create({
+    const result = await prisma.sudoku_puzzle.create({
         data: {
             puzzle,
             difficulty,
@@ -14,10 +15,11 @@ export async function createSudokuPuzzle(puzzle: string, difficulty: number, sol
             state,
         },
     });
+    return result as IPuzzle;
 }
 
 export async function updateSudokuPuzzle(id: string, puzzle?: string, difficulty?: number, solution?: string, create_time?: Date, state?: number) {
-    return await prisma.sudoku_puzzle.update({
+    const result = await prisma.sudoku_puzzle.update({
         data: {
             puzzle,
             difficulty,
@@ -27,26 +29,30 @@ export async function updateSudokuPuzzle(id: string, puzzle?: string, difficulty
         },
         where: {id},
     });
+    return result as IPuzzle;
 }
 
 export async function getSudokuPuzzleById(id: string) {
-    return await prisma.sudoku_puzzle.findUnique({
+    const result = await prisma.sudoku_puzzle.findUnique({
         where: {id},
     });
+    return result as IPuzzle;
 }
 
 export async function deleteSudokuPuzzleById(id: string) {
-    return await prisma.sudoku_puzzle.delete({
+    const result = await prisma.sudoku_puzzle.delete({
         where: {id},
     });
+    return result as IPuzzle
 }
 
 
 export async function listSudokuPuzzleById() {
-    return await prisma.sudoku_puzzle.findMany({
+    const result = await prisma.sudoku_puzzle.findMany({
         where: {},
         orderBy: {
             create_time: SortOrder.desc
         }
     });
+    return result as IPuzzle[];
 }
