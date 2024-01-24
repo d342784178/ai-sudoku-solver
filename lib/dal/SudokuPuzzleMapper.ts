@@ -5,29 +5,29 @@ import SortOrder = Prisma.SortOrder;
 
 const prisma = new PrismaClient();
 
-export async function createSudokuPuzzle(puzzle: string, difficulty: number, solution: string, create_time: Date, state: number) {
+export async function createSudokuPuzzle(p: IPuzzle) {
     const result = await prisma.sudoku_puzzle.create({
         data: {
-            puzzle,
-            difficulty,
-            solution,
-            create_time,
-            state,
+            puzzle: p.puzzle,
+            difficulty: p.difficulty,
+            solution: p.solution,
+            create_time: p.create_time,
+            state: p.state,
         },
     });
     return result as IPuzzle;
 }
 
-export async function updateSudokuPuzzle(id: string, puzzle?: string, difficulty?: number, solution?: string, create_time?: Date, state?: number) {
+export async function updateSudokuPuzzle(p: IPuzzle) {
     const result = await prisma.sudoku_puzzle.update({
         data: {
-            puzzle,
-            difficulty,
-            solution,
-            create_time,
-            state,
+            puzzle: p.puzzle,
+            difficulty: p.difficulty,
+            solution: p.solution,
+            create_time: p.create_time,
+            state: p.state,
         },
-        where: {id},
+        where: {id: p.id},
     });
     return result as IPuzzle;
 }

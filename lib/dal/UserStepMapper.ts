@@ -5,15 +5,15 @@ import SortOrder = Prisma.SortOrder;
 const prisma = new PrismaClient();
 
 
-export async function createUserStep(puzzle_id: string, cell: number, value: number, create_time: Date, by_user = true, message?: string) {
+export async function createUserStep(p: UserStep) {
     const result = await prisma.user_step.create({
         data: {
-            puzzle_id,
-            cell,
-            value,
-            by_user,
-            message,
-            create_time,
+            puzzle_id: p.puzzle_id,
+            cell: p.cell,
+            value: p.value,
+            by_user: p.by_user,
+            message: p.message,
+            create_time: p.create_time,
         },
     });
     return result as UserStep;

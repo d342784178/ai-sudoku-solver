@@ -1,13 +1,14 @@
 import {respData} from "@/lib/util/resp";
 import {createSudokuPuzzle, listSudokuPuzzleById, updateSudokuPuzzle} from "@/lib/dal/SudokuPuzzleMapper";
+import {IPuzzle} from "@/lib/model/Puzzle";
 
 
 export async function PUT(req: Request) {
-    const {id, puzzle, difficulty, solution, create_time, state} = await req.json();
-    if (id) {
-        return respData(await updateSudokuPuzzle(id, puzzle, difficulty, solution, create_time, state));
+    const json: IPuzzle = await req.json();
+    if (json.id) {
+        return respData(await updateSudokuPuzzle(json));
     } else {
-        return respData(await createSudokuPuzzle(puzzle, difficulty, solution, create_time, state));
+        return respData(await createSudokuPuzzle(json));
     }
 }
 

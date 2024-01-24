@@ -14,7 +14,6 @@ export interface IPuzzle {
 
 
 export class Puzzle implements IPuzzle {
-    // Properties
     public id?: string;
     public puzzle: string;
     public difficulty: number;
@@ -23,11 +22,11 @@ export class Puzzle implements IPuzzle {
     public userSteps: UserStep[] = [];
     public state: number = 0;
 
-    constructor(puzzle: number[][] | string, difficulty: number, solution: number[][] | string, create_time: Date | string) {
-        this.puzzle = typeof puzzle === 'string' ? puzzle : _.flatten(puzzle).join(",");
+    constructor(puzzle: number[][], difficulty: number, solution: number[][], create_time: Date) {
+        this.puzzle = _.flatten(puzzle).join(",");
         this.difficulty = difficulty;
-        this.solution = typeof solution === 'string' ? solution : _.flatten(solution).join(",");
-        this.create_time = typeof create_time === 'string' ? new Date(create_time) : create_time;
+        this.solution = _.flatten(solution).join(",");
+        this.create_time = create_time;
     }
 
     public userStepIndex(cell: number) {
@@ -73,7 +72,9 @@ export class Puzzle implements IPuzzle {
 
     public addUserStep(cell: number, value: number, byUser = true, message: string | null) {
         let userStep = UserStepHelper.createUserStep(cell, value, new Date(), byUser, message);
-        userStep.puzzle_id = this.id;
+        if (this.id != null) {
+            userStep.puzzle_id = this.id;
+        }
         this.userSteps = [...this.userSteps, userStep];
         this.state = this.checkSolution()
         return userStep;
@@ -142,9 +143,9 @@ export class Puzzle implements IPuzzle {
 
 function parseGame(IGameObj: IPuzzle): Puzzle {
     const game = new Puzzle(
-        IGameObj.puzzle,
+        _.chunk(IGameObj.puzzle.split(",").map(item => Number(item)), 9),
         IGameObj.difficulty,
-        IGameObj.solution,
+        _.chunk(IGameObj.solution.split(",").map(item => Number(item)), 9),
         IGameObj.create_time
     );
 
