@@ -2,10 +2,10 @@
 import React from 'react';
 import {Table} from 'antd';
 import {ColumnsType} from "antd/es/table";
-import UserStep from '@/lib/model/UserStep';
+import IUserStep from '@/lib/model/IUserStep';
 
 
-const columns: ColumnsType<UserStep> = [
+const columns: ColumnsType<IUserStep> = [
     {
         title: 'Index',
         dataIndex: 'index',
@@ -35,9 +35,9 @@ const columns: ColumnsType<UserStep> = [
 
 
 export function Step({userSteps, onMouseEnterRecord, onMouseLeaveRecord}: {
-    userSteps: UserStep[] | undefined,
-    onMouseEnterRecord?: (record: UserStep, index: number) => void,
-    onMouseLeaveRecord?: (record: UserStep, index: number) => void,
+    userSteps: IUserStep[] | undefined,
+    onMouseEnterRecord?: (record: IUserStep, index: number) => void,
+    onMouseLeaveRecord?: (record: IUserStep, index: number) => void,
 }) {
     return (
         <div className="flex flex-col items-center rounded-xl ">

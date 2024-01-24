@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import {GamePlace} from "@/components/gamePlace";
 import {Header} from "@/components/Header";
+import {History} from "@/components/history";
 
 export default function Home() {
     return (
@@ -39,7 +40,7 @@ export default function Home() {
                     <GamePlace/>
                 {/*</div>*/}
                 {/*<div className={clsx("w-full sm:max-w-2/5 sm:w-2/5 p-4")}>*/}
-                {/*    <History/>*/}
+            <History/>
                 {/*</div>*/}
             {/*</main>*/}
 

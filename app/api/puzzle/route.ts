@@ -1,5 +1,5 @@
 import {respData} from "@/lib/util/resp";
-import {createSudokuPuzzle, listSudokuPuzzleById, updateSudokuPuzzle} from "@/lib/dal/SudokuPuzzleMapper";
+import {createSudokuPuzzle, listSudokuPuzzle, updateSudokuPuzzle} from "@/lib/dal/SudokuPuzzleMapper";
 import {IPuzzle} from "@/lib/model/Puzzle";
 
 
@@ -14,5 +14,5 @@ export async function PUT(req: Request) {
 
 export async function GET(req: Request) {
     const {} = await req.json();
-    return respData(await listSudokuPuzzleById());
+    return respData(await listSudokuPuzzle());
 }

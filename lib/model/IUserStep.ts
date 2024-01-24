@@ -1,4 +1,4 @@
-export default interface UserStep {
+export default interface IUserStep {
     id?: number;
     puzzle_id: string;
     cell: number;
@@ -8,14 +8,14 @@ export default interface UserStep {
     create_time: Date;
 }
 
-function createUserStep(cell: number, value: number, create_time: Date, by_user = true, message: String | null): UserStep {
+function createUserStep(cell: number, value: number, create_time: Date, by_user = true, message: String | null): IUserStep {
     return {
         cell,
         value,
         create_time,
         by_user,
         message
-    } as UserStep
+    } as IUserStep
 }
 
 export const UserStepHelper = {createUserStep}

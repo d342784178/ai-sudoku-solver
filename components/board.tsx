@@ -3,7 +3,7 @@ import {ForwardedRef, forwardRef, useImperativeHandle, useState} from 'react';
 import {Cell} from "@/components/cell";
 import clsx from "clsx";
 import {sudoku} from "@/lib/sudoku";
-import UserStep from "@/lib/model/UserStep";
+import IUserStep from "@/lib/model/IUserStep";
 import {Puzzle} from "@/lib/model/Puzzle";
 
 
@@ -13,7 +13,7 @@ export const Board = forwardRef(({game, makeMove, removeUserStep, boardDataChang
     removeUserStep?: Function
     boardDataChange?: Function
 }, ref: ForwardedRef<{ initialBoardData: Function }>) => {
-    const [userStepHover, setUserStepHover] = useState<UserStep | null>(null)
+    const [userStepHover, setUserStepHover] = useState<IUserStep | null>(null)
     let [initBoardData, setInitBoardData] = useState<number[][]>(Array.from({length: 9}, () => new Array(9).fill(-1)));
     //绑定 ref 可用函数
     useImperativeHandle(ref, () => ({

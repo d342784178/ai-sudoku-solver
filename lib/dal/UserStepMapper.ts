@@ -1,11 +1,11 @@
 import {Prisma, PrismaClient} from '@prisma/client'
-import UserStep from "@/lib/model/UserStep";
+import IUserStep from "@/lib/model/IUserStep";
 import SortOrder = Prisma.SortOrder;
 
 const prisma = new PrismaClient();
 
 
-export async function createUserStep(p: UserStep) {
+export async function createUserStep(p: IUserStep): Promise<IUserStep | null> {
     const result = await prisma.user_step.create({
         data: {
             puzzle_id: p.puzzle_id,
@@ -16,10 +16,10 @@ export async function createUserStep(p: UserStep) {
             create_time: p.create_time,
         },
     });
-    return result as UserStep;
+    return result;
 }
 
-export async function getUserStepByPuzzleId(puzzle_id: string) {
+export async function getUserStepByPuzzleId(puzzle_id: string): Promise<IUserStep[] | null> {
     const result = await prisma.user_step.findMany({
         where: {puzzle_id},
         orderBy: {
@@ -27,20 +27,20 @@ export async function getUserStepByPuzzleId(puzzle_id: string) {
         }
     });
 
-    return result as UserStep[];
+    return result;
 }
 
 
-export async function getUserStepById(id: number) {
+export async function getUserStepById(id: number): Promise<IUserStep | null> {
     const result = await prisma.user_step.findUnique({
         where: {id},
     });
-    return result as UserStep;
+    return result;
 }
 
-export async function deleteUserStepById(id: number) {
+export async function deleteUserStepById(id: number): Promise<IUserStep | null> {
     const result = await prisma.user_step.delete({
         where: {id},
     });
-    return result as UserStep;
+    return result;
 }

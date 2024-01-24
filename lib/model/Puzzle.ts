@@ -1,5 +1,5 @@
 import _ from "lodash";
-import UserStep, {UserStepHelper} from "@/lib/model/UserStep";
+import IUserStep, {UserStepHelper} from "@/lib/model/IUserStep";
 
 
 export interface IPuzzle {
@@ -8,7 +8,7 @@ export interface IPuzzle {
     difficulty: number;
     solution: string;
     create_time: Date;
-    userSteps: UserStep[];
+    userSteps?: IUserStep[];
     state: number;
 }
 
@@ -19,7 +19,7 @@ export class Puzzle implements IPuzzle {
     public difficulty: number;
     public solution: string;
     public create_time: Date;
-    public userSteps: UserStep[] = [];
+    public userSteps: IUserStep[] = [];
     public state: number = 0;
 
     constructor(puzzle: number[][], difficulty: number, solution: number[][], create_time: Date) {
