@@ -45,7 +45,7 @@ export async function aiExplain(gameData: number[][], rowData: number[], colData
 所在第 ${col + 1} 列数据为: ${_.join(colData, ",")}
 其所在 3*3 块数据为: ${_.join(blockData, ",")} 
 
-请你给出你的思路,分析为什么做这一步这么做
+请你帮我按照人工推算的思路,分析为什么做这一步, 给出你的思路.
  
 注意1: 精简你的回答,字数控制在 120 字以内!
 注意2: 请以语言:${language},返回你的回答
