@@ -6,6 +6,7 @@ import {ColumnsType} from "antd/es/table";
 import _ from "lodash";
 import {IoRefreshCircle} from "react-icons/io5";
 import {GameHelper, Puzzle} from "@/lib/model/Puzzle";
+import {ProxyHub} from "@/app/api/proxy/route";
 
 const columns: ColumnsType<Puzzle> = [
     {
@@ -44,17 +45,13 @@ export function History({}: {}) {
 
     useEffect(() => {
         setLoading(true)
-        fetch("/api/puzzle/history", {
-            method: "GET",
-        }).then(async resp => {
-            if (resp.ok) {
-                const res = await resp.json();
-                if (res.data) {
-                    setHistorys(_.map(res.data, (data) => GameHelper.parseGame(data)));
+        ProxyHub.listSudokuPuzzle.invoke()
+            .then(async puzzleList => {
+                if (puzzleList) {
+                    setHistorys(_.map(puzzleList, (data) => GameHelper.parseGame(data)));
                 }
-            }
-            setLoading(false)
-        });
+                setLoading(false)
+            });
     }, [refreshIndex])
 
     return (

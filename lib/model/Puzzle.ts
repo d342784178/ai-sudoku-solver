@@ -141,26 +141,26 @@ export class Puzzle implements IPuzzle {
 
 }
 
-function parseGame(IGameObj: IPuzzle): Puzzle {
+function parseGame(iPuzzle: IPuzzle): Puzzle {
     const game = new Puzzle(
-        _.chunk(IGameObj.puzzle.split(",").map(item => Number(item)), 9),
-        IGameObj.difficulty,
-        _.chunk(IGameObj.solution.split(",").map(item => Number(item)), 9),
-        IGameObj.create_time
+        _.chunk(iPuzzle.puzzle.split(",").map(item => Number(item)), 9),
+        iPuzzle.difficulty,
+        _.chunk(iPuzzle.solution.split(",").map(item => Number(item)), 9),
+        iPuzzle.create_time
     );
 
     // 如果在IGame对象中提供了id，就复制它
-    if (IGameObj.id) {
-        game.id = IGameObj.id;
+    if (iPuzzle.id) {
+        game.id = iPuzzle.id;
     }
 
     // 复制userSteps，如果它们存在
-    if (IGameObj.userSteps && Array.isArray(IGameObj.userSteps)) {
-        game.userSteps = IGameObj.userSteps.slice();
+    if (iPuzzle.userSteps && Array.isArray(iPuzzle.userSteps)) {
+        game.userSteps = iPuzzle.userSteps.slice();
     }
 
     // 设置state
-    game.state = IGameObj.state;
+    game.state = iPuzzle.state;
 
     return game;
 }

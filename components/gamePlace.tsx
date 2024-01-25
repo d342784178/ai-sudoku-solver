@@ -2,12 +2,12 @@
 import {useEffect, useState} from 'react';
 import {useSudoku} from "@/components/hook/useSudoku";
 import {Board} from "@/components/board";
-import {aiExplain} from "@/lib/ai";
 import {Step} from "@/components/step";
 import clsx from 'clsx';
 import {Tooltip} from 'antd';
 import {SoundOutlined} from '@ant-design/icons';
 import {GameHelper, IPuzzle} from "@/lib/model/Puzzle";
+import {aiExplain} from "@/lib/service/AiService";
 
 
 export function GamePlace({currentGame}: {

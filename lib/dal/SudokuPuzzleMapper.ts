@@ -5,7 +5,7 @@ import SortOrder = Prisma.SortOrder;
 
 const prisma = new PrismaClient();
 
-export async function createSudokuPuzzle(p: IPuzzle): Promise<IPuzzle | null> {
+export async function createSudokuPuzzle(p: IPuzzle): Promise<IPuzzle> {
     const result = await prisma.sudoku_puzzle.create({
         data: {
             puzzle: p.puzzle,
@@ -18,7 +18,7 @@ export async function createSudokuPuzzle(p: IPuzzle): Promise<IPuzzle | null> {
     return result;
 }
 
-export async function updateSudokuPuzzle(p: IPuzzle): Promise<IPuzzle | null> {
+export async function updateSudokuPuzzle(p: IPuzzle): Promise<IPuzzle> {
     const result = await prisma.sudoku_puzzle.update({
         data: {
             puzzle: p.puzzle,
@@ -47,12 +47,13 @@ export async function deleteSudokuPuzzleById(id: string): Promise<IPuzzle | null
 }
 
 
-export async function listSudokuPuzzle(): Promise<IPuzzle[] | []> {
+export async function listSudokuPuzzle(): Promise<IPuzzle[]> {
     const result = await prisma.sudoku_puzzle.findMany({
         where: {},
         orderBy: {
             create_time: SortOrder.desc
-        }
+        },
+        take: 10,
     });
     return result;
 }

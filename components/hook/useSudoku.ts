@@ -5,6 +5,7 @@ import _ from "lodash";
 import {sudoku} from "@/lib/sudoku";
 import {message} from "antd";
 import {Puzzle} from "@/lib/model/Puzzle";
+import {ProxyHub} from "@/app/api/proxy/route";
 
 export function useSudoku() {
     //游戏数据
@@ -18,17 +19,9 @@ export function useSudoku() {
         setGame(game1);
 
         setGameLoading(true)
-        fetch("/api/puzzle", {
-            method: "PUT",
-            body: JSON.stringify(game1),
-        }).then(async resp => {
-            if (resp.ok) {
-                const res = await resp.json();
-                if (res.data) {
-                    game1.id = res.data.id;
-                    console.log(game1)
-                }
-            }
+        ProxyHub.putPuzzle.invoke(game1).then(async resp => {
+            game1.id = resp.id;
+            console.log(game1)
             setGameLoading(false)
         });
 
@@ -38,7 +31,7 @@ export function useSudoku() {
         setGame(game);
     }, [setGame]);
 
-    const makeMove = useCallback((row: number, col: number, value: number,by_user=true,message:string|null) => {
+    const makeMove = useCallback((row: number, col: number, value: number, by_user = true, message: string | null) => {
         if (game) {
             if (!game.id) {
                 console.log(game)
@@ -51,38 +44,22 @@ export function useSudoku() {
             setGame(newGame);
 
             setMoveLoading(true)
-            fetch("/api/puzzle/userStep", {
-                method: "PUT",
-                body: JSON.stringify(userStep),
-            }).then(async (resp) => {
-                if (resp.ok) {
-                    const res = await resp.json();
-                    if (res.data) {
-                        userStep.id = res.data.id;
-                    }
-                }
+            ProxyHub.createUserStep.invoke(userStep).then(async (resp) => {
+                userStep.id = resp.id;
                 setMoveLoading(false)
             });
 
             //游戏结束
             if (game.state !== 0) {
-                fetch("/api/puzzle", {
-                    method: "PUT",
-                    body: JSON.stringify(game),
-                }).then(async resp => {
-                    if (resp.ok) {
-                        const res = await resp.json();
-                        if (res.data) {
-                            game.id = res.data.id;
-                        }
-                    }
+                ProxyHub.putPuzzle.invoke(game).then(async resp => {
+                    game.id = resp.id;
                 });
             }
         }
     }, [game]);
     const removeUserStep = useCallback((userStepIndex: number) => {
         if (game) {
-            const originGameState=game.state
+            const originGameState = game.state
             let userStep = game.removeUserStep(userStepIndex);
             //更新game数据
             let newGame = Object.assign(Object.create(Object.getPrototypeOf(game)), game);
@@ -90,25 +67,13 @@ export function useSudoku() {
             setGame(newGame);
 
             setMoveLoading(true)
-            fetch("/api/puzzle/userStep/" + userStep.id, {
-                method: "DELETE",
-            }).then(async (resp) => {
-                if (resp.ok) {
-                    const res = await resp.json();
-                }
+            // @ts-ignore
+            ProxyHub.deleteUserStepById.invoke(userStep.id).then(async (resp) => {
                 setMoveLoading(false)
             });
-            if(originGameState!==0) {//恢复到进行中状态
-                fetch("/api/puzzle", {
-                    method: "PUT",
-                    body: JSON.stringify(game),
-                }).then(async resp => {
-                    if (resp.ok) {
-                        const res = await resp.json();
-                        if (res.data) {
-                            game.id = res.data.id;
-                        }
-                    }
+            if (originGameState !== 0) {//恢复到进行中状态
+                ProxyHub.putPuzzle.invoke(game).then(async resp => {
+                    game.id = resp.id;
                 });
             }
         }
@@ -125,17 +90,9 @@ export function useSudoku() {
             if (Puzzle.haveResolution(solution)) {
                 let game = new Puzzle(puzzle, 6, solution, new Date());
 
-                fetch("/api/puzzle", {
-                    method: "PUT",
-                    body: JSON.stringify(game),
-                }).then(async resp => {
-                    if (resp.ok) {
-                        const res = await resp.json();
-                        if (res.data) {
-                            game.id = res.data.id;
-                            resolve(game)
-                        }
-                    }
+                ProxyHub.putPuzzle.invoke(game).then(async resp => {
+                    game.id = resp.id;
+                    resolve(game)
                 });
                 console.log(game)
             } else {

@@ -1,32 +1,34 @@
-import React from "react";
-import {getSudokuPuzzleById} from "@/lib/dal/SudokuPuzzleMapper";
-import {getUserStepByPuzzleId} from "@/lib/dal/UserStepMapper";
+'use client'
+import React, {useEffect, useState} from "react";
 import {GamePlace} from "@/components/gamePlace";
 import {Header} from "@/components/Header";
-import {GameHelper} from "@/lib/model/Puzzle";
+import {ProxyHub} from "@/app/api/proxy/route";
+import {Puzzle} from "@/lib/model/Puzzle";
+import {message} from "antd";
 
-export default async function Home({params}: { params: { id: string } }) {
-    const game = await fetchGameHistory(params.id)
+export default function Home({params}: { params: { id: string } }) {
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const [game, setGame] = useState<Puzzle>()
+    useEffect(() => {
+        messageApi.open({
+            type: 'loading',
+            content: 'Loading Game..',
+            duration: 0,
+        });
+        ProxyHub.fetchGameHistory.invoke(params.id).then((result) => {
+            setGame(result)
+            messageApi.destroy()
+        });
+    }, [params.id]);
     return (
         <main>
+            {contextHolder}
             <header className="text-gray-600 body-font">
                 <Header/>
             </header>
             <GamePlace currentGame={game}/>
         </main>
     )
-}
-
-async function fetchGameHistory(id: string) {
-    let gameJsonObject = await getSudokuPuzzleById(id);
-    let userStepsJsonArray = await getUserStepByPuzzleId(id);
-    if (gameJsonObject) {
-        let game1 = GameHelper.parseGame(gameJsonObject)
-        game1.userSteps = userStepsJsonArray ? userStepsJsonArray : [];
-        console.log(game1)
-        return JSON.parse(JSON.stringify(game1));
-    } else {
-        return undefined;
-    }
 }
 

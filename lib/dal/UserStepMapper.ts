@@ -5,7 +5,7 @@ import SortOrder = Prisma.SortOrder;
 const prisma = new PrismaClient();
 
 
-export async function createUserStep(p: IUserStep): Promise<IUserStep | null> {
+export async function createUserStep(p: IUserStep): Promise<IUserStep> {
     const result = await prisma.user_step.create({
         data: {
             puzzle_id: p.puzzle_id,
