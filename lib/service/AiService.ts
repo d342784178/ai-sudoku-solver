@@ -4,7 +4,7 @@ import {StringOutputParser} from "@langchain/core/output_parsers";
 import _ from "lodash";
 
 
-export async function aiExplain(gameData: number[][], rowData: number[], colData: number[], blockData: number[], row: number, col: number, language: string) {
+export async function aiExplain(gameData: number[][], rowData: number[], colData: number[], blockData: number[], row: number, col: number, value: number, language: string) {
     const model = new ChatOpenAI({
         // openAIApiKey: process.env.NEXT_PUBLIC_GEMINI_PRO_KEY,
         // configuration: {
@@ -40,12 +40,12 @@ export async function aiExplain(gameData: number[][], rowData: number[], colData
 
 
     const input = `${_.join(_.flatten(gameData), ",")}
-我有一个数独游戏数据如上 , 我通过回溯可得出下一步可以在第${row + 1}行第${col + 1}列位置填3. 
+我有一个数独游戏数据如上 , 我通过回溯得出下一步可以在第${row + 1}行第${col + 1}列位置填${value}. 
 其所在第 ${row + 1} 行数据为: ${_.join(rowData, ",")}
 所在第 ${col + 1} 列数据为: ${_.join(colData, ",")}
 其所在 3*3 块数据为: ${_.join(blockData, ",")} 
 
-请你帮我按照人工推算的思路,分析为什么做这一步, 给出你的思路.
+请你给出你的思路,分析为什么做这一步这么做
  
 注意1: 精简你的回答,字数控制在 120 字以内!
 注意2: 请以语言:${language},返回你的回答

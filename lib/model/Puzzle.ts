@@ -176,7 +176,7 @@ function resolveGame(data: number[][]) {
                         data[i][j] = num;
                         if (haveResolution(data)) {
                             data[i][j] = -1;
-                            return {row: i, col: j, num, ...aaaData(data, i, j)};
+                            return {row: i, col: j, value: num, ...aaaData(data, i, j)};
                         } else {
                             data[i][j] = -1;
                         }
