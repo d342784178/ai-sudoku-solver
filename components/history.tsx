@@ -62,6 +62,10 @@ export function History({}: {}) {
                     <span onClick={() => setRefreshIndex(refreshIndex + 1)}><IoRefreshCircle/></span>
                 </Tooltip>
             </div>
-            <Table columns={columns} dataSource={historys} loading={loading}/>
+            <Table columns={columns} dataSource={historys} loading={loading}
+                   pagination={{
+                       hideOnSinglePage: true,
+                       pageSize: 5,
+                   }}/>
         </div>);
 }

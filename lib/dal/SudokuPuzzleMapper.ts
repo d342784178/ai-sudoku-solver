@@ -53,7 +53,7 @@ export async function listSudokuPuzzle(): Promise<IPuzzle[]> {
         orderBy: {
             create_time: SortOrder.desc
         },
-        take: 10,
+        take: 5,
     });
     return result;
 }
