@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
 // 确保ProxyHub中提供对应的支持多个参数的函数实现
 export const ProxyHub = {
     // 用于演示，假设fetchGameHistory接受两个参数
-    fetchGameHistory: new Proxy(loadPuzzle),
+    loadPuzzle: new Proxy(loadPuzzle),
     listSudokuPuzzle: new Proxy(listSudokuPuzzle),
     putPuzzle: new Proxy(putPuzzle),
     createUserStep: new Proxy(createUserStep),

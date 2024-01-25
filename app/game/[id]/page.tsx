@@ -16,7 +16,7 @@ export default function Home({params}: { params: { id: string } }) {
             content: 'Loading Game..',
             duration: 0,
         });
-        ProxyHub.fetchGameHistory.invoke(params.id).then((result) => {
+        ProxyHub.loadPuzzle.invoke(params.id).then((result) => {
             setGame(result)
             messageApi.destroy()
         });
