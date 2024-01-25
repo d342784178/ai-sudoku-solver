@@ -75,8 +75,7 @@ export async function POST(req: NextRequest) {
         const argsArray: any[] = SuperJSON.deserialize(args);
         // ...argsArray 将参数数组展开为多个独立参数进行传递
         const functionResult = await proxy.invokeOrigin(...argsArray);
-        //TODO 似乎是个bug必须重新构建一个对象
-        return Response.json(SuperJSON.serialize({...functionResult}));
+        return Response.json(SuperJSON.serialize(functionResult));
     } else {
         return Response.json(SuperJSON.serialize({msg: '接口不存在:' + functionName}));
     }
