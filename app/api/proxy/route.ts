@@ -7,7 +7,6 @@ import {createUserStep, deleteUserStepById} from "@/lib/dal/UserStepMapper";
 
 type FetchFunctionType<TParams extends any[], TResult> = (...args: TParams) => Promise<TResult>;
 
-// 修改Proxy类和withProxy函数以支持FetchFunctionType的新定义。
 class Proxy<TParams extends any[], TResult> {
     private originFunc: FetchFunctionType<TParams, TResult>;
     private proxyFunc: FetchFunctionType<TParams, TResult>;
@@ -27,7 +26,6 @@ class Proxy<TParams extends any[], TResult> {
 }
 
 
-// 修改withProxy函数定义以支持多个参数的fetchFunction
 function withProxy<TParams extends any[], TResult>(
     fetchFunction: FetchFunctionType<TParams, TResult>
 ): (...args: TParams) => Promise<TResult> {
@@ -62,7 +60,6 @@ function withProxy<TParams extends any[], TResult>(
     };
 }
 
-// 修改POST函数以处理多个参数
 export async function POST(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
     const functionName = searchParams.get('functionName');
@@ -81,9 +78,7 @@ export async function POST(req: NextRequest) {
     }
 }
 
-// 确保ProxyHub中提供对应的支持多个参数的函数实现
 export const ProxyHub = {
-    // 用于演示，假设fetchGameHistory接受两个参数
     loadPuzzle: new Proxy(loadPuzzle),
     listSudokuPuzzle: new Proxy(listSudokuPuzzle),
     putPuzzle: new Proxy(putPuzzle),
