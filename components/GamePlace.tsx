@@ -8,6 +8,8 @@ import {Tooltip} from 'antd';
 import {SoundOutlined} from '@ant-design/icons';
 import {GameHelper, IPuzzle} from "@/lib/model/Puzzle";
 import {aiExplain} from "@/lib/service/AiService";
+import DifficultySeletor from "@/components/DifficultySeletor";
+import useNextRoute from "@/components/hook/useNextRoute";
 
 
 export function GamePlace({currentGame}: {
@@ -68,6 +70,12 @@ export function GamePlace({currentGame}: {
         window.speechSynthesis.speak(u);
     }
 
+    let {router, pathname, queryParams, queryPut} = useNextRoute();
+
+    const difficultyChange = (difficulty: number) => {
+        router.push(pathname + '?' + queryPut('difficulty', difficulty.toString()))
+    }
+
 
     return (
         <main>
@@ -80,8 +88,13 @@ export function GamePlace({currentGame}: {
                         {currentGame ? (
                             <div/>
                         ) : (
-                            <div>
-                                <button className="btn my-2 bg-blue-400 mr-2" onClick={newGame}>New Game</button>
+                            <div className="flex justify-center items-center">
+                                <DifficultySeletor onDifficultyChange={difficultyChange}
+                                                   defaultDiffuculty={queryParams.get("difficulty") ? Number(queryParams.get("difficulty")) : 1}/>
+                                <button className="btn my-2 bg-blue-400 mr-2"
+                                        onClick={() => newGame(queryParams.get("difficulty") ? Number(queryParams.get("difficulty")) : 1)}>
+                                    New Game
+                                </button>
                                 {/*<Link className="mx-5 btn my-2 bg-yellow-400" href="/game/create">Define Your Game</Link>*/}
                             </div>
                         )}
@@ -98,10 +111,11 @@ export function GamePlace({currentGame}: {
                 </div>
                 <div className="w-full max-w-md py-8 stretch  sm:max-w-3/6 sm:w-2/6 p-2">
                     <div className="my-2 min-h-3">
-                        <h3 className="text-lg font-bold  mb-1 w-full text-center">AI Notice
-                            {aiMessage.length > 0 && !aiOutput && <span onClick={() => {
-                                toTTS(aiMessage)
-                            }}> <SoundOutlined/></span>}</h3>
+                        <div className="flex w-full mb-1 text-center justify-center content-center" >
+                            <h3 className="text-lg font-bold text-center">AI Notice</h3>
+                            {aiMessage.length > 0 && !aiOutput && <span onClick={() => {toTTS(aiMessage)}}> <SoundOutlined/></span>}
+                        </div>
+
                         <span>{aiMessage}</span>
                     </div>
                     <div className="my-2">

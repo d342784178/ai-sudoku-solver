@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import {GamePlace} from "@/components/gamePlace";
+import {GamePlace} from "@/components/GamePlace";
 import {Header} from "@/components/Header";
 import {History} from "@/components/history";
 
