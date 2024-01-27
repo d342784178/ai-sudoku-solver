@@ -118,7 +118,7 @@ export function useSudoku() {
 function innerNewGame(difficulty: number = 1) {
     let puzzle = sudoku.init();
     let solution = _.cloneDeep(puzzle);
-    puzzle = sudoku.digHole(puzzle, difficulty+2)
+    puzzle = sudoku.digHole(puzzle, difficulty*2)
 
     let game = new Puzzle(puzzle, difficulty, solution, new Date());
     return game;

@@ -74,6 +74,7 @@ export function GamePlace({currentGame}: {
 
     const difficultyChange = (difficulty: number) => {
         router.push(pathname + '?' + queryPut('difficulty', difficulty.toString()))
+        newGame(difficulty)
     }
 
 
@@ -99,7 +100,7 @@ export function GamePlace({currentGame}: {
                             </div>
                         )}
                         <Tooltip title={'Figure out the next step in the game and use ai to explain why'}>
-                            <button disabled={!game || game.state > 0} className="btn my-2 bg-blue-400"
+                            <button disabled={!game || game.state > 0 || aiOutput} className="btn my-2 bg-blue-400"
                                     onClick={resolveGame}>AI Resolve
                             </button>
                         </Tooltip>
@@ -111,9 +112,11 @@ export function GamePlace({currentGame}: {
                 </div>
                 <div className="w-full max-w-md py-8 stretch  sm:max-w-3/6 sm:w-2/6 p-2">
                     <div className="my-2 min-h-3">
-                        <div className="flex w-full mb-1 text-center justify-center content-center" >
+                        <div className="flex w-full mb-1 text-center justify-center content-center">
                             <h3 className="text-lg font-bold text-center">AI Notice</h3>
-                            {aiMessage.length > 0 && !aiOutput && <span onClick={() => {toTTS(aiMessage)}}> <SoundOutlined/></span>}
+                            {aiMessage.length > 0 && !aiOutput && <span onClick={() => {
+                                toTTS(aiMessage)
+                            }}> <SoundOutlined/></span>}
                         </div>
 
                         <span>{aiMessage}</span>

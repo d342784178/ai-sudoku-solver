@@ -23,12 +23,12 @@ export default function DifficultySeletor({onDifficultyChange, defaultDiffuculty
     };
 
     return (
-        <div>
+        <div className={'mr-2'}>
             <label className="form-control w-full max-w-xs">
-                <div className="label">
-                    <label htmlFor="difficulty-selector">Difficulty：</label>
+                <div className="label py-0">
+                    <label htmlFor="difficulty-selector" className={'text-xs'}>Difficulty：</label>
                 </div>
-                <select className="select-xs select-bordered  select-xs w-full max-w-xs"
+                <select className="select-sm select-bordered w-full max-w-xs mt-0 rounded-sm"
                         id="difficulty-selector"
                         value={defaultDiffuculty}
                         onChange={handleDifficultyChange}>

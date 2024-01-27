@@ -147,7 +147,7 @@ export const sudoku = {
      */
     digHole(sudoku: number[][], difficulty: number = 1): number[][] {
         //难度等级
-        difficulty = difficulty > 6 ? 6 : difficulty;
+        difficulty = difficulty > 9 ? 9 : difficulty;
         //浮动区间
         const interval = this.__random([-3, -2, -1, 0, 1, 2, 3,], 0, 6)
         const level = difficulty * 5 + interval;
