@@ -10,7 +10,7 @@ import {GameHelper, IPuzzle} from "@/lib/model/Puzzle";
 import {aiExplain} from "@/lib/service/AiService";
 import DifficultySeletor from "@/components/DifficultySeletor";
 import useNextRoute from "@/components/hook/useNextRoute";
-
+import {signIn, useSession} from "next-auth/react"
 
 export function GamePlace({currentGame}: {
     currentGame?: IPuzzle
@@ -37,15 +37,18 @@ export function GamePlace({currentGame}: {
     const [aiOutput, setAiOutput] = useState<boolean>(false)
 
     const [aiMessage, setAiMessage] = useState('')
+
+    const {data: session} = useSession()
+
     const resolveGame = async () => {
-        if (game) {
-            const result = GameHelper.resolveGame(game.userSolution())
+        if (session) {
+            const result = GameHelper.resolveGame(game!.userSolution())
             if (result) {
                 console.log(result)
 
                 const language = navigator.language
                 console.log('language=', language)
-                const aiResult = await aiExplain(game.userSolution(), result.rowData, result.colData, result.blockData, result.row, result.col, result.value, language)
+                const aiResult = await aiExplain(game!.userSolution(), result.rowData, result.colData, result.blockData, result.row, result.col, result.value, language)
 
                 let message = '';
 
@@ -59,6 +62,8 @@ export function GamePlace({currentGame}: {
                 makeMove(result.row, result.col, result.value, false, null);
                 // makeMove(result.index[0], result.index[1], result.value, false,result.message);
             }
+        } else {
+            signIn();
         }
     }
 
