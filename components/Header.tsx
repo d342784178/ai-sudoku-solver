@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from "next/link";
+import Login from "@/components/Login";
 
 
 export function Header({}: {}) {
@@ -49,6 +50,8 @@ export function Header({}: {}) {
                         </path>
                     </svg>
                 </a>
+
+                <Login/>
             </nav>
         </div>
     );

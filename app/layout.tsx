@@ -3,6 +3,7 @@ import './globals.css'
 import {AntdRegistry} from "@ant-design/nextjs-registry";
 import GoogleAnalytics from "@/components/Google";
 import {siteConfig} from "@/config/site";
+import NextAuthProvider from "@/components/provider/board";
 
 const inter = Inter({subsets: ['latin']})
 
@@ -28,7 +29,10 @@ export default function RootLayout({
         <html lang="en">
         <body className={inter.className}>
         <GoogleAnalytics/>
-        <AntdRegistry>{children}</AntdRegistry>
+        <NextAuthProvider>
+            <AntdRegistry>{children}</AntdRegistry>
+        </NextAuthProvider>
+
         </body>
         </html>
     )

@@ -32,6 +32,7 @@ export default function Home() {
                      className="absolute bottom-[auto] left-[auto] right-0 top-24 -z-10 inline-block max-[767px]:hidden"/>
                 <img src="/bgstar.svg" alt=""
                      className="absolute bottom-[auto] right-[auto] left-0 top-60 -z-10 inline-block max-[767px]:hidden"/>
+
             </section>
 
             {/*<main className={clsx("flex flex-col sm:flex-row md:mt-10 content-center justify-center")}>*/}

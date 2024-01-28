@@ -1,5 +1,5 @@
 import {History} from "@/components/history";
-import {GamePlace} from "@/components/gamePlace";
+import {GamePlace} from "@/components/GamePlace";
 import React from "react";
 import clsx from "clsx";
 
