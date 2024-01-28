@@ -6,7 +6,7 @@ import {ColumnsType} from "antd/es/table";
 import _ from "lodash";
 import {IoRefreshCircle} from "react-icons/io5";
 import {GameHelper, Puzzle} from "@/lib/model/Puzzle";
-import {ProxyHub} from "@/app/api/proxy/route";
+import {ProxyHub} from "@/lib/Proxy";
 
 const columns: ColumnsType<Puzzle> = [
     {

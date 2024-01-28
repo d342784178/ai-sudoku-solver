@@ -1,8 +1,8 @@
 'use client'
 import React, {useEffect, useState} from "react";
-import {GamePlace} from "@/components/gamePlace";
+import {GamePlace} from "@/components/GamePlace";
 import {Header} from "@/components/Header";
-import {ProxyHub} from "@/app/api/proxy/route";
+import {ProxyHub} from "@/lib/Proxy";
 import {Puzzle} from "@/lib/model/Puzzle";
 import {message} from "antd";
 

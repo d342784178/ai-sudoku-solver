@@ -5,7 +5,7 @@ import _ from "lodash";
 import {sudoku} from "@/lib/sudoku";
 import {message} from "antd";
 import {Puzzle} from "@/lib/model/Puzzle";
-import {ProxyHub} from "@/app/api/proxy/route";
+import {ProxyHub} from "@/lib/Proxy";
 
 export function useSudoku() {
     //游戏数据
