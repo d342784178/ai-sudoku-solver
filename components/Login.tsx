@@ -1,4 +1,5 @@
 'use client'
+import Tooltip from "antd/es/tooltip"
 import {signIn, signOut, useSession} from "next-auth/react"
 
 export default function Component() {
@@ -8,7 +9,9 @@ export default function Component() {
         return (
             <>
                 <button className="mr-1" onClick={() => signOut()}>LogOut</button>
-                <img src={session.user.image||'/bgstar.svg'} alt="" className="round-full w-8"/>
+                <Tooltip title={session.user.email}>
+                    <img src={session.user.image || '/bgstar.svg'} alt="" className="round-full w-8"/>
+                </Tooltip>
                 {/* <span className="mr-1">{session.user.email}</span> */}
             </>
         )
