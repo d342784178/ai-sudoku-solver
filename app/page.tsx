@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import {GamePlace} from "@/components/GamePlace";
 import {Header} from "@/components/Header";
+import CheckOut from "@/components/lemonsqueezy/CheckOut";
 
 export default function Home() {
     return (
@@ -38,6 +39,7 @@ export default function Home() {
             {/*<main className={clsx("flex flex-col sm:flex-row md:mt-10 content-center justify-center")}>*/}
                 {/*<div className={clsx("w-full sm:max-w-3/10 sm:w-3/5 p-4")}>*/}
                     <GamePlace/>
+            <CheckOut/>
                 {/*</div>*/}
                 {/*<div className={clsx("w-full sm:max-w-2/5 sm:w-2/5 p-4")}>*/}
             {/*<History/>*/}

@@ -20,6 +20,9 @@ dependencies:
   '@langchain/openai':
     specifier: ^0.0.11
     version: 0.0.11
+  '@lemonsqueezy/lemonsqueezy.js':
+    specifier: ^1.2.0
+    version: 1.2.5
   '@prisma/client':
     specifier: ^5.7.1
     version: 5.7.1(prisma@5.7.1)
@@ -1139,6 +1142,10 @@ packages:
       zod-to-json-schema: 3.20.3(zod@3.22.4)
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /@lemonsqueezy/lemonsqueezy.js@1.2.5:
+    resolution: {integrity: sha512-T2XjKf5wgJcnZyY9ohZWUmaetzf2qGg0WfSbTsA1Mc9ubU/1w9T4BqsZagyyaXZjZ09SyLjvunzzivX5ppuohA==}
     dev: false
 
   /@mdx-js/esbuild@2.3.0(esbuild@0.19.11):
