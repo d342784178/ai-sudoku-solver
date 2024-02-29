@@ -10,6 +10,7 @@ import {GameHelper, IPuzzle} from "@/lib/model/Puzzle";
 import DifficultySeletor from "@/components/DifficultySeletor";
 import useNextRoute from "@/components/hook/useNextRoute";
 import {useSession} from "next-auth/react"
+import {IterableReadableStream} from '@/lib/util/commonUtil';
 
 export function GamePlace({currentGame}: {
     currentGame?: IPuzzle
@@ -46,72 +47,46 @@ export function GamePlace({currentGame}: {
     }, [update])
     const resolveGame = async () => {
         // if (session) {
-            const result = GameHelper.resolveGame(game!.userSolution())
-            if (result) {
-                console.log(result)
+        const result = GameHelper.resolveGame(game!.userSolution())
+        if (result) {
+            console.log(result)
 
-                const language = navigator.language
-                console.log('language=', language)
-                let params = {
+            const language = navigator.language
+            console.log('language=', language)
+
+            setAiOutput(true)
+            const response = await fetch('/api/ai', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'aplication/json',
+                },
+                body: JSON.stringify({
                     gameData: game!.userSolution(),
                     rowData: result.rowData, colData: result.colData, blockData: result.blockData,
                     row: result.row, col: result.col, value: result.value,
                     language: language
-                };
-                // const aiResult = await aiExplain(params)
-                // let message = '';
-                //
-                // setAiOutput(true)
-                // for await (const chunk of aiResult) {
-                //     message = message + chunk;
-                //     setAiMessage(message)
-                // }
-                // setAiOutput(false)
-                //
-                // makeMove(result.row, result.col, result.value, false, null);
-
-                setAiOutput(true)
-                await fetch('/api/ai', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'aplication/json',
-                    },
-                    body: JSON.stringify(params),
-                }).then((response: Response) => {
-                    // 创建文本解码器并获取可读流
-                    const decoder = new TextDecoder();
-                    const responseBody = response.body;
-                    if (!responseBody) {
-                        return;
-                    }
-                    const reader = responseBody.getReader();
-                    var message = ''
-                    // 递归函数来读取并处理流数据
-                    const read = () => {
-                        reader.read().then(({done, value}) => {
-                            // console.log('读取', done, value)
-                            if (done) {
-                                setAiOutput(false)
-                                return
-                            }
-                            // 解码并分割事件
-                            const text = decoder.decode(value);
-                            const events = text.split('\n');
-                            message += text
-                            setAiMessage(message)
-                            // 继续读取下一段流数据
-                            read();
-                        })
-                    };
-                    // 开始读取流数据
-                    read();
-
-                }).catch(error => {
-                    console.error(error);
-                    setAiOutput(false)
-                });
-
+                }),
+            })
+            const responseBody = response.body;
+            if (!responseBody) {
+                return;
             }
+            const reader = responseBody.getReader();
+            var message = ''
+            // 创建文本解码器并获取可读流
+            const decoder = new TextDecoder();
+            for await (const chunk of new IterableReadableStream(reader)) {
+                if (chunk) {
+                    // 解码并分割事件
+                    const text = decoder.decode(chunk);
+                    const events = text.split('\n');
+                    message += text
+                    setAiMessage(message)
+                }
+            }
+            setAiOutput(false)
+            makeMove(result.row, result.col, result.value, false, null);
+        }
         // } else {
         //     // signIn();
         //     window.open(`/api/auth/signin?`, '_blank');

@@ -13,3 +13,21 @@ export function cn(...inputs: ClassValue[]) {
 export function absoluteUrl(path: string) {
     return process.env.NEXT_PUBLIC_APP_URL + path;
 }
+
+export class IterableReadableStream<T> {
+    private reader: ReadableStreamDefaultReader<T>
+
+    constructor(reader: ReadableStreamDefaultReader<T>) {
+        this.reader = reader;
+    }
+
+    [Symbol.asyncIterator]() {
+        const that = this;
+        return {
+            async next() {
+                const {done, value} = await that.reader.read();
+                return {done, value};
+            }
+        };
+    }
+}
