@@ -4,16 +4,26 @@ import {StringOutputParser} from "@langchain/core/output_parsers";
 import _ from "lodash";
 
 
-export async function aiExplain(gameData: number[][], rowData: number[], colData: number[], blockData: number[], row: number, col: number, value: number, language: string) {
+export async function aiExplain({gameData, rowData, colData, blockData, row, col, value, language}:
+                                    {
+                                        gameData: number[][],
+                                        rowData: number[],
+                                        colData: number[],
+                                        blockData: number[],
+                                        row: number,
+                                        col: number,
+                                        value: number,
+                                        language: string
+                                    }) {
     const model = new ChatOpenAI({
-        // openAIApiKey: process.env.NEXT_PUBLIC_GEMINI_PRO_KEY,
-        // configuration: {
-        //     baseURL: "https://geminipro.ai-sudoku.top/v1/",
-        // },
-        openAIApiKey: process.env.NEXT_PUBLIC_OPEN_AI_KEY,
+        openAIApiKey: process.env.NEXT_PUBLIC_GEMINI_PRO_KEY,
         configuration: {
-            baseURL: "https://api.openai-proxy.com/v1/",
+            baseURL: "https://geminipro.ai-sudoku.top/v1/",
         },
+        // openAIApiKey: process.env.NEXT_PUBLIC_OPEN_AI_KEY,
+        // configuration: {
+        //     baseURL: "https://api.openai-proxy.com/v1/",
+        // },
     });
 
     const prompt = ChatPromptTemplate.fromMessages([

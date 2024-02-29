@@ -7,10 +7,9 @@ import clsx from 'clsx';
 import {Tooltip} from 'antd';
 import {SoundOutlined} from '@ant-design/icons';
 import {GameHelper, IPuzzle} from "@/lib/model/Puzzle";
-import {aiExplain} from "@/lib/service/AiService";
 import DifficultySeletor from "@/components/DifficultySeletor";
 import useNextRoute from "@/components/hook/useNextRoute";
-import {signIn, useSession} from "next-auth/react"
+import {useSession} from "next-auth/react"
 
 export function GamePlace({currentGame}: {
     currentGame?: IPuzzle
@@ -38,33 +37,85 @@ export function GamePlace({currentGame}: {
 
     const [aiMessage, setAiMessage] = useState('')
 
-    const {data: session} = useSession()
+    const {data: session, update} = useSession()
 
+    useEffect(() => {
+        const visibilityHandler = () => document.visibilityState === "visible" && update()
+        window.addEventListener("visibilitychange", visibilityHandler, false)
+        return () => window.removeEventListener("visibilitychange", visibilityHandler, false)
+    }, [update])
     const resolveGame = async () => {
-        if (session) {
+        // if (session) {
             const result = GameHelper.resolveGame(game!.userSolution())
             if (result) {
                 console.log(result)
 
                 const language = navigator.language
                 console.log('language=', language)
-                const aiResult = await aiExplain(game!.userSolution(), result.rowData, result.colData, result.blockData, result.row, result.col, result.value, language)
-
-                let message = '';
+                let params = {
+                    gameData: game!.userSolution(),
+                    rowData: result.rowData, colData: result.colData, blockData: result.blockData,
+                    row: result.row, col: result.col, value: result.value,
+                    language: language
+                };
+                // const aiResult = await aiExplain(params)
+                // let message = '';
+                //
+                // setAiOutput(true)
+                // for await (const chunk of aiResult) {
+                //     message = message + chunk;
+                //     setAiMessage(message)
+                // }
+                // setAiOutput(false)
+                //
+                // makeMove(result.row, result.col, result.value, false, null);
 
                 setAiOutput(true)
-                for await (const chunk of aiResult) {
-                    message = message + chunk;
-                    setAiMessage(message)
-                }
-                setAiOutput(false)
+                await fetch('/api/ai', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'aplication/json',
+                    },
+                    body: JSON.stringify(params),
+                }).then((response: Response) => {
+                    // 创建文本解码器并获取可读流
+                    const decoder = new TextDecoder();
+                    const responseBody = response.body;
+                    if (!responseBody) {
+                        return;
+                    }
+                    const reader = responseBody.getReader();
+                    var message = ''
+                    // 递归函数来读取并处理流数据
+                    const read = () => {
+                        reader.read().then(({done, value}) => {
+                            // console.log('读取', done, value)
+                            if (done) {
+                                setAiOutput(false)
+                                return
+                            }
+                            // 解码并分割事件
+                            const text = decoder.decode(value);
+                            const events = text.split('\n');
+                            message += text
+                            setAiMessage(message)
+                            // 继续读取下一段流数据
+                            read();
+                        })
+                    };
+                    // 开始读取流数据
+                    read();
 
-                makeMove(result.row, result.col, result.value, false, null);
-                // makeMove(result.index[0], result.index[1], result.value, false,result.message);
+                }).catch(error => {
+                    console.error(error);
+                    setAiOutput(false)
+                });
+
             }
-        } else {
-            signIn();
-        }
+        // } else {
+        //     // signIn();
+        //     window.open(`/api/auth/signin?`, '_blank');
+        // }
     }
 
     const toTTS = async (message: string) => {
